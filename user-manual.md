@@ -119,6 +119,49 @@ The button in the top right changes based on what you've filled in:
 - **"Create Work Order"** — appears when all required fields are filled in (customer, equipment type, at least one reason for service). This creates the work order with a job number and makes it visible to the back shop.
 - **"Save as Draft"** — appears when required fields are still missing. This saves your progress so you can come back to it later. Drafts appear at the top of your Job Board with an orange badge but are NOT visible to the Tech Station.
 
+### Viewing a Job (Job Detail)
+
+Tap any card on the Job Board to open the full job detail view. This shows everything about the work order in one place.
+
+At the top you'll see a **header card** with:
+
+- **DRAFT badge** (orange) or **job number** (e.g., 20260325-1)
+- **Customer name, phone number, and company** (if applicable)
+- **Status dots** — one colored dot per item, same colors as the Job Board
+- **Item count** and **creation date/time**
+
+Draft jobs have a warm amber-tinted header, just like on the Job Board.
+
+Below the header, each **item** gets its own card showing:
+
+- **Item number** and **status** (with a colored badge like "Intake" in blue, "In Progress" in yellow, etc.)
+- **Equipment Type** — what the item is
+- **Machine Type** and **Color** — if those fields are turned on in admin settings
+- **Reason(s) for Service** — shown as blue pill-shaped tags
+- **Description / Notes** from intake
+
+Use the **back arrow** to return to the Job Board.
+
+### Editing a Draft Work Order
+
+If you tapped "Save as Draft" when creating a work order and need to come back to finish it, tap the draft card on the Job Board to open it.
+
+On a draft, you can **tap any item card** to edit it. This opens an edit sheet where you can change the equipment type, service reasons, description, and any other fields. Tap **Save** when you're done — the changes save to the server immediately.
+
+If the draft is missing required fields (like Equipment Type or Reason for Service), you'll see an **orange info banner** below the header listing exactly what's needed before the job can be finalized.
+
+### Finalizing a Draft
+
+Once all required fields are filled in on a draft, the **Finalize** button in the top right corner becomes active.
+
+Tap **Finalize** to convert the draft into a real work order. The app will:
+
+1. Generate a job number (e.g., 20260325-4)
+2. Show a brief **"Finalized!"** confirmation with the new job number
+3. Automatically return you to the Job Board
+
+The job now appears as a regular work order card (no more DRAFT badge) and is visible to the Tech Station.
+
 ### Customer Check-In
 
 Coming soon.
