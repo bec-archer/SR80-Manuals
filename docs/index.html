@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopTracker User Manual</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            line-height: 1.6;
+            color: #1d1d1f;
+            background: #fff;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 2rem 1.5rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .header p {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .nav {
+            background: #f5f5f7;
+            border-bottom: 1px solid #d2d2d7;
+            padding: 0.75rem 1.5rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .nav a {
+            display: inline-block;
+            color: #1d1d1f;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+
+        .nav a:hover { background: #e8e8ed; }
+        .nav a.active { background: #1a1a2e; color: white; }
+
+        .content {
+            max-width: 740px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .content h1 { font-size: 1.75rem; margin: 2rem 0 0.75rem; font-weight: 700; }
+        .content h2 { font-size: 1.4rem; margin: 2.5rem 0 0.75rem; font-weight: 600; padding-top: 1rem; border-top: 1px solid #e8e8ed; }
+        .content h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; font-weight: 600; }
+        .content h4 { font-size: 1rem; margin: 1.5rem 0 0.5rem; font-weight: 600; }
+
+        .content p { margin-bottom: 1rem; }
+        .content ul, .content ol { margin: 0 0 1rem 1.5rem; }
+        .content li { margin-bottom: 0.35rem; }
+
+        .content strong { font-weight: 600; }
+        .content em { font-style: italic; color: #6e6e73; }
+
+        .content hr {
+            border: none;
+            border-top: 1px solid #e8e8ed;
+            margin: 2rem 0;
+        }
+
+        .content code {
+            background: #f5f5f7;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            font-size: 0.9em;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 4rem 1rem;
+            color: #6e6e73;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem 1rem;
+            font-size: 0.8rem;
+            color: #86868b;
+            border-top: 1px solid #e8e8ed;
+        }
+
+        @media (max-width: 600px) {
+            .header { padding: 1.5rem 1rem; }
+            .header h1 { font-size: 1.4rem; }
+            .content { padding: 1.5rem 1rem 3rem; }
+            .content h2 { font-size: 1.2rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ShopTracker User Manual</h1>
+        <p>Hydraulics SR-80 Repair Tracking</p>
+    </div>
+
+    <nav class="nav" id="nav">
+        <a href="#getting-started" class="active">Getting Started</a>
+        <a href="#front-counter">Front Counter</a>
+        <a href="#tech-station">Tech Station</a>
+        <a href="#admin">Admin</a>
+        <a href="#troubleshooting">Troubleshooting</a>
+    </nav>
+
+    <div class="content" id="content">
+        <div class="loading">Loading manual...</div>
+    </div>
+
+    <div class="footer">
+        Hydraulics SR-80 &middot; ShopTracker
+    </div>
+
+    <script>
+        async function loadManual() {
+            try {
+                const response = await fetch('user-manual.md');
+                if (!response.ok) throw new Error('Failed to load manual');
+                const markdown = await response.text();
+                const html = marked.parse(markdown);
+                document.getElementById('content').innerHTML = html;
+                setupNavHighlighting();
+            } catch (err) {
+                document.getElementById('content').innerHTML =
+                    '<p style="text-align:center;color:#86868b;padding:4rem 0;">Could not load the manual. Please try refreshing.</p>';
+            }
+        }
+
+        function setupNavHighlighting() {
+            const sections = document.querySelectorAll('.content h2');
+            const navLinks = document.querySelectorAll('.nav a');
+
+            const sectionMap = {};
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href').replace('#', '');
+                sectionMap[href] = link;
+            });
+
+            const observer = new IntersectionObserver(entries => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const id = entry.target.id;
+                        navLinks.forEach(l => l.classList.remove('active'));
+                        if (sectionMap[id]) sectionMap[id].classList.add('active');
+                    }
+                });
+            }, { rootMargin: '-20% 0px -70% 0px' });
+
+            sections.forEach(section => {
+                const text = section.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
+                section.id = text;
+                observer.observe(section);
+            });
+        }
+
+        loadManual();
+    </script>
+</body>
+</html>
