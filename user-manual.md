@@ -80,6 +80,8 @@ When you open the app on a Front Counter device, you'll see the **Job Board** �
 
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
+Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
+
 Pull down on the job board to refresh and see the latest updates from the back shop.
 
 Tap the **pencil icon** in the top right corner to create a new work order.
@@ -139,6 +141,9 @@ Below the header, each **item** gets its own card showing:
 - **Machine Type** and **Color** — if those fields are turned on in admin settings
 - **Reason(s) for Service** — shown as blue pill-shaped tags
 - **Description / Notes** from intake
+- **Assigned tech** — if a tech has grabbed the item, you'll see their name (e.g., "Assigned to Carlos")
+
+Below each item card, you may see **action buttons** depending on the item's status and your device role. On the Front Counter, you can close items that are ready for pickup. On the Tech Station, you'll see grab, done, tested, and cost entry buttons.
 
 Use the **back arrow** to return to the Job Board.
 
@@ -174,19 +179,76 @@ Coming soon.
 
 ## Tech Station
 
-*This section will be filled in as Tech Station features are built.*
+The Tech Station iPad is the back shop's primary tool. It shows a queue of all items that need work — not grouped by job, but as individual items. Techs don't care that three cylinders came from the same customer; they care about the cylinder on the bench.
 
 ### Repair Queue
 
-Coming soon.
+When you open the app on a Tech Station device, you see the **item queue** — a grid of cards organized into sections:
 
-### Working on an Item
+- **In Progress** — items a tech has already grabbed and is working on. If an item has been marked "Done" (repair finished, waiting on testing), it shows an orange **READY** badge and a warm orange tint on the card.
+- **Waiting for Tech** — items that just came in from the front counter. No one has grabbed them yet.
+- **Tested — Needs Cost** — items that have been tested but still need a cost entered before they can go back up front.
 
-Coming soon.
+Each card shows the equipment type, a status dot with label, the customer name, the job number, and the assigned tech's name (if someone has grabbed it).
 
-### Marking Items as Tested
+Tap any card to open the item detail view with actions for whatever the item needs next.
 
-Coming soon.
+Pull down to refresh the queue.
+
+### Grabbing an Item
+
+When a new item shows up in "Waiting for Tech," any tech can grab it:
+
+1. Tap the item card to open it
+2. Tap the **Grab** button (yellow)
+3. A picker appears — tap your name from the list
+4. The item moves to "In Progress" and shows your name as the assigned tech
+
+Whoever grabs it first gets it. If it needs to be reassigned, an admin can handle that.
+
+### Marking Repair as Done
+
+Once you've finished repairing an item:
+
+1. Open the item from the queue
+2. Tap the **Done** button (green)
+3. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
+
+The repair end time is logged automatically.
+
+### Testing an Item
+
+Items with the READY badge need to be tested before they can leave the shop:
+
+1. Open the item
+2. Tap the **Tested** button (orange)
+3. A picker appears — tap the name of whoever tested it (authorized testers only)
+4. The item moves to "Tested — Needs Cost"
+
+### Entering Cost
+
+After testing, the item needs a cost before it can go back to the front counter:
+
+1. Open the tested item
+2. Tap **Enter Cost** (green)
+3. Type the total cost and tap **Submit**
+4. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
+5. Once approved, the item moves to **Checkout** (green) and appears on the front counter for customer pickup
+
+For totaled items with $0 cost, the manager approval step is skipped automatically.
+
+### Totaling an Item
+
+If an item is unfixable:
+
+1. Open the item
+2. Tap the **Total** button (black)
+3. Confirm — the item is marked as Totaled
+4. If there's a diagnostic cost, enter it through the normal cost flow. If not, enter $0 and it moves straight to Checkout.
+
+### Role Switcher (Debug Only)
+
+During development, you'll see a small purple **ladybug button** in the bottom-left corner. Tap it to switch between Front Counter, Tech Station, and Admin views without resetting the device. This only appears in debug/test builds — it won't be in the final app.
 
 ---
 
