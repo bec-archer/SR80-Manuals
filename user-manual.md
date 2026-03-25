@@ -183,26 +183,30 @@ The Tech Station iPad is the back shop's primary tool. It shows a queue of all i
 
 ### Repair Queue
 
-When you open the app on a Tech Station device, you see the **item queue** — a grid of cards organized into sections:
+When you open the app on a Tech Station device, you see the **item queue** — a grid of cards showing all items that need work. The cards are sorted by status: In Progress items first, then items waiting for a tech to grab, then tested items that need a cost entered.
 
-- **In Progress** — items a tech has already grabbed and is working on. If an item has been marked "Done" (repair finished, waiting on testing), it shows an orange **READY** badge and a warm orange tint on the card.
-- **Waiting for Tech** — items that just came in from the front counter. No one has grabbed them yet.
-- **Tested — Needs Cost** — items that have been tested but still need a cost entered before they can go back up front.
+Each card shows:
 
-Each card shows the equipment type, a status dot with label, the customer name, the job number, and the assigned tech's name (if someone has grabbed it).
+- **Status dot and label** — color-coded so you can see at a glance what stage the item is at (blue = just checked in, yellow = in progress, orange = tested)
+- **Equipment type** (e.g., Cylinder, Pump, Hose)
+- **Customer name** and **job number**
+- **Assigned tech's name** — if someone has grabbed it
+- **READY badge** — orange badge on items where repair is done and it's waiting on testing
+
+Items with the READY badge also have a warm orange tint on the card so they stand out.
 
 Tap any card to open the item detail view with actions for whatever the item needs next.
 
-Pull down to refresh the queue.
+Pull down to refresh the queue. The grid adapts automatically when you rotate the iPad between landscape and portrait.
 
 ### Grabbing an Item
 
 When a new item shows up in "Waiting for Tech," any tech can grab it:
 
 1. Tap the item card to open it
-2. Tap the **Grab** button (yellow)
+2. Tap the **Grab** button (yellow, big and easy to hit)
 3. A picker appears — tap your name from the list
-4. The item moves to "In Progress" and shows your name as the assigned tech
+4. You'll see a quick **"Grabbed!"** confirmation, then the app automatically takes you back to the queue
 
 Whoever grabs it first gets it. If it needs to be reassigned, an admin can handle that.
 
@@ -212,7 +216,8 @@ Once you've finished repairing an item:
 
 1. Open the item from the queue
 2. Tap the **Done** button (green)
-3. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
+3. You'll see a **"Marked Done!"** confirmation, then the app takes you back to the queue
+4. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
 
 The repair end time is logged automatically.
 
@@ -223,17 +228,20 @@ Items with the READY badge need to be tested before they can leave the shop:
 1. Open the item
 2. Tap the **Tested** button (orange)
 3. A picker appears — tap the name of whoever tested it (authorized testers only)
-4. The item moves to "Tested — Needs Cost"
+4. The item stays on the detail screen so the tester can enter cost right away (see next section)
+
+If the tester walks away without entering cost, the app will automatically return to the queue after a few minutes.
 
 ### Entering Cost
 
 After testing, the item needs a cost before it can go back to the front counter:
 
-1. Open the tested item
+1. Open the tested item (or stay on it after testing)
 2. Tap **Enter Cost** (green)
 3. Type the total cost and tap **Submit**
 4. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
-5. Once approved, the item moves to **Checkout** (green) and appears on the front counter for customer pickup
+5. You'll see a **"Cost Submitted!"** confirmation, then the app takes you back to the queue
+6. The item moves to **Checkout** (green) and appears on the front counter for customer pickup
 
 For totaled items with $0 cost, the manager approval step is skipped automatically.
 
@@ -243,8 +251,12 @@ If an item is unfixable:
 
 1. Open the item
 2. Tap the **Total** button (black)
-3. Confirm — the item is marked as Totaled
+3. Confirm — you'll see a **"Totaled"** confirmation and the app takes you back to the queue
 4. If there's a diagnostic cost, enter it through the normal cost flow. If not, enter $0 and it moves straight to Checkout.
+
+### About the Action Buttons
+
+All action buttons on the Tech Station (Grab, Done, Tested, Enter Cost, Total, Close) are intentionally large. They're designed so techs can tap them quickly without fiddling around, even with dirty or gloved hands. After any "walk-away" action (anything where you're done with that item for now), the app shows a brief confirmation and automatically returns you to the repair queue.
 
 ### Role Switcher (Debug Only)
 
