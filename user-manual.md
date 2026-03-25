@@ -69,15 +69,55 @@ Admin-role devices stay unlocked permanently — the auto-lock only applies when
 
 ## Front Counter
 
-*This section will be filled in as Front Counter features are built.*
-
 ### Job Board
 
-Coming soon.
+When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
-### Creating a New Job
+- **Job number** (e.g., 20260325-1) in the top left
+- **Status dots** in the top right — one colored dot per item showing where it is in the repair process (blue = just checked in, yellow = being worked on, orange = tested, green = ready for pickup)
+- **Customer name and phone number**
+- **Item count** and the date/time the job was created
 
-Coming soon.
+**Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
+
+Pull down on the job board to refresh and see the latest updates from the back shop.
+
+Tap the **pencil icon** in the top right corner to create a new work order.
+
+### Creating a New Work Order
+
+Tap the pencil icon from the Job Board to start a new work order. The form has two main sections: **Customer** and **Items**.
+
+#### Finding or Adding a Customer
+
+At the top of the form, start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
+
+If the customer isn't in the system yet, tap **+ Add New Customer** to create one. The new customer form includes:
+
+- **Name** (required) — if you type a business name (ending in Inc, LLC, Corp, etc.), the app will automatically move it to the Company field
+- **Company** (optional) — use the **Swap** button if the name/company got put in the wrong field
+- **Phone** (required, 10 digits) — formats automatically as you type. If the phone number is already on file for another customer, you'll be warned and can choose to use the existing customer instead
+- **Email** (optional)
+- **Tax Exempt** toggle
+
+#### Adding Items
+
+Each work order needs at least one item. For each item, fill in:
+
+- **Equipment Type** — what the item is (Cylinder, Pump, Hose, or Other)
+- **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
+- **Description / Notes** — any additional details about the item
+
+Tap **+ Add Item** to add more items to the same work order (e.g., a customer drops off 3 cylinders at once).
+
+To remove an item, tap the trash icon next to its header. You can't remove the last item.
+
+#### Saving
+
+The button in the top right changes based on what you've filled in:
+
+- **"Create Work Order"** — appears when all required fields are filled in (customer, equipment type, at least one reason for service). This creates the work order with a job number and makes it visible to the back shop.
+- **"Save as Draft"** — appears when required fields are still missing. This saves your progress so you can come back to it later. Drafts appear at the top of your Job Board with an orange badge but are NOT visible to the Tech Station.
 
 ### Customer Check-In
 
