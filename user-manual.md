@@ -65,6 +65,27 @@ If you're on the Front Counter or Tech Station iPad and need to do something tha
 
 Admin-role devices stay unlocked permanently — the auto-lock only applies when you're elevating access on a non-admin device.
 
+### Sidebar Navigation
+
+The app has a sidebar menu that lets you switch between different views. The sidebar is hidden by default so it doesn't take up screen space — you open it when you need it.
+
+**To open the sidebar:**
+
+- **Swipe from the left edge** of the screen, or
+- **Tap the back arrow button** in the top-left corner of the toolbar
+
+The sidebar slides over the current view. Tap any item to switch to that view. The sidebar closes automatically when you make a selection, or you can swipe it away.
+
+**What you see in the sidebar depends on your device role:**
+
+- **Front Counter** — "Jobs" is available and selected by default. "Work Queue" and "Admin Settings" are visible but grayed out since those aren't part of the front counter workflow.
+- **Tech Station** — "Work Queue" is available and selected by default. "Jobs" and "Admin Settings" are grayed out.
+- **Admin** — all three options are available: Jobs, Work Queue, and Admin Settings. Jobs is selected by default.
+
+If an admin temporarily unlocks a non-admin device (see "Admin Access on Non-Admin Devices" above), all sidebar items become available until the admin session expires.
+
+The grayed-out items are there so everyone can see what the app can do — they just can't access views that aren't meant for their device's role.
+
 ---
 
 ## Front Counter
@@ -235,14 +256,31 @@ When a new item shows up in "Waiting for Tech," any tech can grab it:
 
 Whoever grabs it first gets it. If it needs to be reassigned, an admin can handle that.
 
+### Repair Checklist
+
+When you open an In Progress item, you'll see a **Repair Checklist** section with green pill-shaped buttons for each type of repair work: Wiper, Seal, Buffer Seal, Wear Bands, U Seal, Epoxy, Welding, Rod Damage, Oil Sample, Dented, and Other.
+
+**Tap each pill to check off what you actually did.** Selected pills turn green; unselected ones stay outlined. You can tap a green pill again to uncheck it if you made a mistake.
+
+If you select **Other**, a text field appears where you can describe the work that doesn't fit the standard categories.
+
+**You must check at least one item on the repair checklist before you can tap Done.** If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
+
+Your selections save to the server immediately as you tap them — no need to hit a save button.
+
+After the item is marked Done or Tested, the checklist stays visible as a read-only record of what was done.
+
+If an item fails a test and comes back for another round, the checklist resets to empty for the new round. You'll see a red **Round 2** badge next to the "Repair Checklist" header so you know which round you're on. The previous round's checklist is preserved in the history card below (see "Previous Round Checklists").
+
 ### Marking Repair as Done
 
-Once you've finished repairing an item:
+Once you've finished repairing an item and checked off what you did on the repair checklist:
 
 1. Open the item from the queue
-2. Tap the **Done** button (green)
-3. You'll see a **"Marked Done!"** confirmation, then the app takes you back to the queue
-4. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
+2. Make sure you've checked at least one item on the **Repair Checklist** (see above)
+3. Tap the **Done** button (green)
+4. You'll see a **"Marked Done!"** confirmation, then the app takes you back to the queue
+5. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
 
 The repair end time is logged automatically.
 
@@ -253,9 +291,47 @@ Items with the READY badge need to be tested before they can leave the shop:
 1. Open the item
 2. Tap the **Tested** button (orange)
 3. A picker appears — tap the name of whoever tested it (authorized testers only)
-4. The item stays on the detail screen so the tester can enter cost right away (see next section)
+4. A **Pass/Fail sheet** appears with two big buttons: **PASSED** and **FAILED**
 
-If the tester walks away without entering cost, the app will automatically return to the queue after a few minutes.
+**If PASSED:**
+
+The item moves to the **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after a few minutes.
+
+**If FAILED:**
+
+The item goes back to **In Progress** and a new repair round begins. The same tech stays assigned — it's their job to fix whatever failed. The app shows a brief "Sent Back — Round 2" confirmation and returns to the queue. The tech will see the item back in their queue with a red **Rd 2** badge, a fresh empty repair checklist, and the previous round's checklist preserved in the history card (see "Previous Round Checklists" below).
+
+An item can fail and loop back as many times as needed. Each round is tracked separately.
+
+### Oil Sample
+
+You can record an oil sample on any item that's at the **Ready for Test** or **Tested** stage. This is optional — not every item needs one.
+
+1. Open the item
+2. Tap the **Oil Sample** button (blue)
+3. Pick the condition: **Clean** or **Dirty**
+4. Add any notes in the text field (optional)
+5. Select who performed the sample
+6. Tap **Save**
+
+Oil samples show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
+
+### Previous Round Checklists
+
+When an item fails a test and goes back for another repair round, the previous round's checklist doesn't disappear — it's preserved in the history card below the current repair checklist.
+
+You'll see a section labeled **"Round 1 Checklist"** (or whichever round) with a comma-separated list of everything that was checked off during that round. If there have been multiple failed rounds, each one gets its own labeled list.
+
+This way the tech on Round 2 can see exactly what was done in Round 1 without having to ask anyone.
+
+### Test & Sample History
+
+Below the repair checklist on the item detail, there's a **Test & Sample History** card that shows a chronological timeline of all test attempts and oil samples for the item. Each entry shows:
+
+- **Test results** — PASSED or FAILED with the round number, who tested it, and when
+- **Oil samples** — Clean or Dirty, who performed it, when, and any notes
+
+This card only appears once there's at least one test or oil sample recorded.
 
 ### Entering Cost
 
