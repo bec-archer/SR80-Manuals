@@ -328,7 +328,7 @@ Items with the READY badge need to be tested before they can leave the shop:
 
 **If PASSED:**
 
-The item moves to the **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after a few minutes.
+The item moves to the **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after the inactivity timeout (see "Auto-Return to Queue" below).
 
 **If FAILED:**
 
@@ -394,6 +394,14 @@ If an item is unfixable:
 ### About the Action Buttons
 
 All action buttons on the Tech Station (Grab, Done, Tested, Reassign, Enter Cost, Totaled, Close) are intentionally large. They're designed so techs can tap them quickly without fiddling around, even with dirty or gloved hands. On iPad, the buttons sit side by side in a row. On iPhone (used by admins), the buttons stack vertically and stretch full-width so they're still easy to tap on the smaller screen. After any "walk-away" action (anything where you're done with that item for now), the app shows a brief confirmation and automatically returns you to the repair queue.
+
+### Auto-Return to Queue
+
+If someone opens an item detail and walks away without doing anything for 2 minutes, the app automatically returns to the repair queue. This way the Tech Station iPad is always showing the queue when no one's actively using it — the next person who walks up sees the full list of items, not whatever the last tech was looking at.
+
+Any touch on the screen (scrolling, tapping, typing) resets the 2-minute timer. You don't need to do anything special — just use the app normally and the timer stays out of your way. It only kicks in when nobody's touching the iPad at all.
+
+The timeout is configurable by an admin (default is 2 minutes). Setting it to 0 disables it entirely.
 
 ### Role Switcher (Debug Only)
 
