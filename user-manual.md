@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-03-25
+**Last Updated:** 2026-03-26
 
 ---
 
@@ -114,6 +114,19 @@ Tap **+ Add Item** to add more items to the same work order (e.g., a customer dr
 
 To remove an item, tap the trash icon next to its header. You can't remove the last item.
 
+#### Taking Photos During Intake
+
+Each item has a **Photos** section at the bottom of the form. This is a great time to photograph the equipment as it comes in — document any existing damage, serial numbers, or anything else worth capturing before the tech starts work.
+
+You have two options:
+
+- **Camera** — tap the camera button to take a photo right now
+- **Library** — tap the library button to pick a photo already on the device (useful if someone snapped a picture before opening the app)
+
+Photos appear as small thumbnails next to the buttons. To remove a photo before saving, tap the **X** on the thumbnail. Photos aren't uploaded until you tap "Create Work Order" or "Save as Draft" — you'll see a brief "Uploading..." indicator while they're sent to the server.
+
+There's no limit on photos per item. Take as many as you need.
+
 #### Saving
 
 The button in the top right changes based on what you've filled in:
@@ -142,6 +155,10 @@ Below the header, each **item** gets its own card showing:
 - **Reason(s) for Service** — shown as blue pill-shaped tags
 - **Description / Notes** from intake
 - **Assigned tech** — if a tech has grabbed the item, you'll see their name (e.g., "Assigned to Carlos")
+
+If photos have been taken for an item, you'll see a row of **photo thumbnails** near the top of the item card. Tap any thumbnail to view it full-screen — tap the photo or swipe down to close the full-screen view.
+
+You can add more photos to any item at any time, regardless of its status. Next to the thumbnails you'll see **Camera** and **Library** buttons — same as during intake. New photos upload immediately and appear in the thumbnail strip.
 
 Below each item card, you may see **action buttons** depending on the item's status and your device role. On the Front Counter, you can close items that are ready for pickup. On the Tech Station, you'll see grab, done, tested, and cost entry buttons.
 
@@ -198,6 +215,14 @@ Items with the READY badge also have a warm orange tint on the card so they stan
 Tap any card to open the item detail view with actions for whatever the item needs next.
 
 Pull down to refresh the queue. The grid adapts automatically when you rotate the iPad between landscape and portrait.
+
+### Adding Photos from the Tech Station
+
+When you open an item detail, you'll see a row of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting.
+
+Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close.
+
+Photos are permanent — once uploaded, they can't be deleted. This is intentional so there's always a complete visual record of what happened with each item.
 
 ### Grabbing an Item
 
