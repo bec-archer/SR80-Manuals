@@ -1,4 +1,4 @@
-# ShopTracker User Manual
+# ShopTracker User Manual 
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
