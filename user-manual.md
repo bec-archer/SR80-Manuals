@@ -1,4 +1,4 @@
-# ShopTracker User Manual 
+# ShopTracker User Manual
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
@@ -95,7 +95,7 @@ The grayed-out items are there so everyone can see what the app can do — they 
 When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
 - **Job number** (e.g., 20260325-1) in the top left
-- **Status dots** in the top right — one colored dot per item showing where it is in the repair process (blue = just checked in, yellow = being worked on, orange = tested, green = ready for pickup)
+- **Status dots** in the top right — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
 - **Customer name and phone number**
 - **Item count** and the date/time the job was created
 
@@ -170,7 +170,7 @@ Draft jobs have a warm amber-tinted header, just like on the Job Board.
 
 Below the header, each **item** gets its own card showing:
 
-- **Item number** and **status** (with a colored badge like "Intake" in blue, "In Progress" in yellow, etc.)
+- **Item number** and **status** (with a colored badge like "Checked In" in blue, "In Progress" in yellow, etc.)
 - **Equipment Type** — what the item is
 - **Machine Type** and **Color** — if those fields are turned on in admin settings
 - **Reason(s) for Service** — shown as blue pill-shaped tags
@@ -179,7 +179,15 @@ Below the header, each **item** gets its own card showing:
 
 If photos have been taken for an item, you'll see a row of **photo thumbnails** near the top of the item card. Tap any thumbnail to view it full-screen — tap the photo or swipe down to close the full-screen view.
 
-You can add more photos to any item at any time, regardless of its status. Next to the thumbnails you'll see **Camera** and **Library** buttons — same as during intake. New photos upload immediately and appear in the thumbnail strip.
+You can add more photos to any item at any time, regardless of its status. Next to the thumbnails you'll see **Camera** and **Library** buttons — same as during check-in. New photos upload immediately and appear in the thumbnail strip.
+
+#### Notes
+
+Each item card has a **Notes** section where you can add timestamped notes at any point in the workflow — before repair, during, after, whenever.
+
+To add a note, type in the "Add a note..." field and tap the blue **send arrow**. The note is saved immediately with your name and the time. Notes appear newest-first so the latest info is always at the top.
+
+Notes are visible to both the front counter and the tech station. Maria can jot down customer instructions ("needs by Friday"), and Tony can document what he found during repair. Everyone sees the same timeline.
 
 Below each item card, you may see **action buttons** depending on the item's status and your device role. On the Front Counter, you can close items that are ready for pickup. On the Tech Station, you'll see grab, done, tested, and cost entry buttons.
 
@@ -189,9 +197,15 @@ Use the **back arrow** to return to the Job Board.
 
 If you tapped "Save as Draft" when creating a work order and need to come back to finish it, tap the draft card on the Job Board to open it.
 
-On a draft, you can **tap any item card** to edit it. This opens an edit sheet where you can change the equipment type, service reasons, description, and any other fields. Tap **Save** when you're done — the changes save to the server immediately.
+On a draft, you can **tap the customer section** in the header to assign or change the customer. If no customer has been assigned yet, you'll see "Tap to assign customer" with a small arrow. This opens a customer search sheet where you can look up an existing customer, add a new one, or remove the current customer. Tap **Save** to apply your changes.
 
-If the draft is missing required fields (like Equipment Type or Reason for Service), you'll see an **orange info banner** below the header listing exactly what's needed before the job can be finalized.
+You can also **tap any item card** to edit it. This opens an edit sheet where you can change the equipment type, service reasons, description, and any other fields. Tap **Save** when you're done — the changes save to the server immediately.
+
+If an item is still missing required fields (like Equipment Type or Reason for Service), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap anywhere on the card — or tap the button — to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
+
+#### Adding More Items to a Draft
+
+Below the item cards on a draft, you'll see an **"+ Add Item"** button. Tap it to add another item to the work order — same form as when you created the original items (equipment type, service reasons, description, photos). The new item appears in the list immediately after you tap **Add**.
 
 ### Finalizing a Draft
 
@@ -225,7 +239,7 @@ When you open the app on a Tech Station device, you see the **item queue** — a
 
 Each card shows:
 
-- **Status dot and label** — color-coded so you can see at a glance what stage the item is at (blue = just checked in, yellow = in progress, orange = tested)
+- **Status dot and label** — color-coded so you can see at a glance what stage the item is at (blue = checked in, yellow = in progress, orange = tested)
 - **Equipment type** (e.g., Cylinder, Pump, Hose)
 - **Customer name** and **job number**
 - **Assigned tech's name** — if someone has grabbed it
@@ -245,6 +259,12 @@ Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to 
 
 Photos are permanent — once uploaded, they can't be deleted. This is intentional so there's always a complete visual record of what happened with each item.
 
+### Adding Notes from the Tech Station
+
+When you open an item detail from the tech queue, you'll see a **Notes** card between the item info and the test history. This works the same as on the front counter — type a note, tap the send arrow, and it's saved with your name and timestamp.
+
+Use notes to document what you found during disassembly, anything unusual about the repair, or messages for the front counter ("customer needs to approve cost before we proceed"). Notes from both the front counter and the tech station show up in the same timeline, so everyone stays on the same page.
+
 ### Grabbing an Item
 
 When a new item shows up in "Waiting for Tech," any tech can grab it:
@@ -254,7 +274,20 @@ When a new item shows up in "Waiting for Tech," any tech can grab it:
 3. A picker appears — tap your name from the list
 4. You'll see a quick **"Grabbed!"** confirmation, then the app automatically takes you back to the queue
 
-Whoever grabs it first gets it. If it needs to be reassigned, an admin can handle that.
+Whoever grabs it first gets it. If it needs to be reassigned later (tech goes home sick, owner decides someone else should take over), see "Reassigning a Tech" below.
+
+### Reassigning a Tech
+
+Sometimes a job needs to go to a different tech — maybe someone went home sick, or the owner wants a specific person on it. You can reassign any item that's currently In Progress:
+
+1. Open the item from the queue
+2. Tap the **Reassign** button (purple)
+3. A picker appears — tap the name of the tech who should take over
+4. You'll see a quick **"Reassigned!"** confirmation, then the app takes you back to the queue
+
+The new tech will see the item in their queue. The repair clock resets when you reassign — the new tech gets a fresh start time.
+
+Reassign is available on Tech Station and Admin devices. It doesn't matter what stage of repair the item is in — as long as it's In Progress, you can reassign it.
 
 ### Repair Checklist
 
@@ -299,9 +332,11 @@ The item moves to the **Tested** status and the detail screen stays open so the 
 
 **If FAILED:**
 
-The item goes back to **In Progress** and a new repair round begins. The same tech stays assigned — it's their job to fix whatever failed. The app shows a brief "Sent Back — Round 2" confirmation and returns to the queue. The tech will see the item back in their queue with a red **Rd 2** badge, a fresh empty repair checklist, and the previous round's checklist preserved in the history card (see "Previous Round Checklists" below).
+The item goes back to **In Progress** and a new repair round begins. The same tech stays assigned — it's their job to fix whatever failed. No extra taps, no "are you sure?" — it just goes straight back. The app shows a brief "Sent Back — Round 2" confirmation and returns to the queue. The tech will see the item back in their queue with a red **Rd 2** badge, a fresh empty repair checklist, and the previous round's checklist preserved in the history card (see "Previous Round Checklists" below).
 
 An item can fail and loop back as many times as needed. Each round is tracked separately.
+
+If a different tech needs to take over after a failed test, use the **Reassign** button on the item (see "Reassigning a Tech" above).
 
 ### Oil Sample
 
@@ -311,10 +346,11 @@ You can record an oil sample on any item that's at the **Ready for Test** or **T
 2. Tap the **Oil Sample** button (blue)
 3. Pick the condition: **Clean** or **Dirty**
 4. Add any notes in the text field (optional)
-5. Select who performed the sample
-6. Tap **Save**
+5. **Take photos (optional)** — below the notes field you'll see **Camera** and **Library** buttons, same as the photo buttons used during intake. Tap Camera to snap a picture of the oil sample, or Library to pick one from the device. You can add multiple photos — each one appears as a thumbnail with an **X** to remove it if you change your mind.
+6. Select who performed the sample
+7. Tap **Submit**
 
-Oil samples show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
+Photos upload automatically when you submit. Oil samples (with any attached photos) show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
 
 ### Previous Round Checklists
 
@@ -329,7 +365,7 @@ This way the tech on Round 2 can see exactly what was done in Round 1 without ha
 Below the repair checklist on the item detail, there's a **Test & Sample History** card that shows a chronological timeline of all test attempts and oil samples for the item. Each entry shows:
 
 - **Test results** — PASSED or FAILED with the round number, who tested it, and when
-- **Oil samples** — Clean or Dirty, who performed it, when, and any notes
+- **Oil samples** — Clean or Dirty, who performed it, when, any notes, and photo thumbnails if photos were attached
 
 This card only appears once there's at least one test or oil sample recorded.
 
@@ -351,13 +387,13 @@ For totaled items with $0 cost, the manager approval step is skipped automatical
 If an item is unfixable:
 
 1. Open the item
-2. Tap the **Total** button (black)
+2. Tap the **Totaled** button (black in light mode, white in dark mode)
 3. Confirm — you'll see a **"Totaled"** confirmation and the app takes you back to the queue
 4. If there's a diagnostic cost, enter it through the normal cost flow. If not, enter $0 and it moves straight to Checkout.
 
 ### About the Action Buttons
 
-All action buttons on the Tech Station (Grab, Done, Tested, Enter Cost, Total, Close) are intentionally large. They're designed so techs can tap them quickly without fiddling around, even with dirty or gloved hands. After any "walk-away" action (anything where you're done with that item for now), the app shows a brief confirmation and automatically returns you to the repair queue.
+All action buttons on the Tech Station (Grab, Done, Tested, Reassign, Enter Cost, Totaled, Close) are intentionally large. They're designed so techs can tap them quickly without fiddling around, even with dirty or gloved hands. On iPad, the buttons sit side by side in a row. On iPhone (used by admins), the buttons stack vertically and stretch full-width so they're still easy to tap on the smaller screen. After any "walk-away" action (anything where you're done with that item for now), the app shows a brief confirmation and automatically returns you to the repair queue.
 
 ### Role Switcher (Debug Only)
 
