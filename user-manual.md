@@ -234,6 +234,18 @@ If an item is still missing required fields (like Equipment Type or Reason for S
 
 Below the item cards on a draft, you'll see an **"+ Add Item"** button. Tap it to add another item to the work order — same form as when you created the original items (equipment type, service reasons, description, photos). The new item appears in the list immediately after you tap **Add**.
 
+### Editing a Checked-In Item
+
+After a work order is finalized (no longer a draft), you can still edit an item's intake information — equipment type, machine type, service reasons, and description — **as long as the item hasn't been grabbed by a tech yet**.
+
+While the item is in **Checked In** status, you'll see a small **pencil icon** on the item card. Tap the card to open the edit sheet, make your changes, and tap **Save**.
+
+Once a tech grabs the item (moves it to In Progress), the intake fields lock. The pencil icon disappears and tapping the card no longer opens the editor. This prevents accidental changes to information the tech is already working from.
+
+**Photos and notes are never locked.** You can add photos and notes to any item at any status (except Totaled), even after the intake fields are locked.
+
+**Admin override:** If an admin needs to correct intake fields on an item that's already In Progress or beyond, they can elevate admin access on the device (enter their PIN), and the edit option becomes available again regardless of status.
+
 ### Finalizing a Draft
 
 Once all required fields are filled in on a draft, the **Finalize** button in the top right corner becomes active.
@@ -312,6 +324,14 @@ Photos are permanent — once uploaded, they can't be deleted. This is intention
 When you open an item detail from the tech queue, you'll see a **Notes** card between the item info and the test history. This works the same as on the front counter — type a note, tap the send arrow, and it's saved with your name and timestamp.
 
 Use notes to document what you found during disassembly, anything unusual about the repair, or messages for the front counter ("customer needs to approve cost before we proceed"). Notes from both the front counter and the tech station show up in the same timeline, so everyone stays on the same page.
+
+### Editing Item Info from the Tech Station
+
+When you open an item detail, you may see a small blue **Edit** link in the top-right corner of the item info card. This lets you change the intake fields — equipment type, machine type, service reasons, and description — without going back to the front counter.
+
+The Edit button only appears when the item is in **Checked In** status (before anyone grabs it). Once the item is In Progress, the intake fields lock and the Edit link disappears. An admin can still edit locked fields by elevating admin access.
+
+Photos and notes are always editable regardless of item status (see "Adding Photos" and "Adding Notes" sections).
 
 ### Grabbing an Item
 
