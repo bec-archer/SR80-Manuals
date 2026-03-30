@@ -78,9 +78,9 @@ The sidebar slides over the current view. Tap any item to switch to that view. T
 
 **What you see in the sidebar depends on your device role:**
 
-- **Front Counter** — "Jobs" is available and selected by default. "Work Queue" and "Admin Settings" are visible but grayed out since those aren't part of the front counter workflow.
-- **Tech Station** — "Work Queue" is available and selected by default. "Jobs" and "Admin Settings" are grayed out.
-- **Admin** — all three options are available: Jobs, Work Queue, and Admin Settings. Jobs is selected by default.
+- **Front Counter** — "Jobs" and "Customers" are available. Jobs is selected by default. "Work Queue" and "Admin Settings" are visible but grayed out since those aren't part of the front counter workflow.
+- **Tech Station** — "Work Queue" is available and selected by default. Everything else is grayed out.
+- **Admin** — all four options are available: Jobs, Customers, Work Queue, and Admin Settings. Jobs is selected by default.
 
 If an admin temporarily unlocks a non-admin device (see "Admin Access on Non-Admin Devices" above), all sidebar items become available until the admin session expires.
 
@@ -133,6 +133,18 @@ The search checks all items within each job, so searching "Pump" will show any j
 When filters are active, the filter button fills in blue and a row of **filter chips** appears below the toolbar. Each chip shows what's being filtered (e.g., "Type: Cylinder") with an **X** to remove that specific filter. Tap **Clear All** to remove all filters at once.
 
 If your search or filters don't match any jobs, you'll see a "No Matching Jobs" message instead of the grid.
+
+### Closed Jobs (Job History)
+
+At the bottom of the Job Board, you'll see a **Closed** section with a count of how many jobs are fully closed or totaled. This section is collapsed by default so it doesn't clutter the active board.
+
+Tap the **Closed** header to expand it. You'll see the same card grid as above, but for jobs that are done — all items either closed or totaled. The cards are slightly dimmed so they're easy to tell apart from active jobs.
+
+Tap the header again to collapse the section back down.
+
+Your search and filters work across both active and closed jobs. If you search for a customer name and they have a closed job that matches, you'll see it in the closed section (expand it to check).
+
+This is useful for looking up past work — warranty questions, repeat customers, or just checking what was done on an old job. Tap any closed job card to see the full detail view with all items, photos, and notes.
 
 ### Creating a New Work Order
 
@@ -246,6 +258,18 @@ Once a tech grabs the item (moves it to In Progress), the intake fields lock. Th
 
 **Admin override:** If an admin needs to correct intake fields on an item that's already In Progress or beyond, they can elevate admin access on the device (enter their PIN), and the edit option becomes available again regardless of status.
 
+### Changing the Customer on a Job
+
+You can change the customer assigned to a work order — not just on drafts, but on finalized jobs too.
+
+**While all items are still Checked In:** Tap the customer name in the job header. You'll see a small **arrow** indicating it's tappable. This opens the customer search sheet where you can look up a different customer, add a new one, or remove the current customer. Tap **Save** to apply.
+
+**Once any item has been grabbed by a tech** (moved to In Progress), the customer section locks and is no longer tappable. This prevents accidental customer changes on jobs that are actively being worked on.
+
+**Admin override:** If an admin needs to reassign a customer on a job that's already in progress, they can elevate admin access (enter their PIN) and the customer section becomes tappable again regardless of item statuses.
+
+This works the same way as editing a draft — the customer picker sheet is identical. The only difference is when it's available.
+
 ### Finalizing a Draft
 
 Once all required fields are filled in on a draft, the **Finalize** button in the top right corner becomes active.
@@ -265,6 +289,36 @@ Coming soon.
 ### Checkout & Pickup
 
 Coming soon.
+
+---
+
+## Customers
+
+The Customers view is a browsable list of all your customers with a detail screen showing their full job history. It's available on Front Counter and Admin devices via the sidebar.
+
+### Customer List
+
+Open the sidebar and tap **Customers** to see the customer list. Every customer in the system is listed alphabetically, showing their name, company (if any), phone number, and a badge with their total number of jobs.
+
+Customers marked as **Tax Exempt** have an orange badge next to their name.
+
+**Searching:** Type in the search bar at the top to filter by name, company, or phone number. The list filters as you type. Tap the **X** to clear the search.
+
+Pull down to refresh the list.
+
+### Customer Detail
+
+Tap any customer in the list to see their detail screen. At the top is a card with their contact info — phone number, company, email, and tax exempt status.
+
+Below that, you'll see all of that customer's jobs split into two sections:
+
+**Active Jobs** — any jobs that are still being worked on, shown as full cards with photos (same cards as the Job Board). If the customer has no active jobs, this section doesn't appear.
+
+**Past Jobs** — closed and totaled jobs shown as compact rows with the job number, equipment summary (e.g., "Cylinder × 2 · Pump × 1"), date range (when it was created and when it was closed), item count, and status dots.
+
+Tap any job — active or past — to open the full job detail view with all items, photos, notes, and history. Use the back arrow to return to the customer detail.
+
+This is especially useful for warranty lookups ("didn't we just fix this customer's cylinder last month?") and getting context on repeat customers.
 
 ---
 
