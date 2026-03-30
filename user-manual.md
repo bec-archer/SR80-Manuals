@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-03-26
+**Last Updated:** 2026-03-30
 
 ---
 
@@ -94,10 +94,12 @@ The grayed-out items are there so everyone can see what the app can do — they 
 
 When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
-- **Job number** (e.g., 20260325-1) in the top left
-- **Status dots** in the top right — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
-- **Customer name and phone number**
-- **Item count** and the date/time the job was created
+- **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner.
+- **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
+- **Customer phone number** (tappable) and **name**
+- **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
+
+Photos load in the background — you'll see the cards appear right away with placeholder tiles, and the actual photos fill in a moment later.
 
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
@@ -106,6 +108,31 @@ Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested)
 Pull down on the job board to refresh and see the latest updates from the back shop.
 
 Tap the **pencil icon** in the top right corner to create a new work order.
+
+### Searching and Filtering Jobs
+
+Next to the pencil icon in the toolbar, you'll see a **search bar** and a **filter button** (circle with three lines).
+
+**Searching:** Tap the search bar and start typing. The board filters in real time as you type. You can search by:
+
+- Customer name, phone number, or company
+- Job number (e.g., "20260325")
+- Equipment type (e.g., "Cylinder")
+- Machine type or item description
+- Service reason (e.g., "Leaking")
+
+The search checks all items within each job, so searching "Pump" will show any job that has at least one pump in it. Tap the **X** in the search bar to clear your search and see all jobs again.
+
+**Filtering:** Tap the filter button to open a filter sheet with dropdown pickers:
+
+- **Equipment Type** — show only jobs with a specific type of equipment (Cylinder, Pump, etc.)
+- **Status** — show only jobs with items at a specific stage (Checked In, In Progress, Tested, Checkout)
+- **Machine Type** — if machine types are turned on in admin settings, you can filter by those too
+- **Reason for Service** — tap one or more service reasons to filter by why the equipment was brought in. If you select multiple reasons, the job must have an item with ALL of those reasons.
+
+When filters are active, the filter button fills in blue and a row of **filter chips** appears below the toolbar. Each chip shows what's being filtered (e.g., "Type: Cylinder") with an **X** to remove that specific filter. Tap **Clear All** to remove all filters at once.
+
+If your search or filters don't match any jobs, you'll see a "No Matching Jobs" message instead of the grid.
 
 ### Creating a New Work Order
 
@@ -239,17 +266,38 @@ When you open the app on a Tech Station device, you see the **item queue** — a
 
 Each card shows:
 
-- **Status dot and label** — color-coded so you can see at a glance what stage the item is at (blue = checked in, yellow = in progress, orange = tested)
+- **Item photo** — the top half of every card is a large square photo of the equipment. The photo has a colored **status dot** in the top-right corner and an **equipment type label** in the bottom-right corner, same as the Front Counter cards. If no photo has been taken yet, you'll see a gray placeholder.
+- **Status label** — text below the photo showing the item's current stage (e.g., "Checked In", "In Progress", "Ready for Test")
 - **Equipment type** (e.g., Cylinder, Pump, Hose)
 - **Customer name** and **job number**
 - **Assigned tech's name** — if someone has grabbed it
 - **READY badge** — orange badge on items where repair is done and it's waiting on testing
+
+Photos load in the background, so cards appear instantly and photos fill in a moment later.
 
 Items with the READY badge also have a warm orange tint on the card so they stand out.
 
 Tap any card to open the item detail view with actions for whatever the item needs next.
 
 Pull down to refresh the queue. The grid adapts automatically when you rotate the iPad between landscape and portrait.
+
+### Searching and Filtering the Queue
+
+The Tech Station toolbar has a **search bar** and a **filter button**, same as the Front Counter.
+
+**Searching:** Tap the search bar and type to filter the queue in real time. You can search by:
+
+- Equipment type (e.g., "Cylinder")
+- Customer name or job number
+- Tech name (e.g., "Tony")
+- Machine type or item description
+- Service reason (e.g., "Seal")
+
+**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, In Progress, Tested), Machine Type (if enabled), and Reason for Service (multi-select).
+
+Active filters show as removable chips below the toolbar, same as the Front Counter. Tap **X** on a chip to remove it, or **Clear All** to reset everything.
+
+If nothing matches, you'll see "No Matching Items" instead of the grid.
 
 ### Adding Photos from the Tech Station
 
@@ -415,7 +463,48 @@ During development, you'll see a small purple **ladybug button** in the bottom-l
 
 ### Employee Management
 
-Coming soon.
+Employee management is where you add, edit, and deactivate the people who use ShopTracker.
+
+**Getting there:** Open Admin Settings and tap **Employees** under the "Shop" section.
+
+#### Viewing Employees
+
+You'll see a list of all active employees, each showing their name, role badge (Tech, Admin, or Tester), and an "Authorized Tester" badge if they're allowed to test items. Inactive employees appear in a separate section at the bottom.
+
+Pull down to refresh the list.
+
+#### Adding an Employee
+
+1. Tap the **+** button in the top right corner
+2. Enter the employee's **name**
+3. Pick their **role** using the segmented control:
+   - **Tech** — can grab items, do repairs, and mark done
+   - **Admin** — full access to all views and settings (will need a PIN)
+   - **Tester** — dedicated tester role
+4. Toggle **Authorized Tester** on if this person should be able to test items, regardless of their role (e.g., a tech who also tests)
+5. Tap **Add**
+
+The new employee will immediately appear in all relevant pickers across the app (tech assignment, tester selection, etc.).
+
+#### Editing an Employee
+
+Tap any active employee in the list to open their edit form. You can change their name, role, or tester authorization. Tap **Save** when done.
+
+**Note:** PINs are not managed here. If an admin needs to set or change their PIN, they do it through the normal PIN entry flow during Device Setup.
+
+#### Deactivating an Employee
+
+If someone leaves the shop or no longer needs access:
+
+1. Swipe left on their name in the employee list
+2. Tap **Deactivate**
+3. Confirm in the popup
+
+The employee disappears from all pickers (they won't show up when assigning techs or testers) but their name still appears on any jobs, tests, or repairs they were involved in. Nothing is deleted — history stays intact.
+
+#### Reactivating an Employee
+
+If someone comes back or was deactivated by mistake, scroll down to the **Inactive** section and tap the **Reactivate** button next to their name. They'll immediately reappear in all pickers.
 
 ### Settings
 
@@ -440,11 +529,49 @@ If a device needs to be reassigned (different role, different name, or just star
 
 ### "Incorrect PIN"
 
-Double-check that you're entering your personal admin PIN (4-8 digits). PINs are per-person, not per-device. If you've forgotten your PIN, another admin will need to reset it for you in the Admin settings. *(PIN reset feature coming soon.)*
+Double-check that you're entering your personal admin PIN (4-8 digits). PINs are per-person, not per-device. If you've forgotten your PIN, another admin will need to help you reset it. *(PIN reset feature coming in a future update.)*
 
 ### The app shows "Connecting..." on launch
 
-ShopTracker needs an internet connection to talk to the server. Make sure the iPad is connected to Wi-Fi. If Wi-Fi is connected but the app still can't connect, the issue may be on the server side — let Bec know.
+ShopTracker needs an internet connection on first launch to download your jobs and settings. After that, it caches everything locally so you can keep working even if Wi-Fi drops (see "Working Offline" below). If you're stuck on "Connecting..." with a good Wi-Fi signal, the issue may be on the server side — let Bec know.
+
+---
+
+## Working Offline
+
+ShopTracker is designed to keep working when the shop Wi-Fi drops. Here's what you need to know:
+
+### What still works without internet
+
+As long as you've opened the app at least once with a connection (so it can download your data), you can still:
+
+- Browse the job board and see all your jobs, items, and customer info
+- View photos that have been loaded before (they're saved on the iPad)
+- Grab items, mark repairs done, move items through the status flow
+- Add notes and check issue checklists
+- Enter costs and close items
+
+All of those changes are saved on the iPad and will automatically sync to the server as soon as the connection comes back. You don't have to do anything — the app handles it.
+
+### What doesn't work without internet
+
+- Creating brand new jobs (the server generates the job number)
+- Uploading new photos
+- Looking up customers you haven't seen before
+- Any changes other people make on their devices won't show up until you're back online
+
+### When the connection comes back
+
+The app detects when Wi-Fi returns and automatically sends any changes you made while offline. This usually takes a few seconds.
+
+If someone else made changes to the same item on a different device while you were offline, the app figures it out automatically. It compares what you changed against what the other device changed — if you edited different fields (e.g., you marked it Done while Maria added a note), both changes go through. If you both changed the same thing, the most recent change wins. You don't need to do anything — it just works.
+
+If something goes wrong during sync (rare), Bec can see it in **Admin Settings → Sync Status**. The dashboard shows which changes are pending, which failed, and why. From there you can retry failed items, force a sync, or clear the queue entirely if needed.
+
+### Tips
+
+- Don't worry about saving — everything saves automatically, online or off
+- If you're not sure whether you're online, look for the **offline banner** at the top of the Job Board or Work Queue. It appears automatically when the iPad loses its connection and disappears when you're back online. If you've made changes while offline, the banner will tell you how many are queued (e.g., "Offline — 3 changes will sync when back online"). The data on screen is still usable — it's just a snapshot from the last time you had a connection.
 
 ### A device is showing the wrong role
 
