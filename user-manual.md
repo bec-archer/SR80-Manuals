@@ -343,6 +343,8 @@ Pull down to refresh the list.
 
 Tap any customer in the list to see their detail screen. At the top is a card with their contact info — phone number, company, email, and tax exempt status.
 
+If a customer is tax exempt and has a certificate on file, you'll see a blue **View Certificate** link next to the orange "Tax Exempt" badge. Tap it to open the certificate image.
+
 Below that, you'll see all of that customer's jobs split into two sections:
 
 **Active Jobs** — any jobs that are still being worked on, shown as full cards with photos (same cards as the Job Board). If the customer has no active jobs, this section doesn't appear.
@@ -352,6 +354,20 @@ Below that, you'll see all of that customer's jobs split into two sections:
 Tap any job — active or past — to open the full job detail view with all items, photos, notes, and history. Use the back arrow to return to the customer detail.
 
 This is especially useful for warranty lookups ("didn't we just fix this customer's cylinder last month?") and getting context on repeat customers.
+
+### Editing a Customer
+
+Tap **Edit** in the top-right corner of any customer's detail screen to open the edit form. You can update:
+
+- **Name** and **Company** — with the same smart swap button as the new customer form
+- **Phone** and **Email**
+- **Tax Exempt** toggle — turn on or off as needed
+
+**Uploading a tax exemption certificate:** When Tax Exempt is toggled on, you'll see a certificate section. Tap **Upload Certificate** to choose a photo from your library. A preview appears once selected — tap the **×** to remove it if you picked the wrong one. The certificate uploads automatically when you tap **Save**. If a certificate is already on file, you'll see "Certificate on file" with a **Replace** option to swap it out.
+
+**Toggling off Tax Exempt** automatically removes the certificate link from the customer's record.
+
+Tap **Save** to apply your changes. Tap **Cancel** to discard them.
 
 ---
 
