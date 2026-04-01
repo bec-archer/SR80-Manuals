@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-01 (Machine Brand field added)
+**Last Updated:** 2026-04-01 (Display size settings)
 
 ---
 
@@ -85,6 +85,29 @@ The sidebar slides over the current view. Tap any item to switch to that view. T
 If an admin temporarily unlocks a non-admin device (see "Admin Access on Non-Admin Devices" above), all sidebar items become available until the admin session expires.
 
 The grayed-out items are there so everyone can see what the app can do — they just can't access views that aren't meant for their device's role.
+
+At the bottom of the sidebar, under **This Device**, there's a **Display Size** button — see below.
+
+---
+
+### Display Size Settings
+
+Every device can be set to a comfortable text size, independently of every other iPad in the shop. If the front counter iPad is farther from your eyes, or you just prefer bigger text, you can bump it up without affecting the back-shop screen.
+
+**To change the display size:**
+
+1. Open the sidebar (swipe from the left, or tap the back arrow in the top-left)
+2. At the bottom of the sidebar, under **This Device**, tap **Display Size**
+3. A settings panel slides up from the bottom
+
+**Text Size** — three options:
+- **Default** — standard size, same as most apps
+- **Large** — noticeably bigger, good for extended use or reading glasses situations
+- **Extra Large** — significantly bigger, designed for arm's-length viewing or anyone who needs more visual breathing room
+
+**Bold Text** — toggle this on to make all text heavier/darker throughout the app. Works independently from the size setting — you can have bold text at any size.
+
+Changes take effect immediately and are saved to this device only. The front counter iPad, back shop station, and admin device each remember their own settings.
 
 ---
 
