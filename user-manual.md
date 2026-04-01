@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-03-30
+**Last Updated:** 2026-04-01
 
 ---
 
@@ -216,9 +216,19 @@ Below the header, each **item** gets its own card showing:
 - **Description / Notes** from intake
 - **Assigned tech** — if a tech has grabbed the item, you'll see their name (e.g., "Assigned to Carlos")
 
-If photos have been taken for an item, you'll see a row of **photo thumbnails** near the top of the item card. Tap any thumbnail to view it full-screen — tap the photo or swipe down to close the full-screen view.
+If photos have been taken for an item, you'll see a row of **photo thumbnails** near the top of the item card. Tap any thumbnail to view it full-screen — tap the photo or swipe down to close the full-screen view. Photos that have been marked up show a small blue pencil badge on their thumbnail so you can tell at a glance which ones have annotations.
 
 You can add more photos to any item at any time, regardless of its status. Next to the thumbnails you'll see **Camera** and **Library** buttons — same as during check-in. New photos upload immediately and appear in the thumbnail strip.
+
+#### Marking Up Photos
+
+This is the feature that replaces Apple Notes markup. Tap any photo thumbnail to open it full-screen, then tap the **Markup** button (pencil icon) in the top-right corner. This opens the Apple PencilKit editor with the full native toolbar — pens, markers, pencils, erasers, ruler, and the complete color palette.
+
+Draw directly on the photo to circle damage, write prices, add arrows, or annotate anything worth calling out. When you're done, tap **Save**. The marked-up version becomes what everyone sees on the job — on cards, in the detail view, everywhere.
+
+**Your original photo is always preserved.** Markup is non-destructive. If you need to redo it (say the price changed), tap the photo again, tap Markup, and your previous strokes are still there — you can erase specific marks, add new ones, or start fresh with the trash button. If you want to remove all markup entirely, tap the **revert button** (curved arrow) in the toolbar and the photo goes back to the untouched original.
+
+Markup is available on every photo at every status — Front Counter intake photos, Tech Station repair photos, any of them. There are no restrictions on who can mark up or when.
 
 #### Notes
 
@@ -369,9 +379,15 @@ If nothing matches, you'll see "No Matching Items" instead of the grid.
 
 When you open an item detail, you'll see a row of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting.
 
-Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close.
+Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close. Photos with markup show a small blue pencil badge on their thumbnail.
 
 Photos are permanent — once uploaded, they can't be deleted. This is intentional so there's always a complete visual record of what happened with each item.
+
+#### Marking Up Photos (Tech Station)
+
+Techs can mark up photos the same way the front counter does — tap a thumbnail to go full-screen, then tap **Markup** to open the Apple pencil editor. This is useful for writing the price on a photo, circling what was repaired, or noting anything the front counter should see.
+
+The full markup toolbar is available: pens, markers, pencils, erasers, ruler, and all colors. Tap **Save** when done. Previous markup strokes are preserved for re-editing. See "Marking Up Photos" in the Front Counter section above for the full details on how markup, revert, and re-editing work.
 
 ### Adding Notes from the Tech Station
 
@@ -497,12 +513,16 @@ After testing, the item needs a cost before it can go back to the front counter:
 
 1. Open the tested item (or stay on it after testing)
 2. Tap **Enter Cost** (green)
-3. Type the total cost and tap **Submit**
-4. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
-5. You'll see a **"Cost Submitted!"** confirmation, then the app takes you back to the queue
+3. Enter the cost — how this looks depends on your shop settings:
+   - **Standard mode (default):** One field — type the total dollar amount
+   - **Parts + Labor mode:** Two fields — **Parts ($)** and **Labor ($)**. The total calculates automatically as you type.
+4. Tap **Submit**
+5. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
 6. The item moves to **Checkout** (green) and appears on the front counter for customer pickup
 
 For totaled items with $0 cost, the manager approval step is skipped automatically.
+
+*(Parts + Labor mode is turned on and off by an admin in Admin Settings → Shop Settings.)*
 
 ### Totaling an Item
 
@@ -580,9 +600,84 @@ The employee disappears from all pickers (they won't show up when assigning tech
 
 If someone comes back or was deactivated by mistake, scroll down to the **Inactive** section and tap the **Reactivate** button next to their name. They'll immediately reappear in all pickers.
 
-### Settings
+### Shop Settings
 
-Coming soon.
+Shop Settings is where you control the optional fields and cost entry behavior for the whole shop. Changes take effect immediately — no save button.
+
+**Getting there:** Open Admin Settings and tap **Shop Settings** under the "Shop" section.
+
+#### Machine Type Field
+
+The **Show Machine Type Field** toggle adds a "Machine Type" field to the job intake form — what the equipment came off of (Forklift, Excavator, Skid Steer, etc.).
+
+- **Off by default.** Turn it on if your shop wants to track what machine the equipment belongs to.
+- The options in the Machine Type dropdown are managed under **Manage Lists** (see below).
+- When Machine Type is on, you can also make it **required** using the Required Fields toggles further down.
+
+#### Color Field
+
+The **Show Color Field** toggle adds a color field to the job intake form for visual identification.
+
+- **Off by default.** Turn it on if Maria needs to describe the equipment's color at intake.
+- When Color is on, a second toggle — **Color Required** — appears. This controls whether techs and Maria *must* fill it in or whether it's just optional.
+- If you turn Color off, Color Required turns off automatically.
+
+#### Cost Entry — Parts + Labor Split
+
+The **Parts + Labor Split** toggle changes how techs enter cost on completed items.
+
+- **Off (default):** Techs see one field — "Total Cost" — and enter a single dollar amount.
+- **On:** Techs see two separate fields — **Parts ($)** and **Labor ($)**. The sheet shows a running total as they type. Both get saved individually so you can pull them apart in reports later.
+
+This setting affects the cost entry sheet for all items in the shop immediately after you toggle it.
+
+#### Required Fields
+
+Required fields block job creation until they're filled in. Toggle each field on or off:
+
+- **Customer** — on by default
+- **Equipment Type** — on by default
+- **Reason for Service** — off by default
+- **Description** — off by default
+- **Photos** — off by default
+- **Machine Type** — only visible when the Machine Type field is turned on
+- **Color** — only visible when the Color field is turned on
+
+If a required field is missing when Maria tries to create a job, the form won't let her save and the missing field gets highlighted.
+
+### Manage Lists
+
+Manage Lists is where you control the dropdown options used throughout the app. Accessible from Admin Settings → **Manage Lists** under the "Shop" section.
+
+There are four lists you can manage:
+
+- **Equipment** — what the item IS (Cylinder, Pump, Hose, Other...)
+- **Machine** — what it came off of (Forklift, Excavator, Skid Steer...) — only shows up in job intake if Machine Type is turned on in Shop Settings
+- **Service** — the Reason for Service pills on the intake form
+- **Issues** — the repair checklist items techs check off when marking work done
+
+Switch between lists using the tabs at the top of the screen.
+
+#### Adding an Option
+
+1. Tap **+** in the top right corner
+2. Type the option name and tap **Add**
+
+It appears at the bottom of the list immediately and is active by default.
+
+#### Renaming an Option
+
+Tap the **pencil icon** next to any option to rename it. The new name applies going forward — existing jobs keep the original name they were created with.
+
+#### Hiding an Option
+
+Each option has an active toggle on the right. Turn it off to hide the option from the intake form and checklists without deleting it.
+
+Hidden options don't show up for new jobs, but they still appear on any existing jobs that used them — your history stays intact.
+
+#### Reordering
+
+Tap the **Edit** button in the top right corner to enter reorder mode, then drag options into the order you want. The order is saved automatically as you drag.
 
 ### Reports
 
