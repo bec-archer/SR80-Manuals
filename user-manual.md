@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-01 (Display size settings)
+**Last Updated:** 2026-04-01 (Tax flag on parts + tax rate configuration)
 
 ---
 
@@ -203,7 +203,7 @@ Each item has a **Photos** section at the bottom of the form. This is a great ti
 
 You have two options:
 
-- **Camera** — tap the camera button to take a photo right now
+- **Camera** — tap the camera button to open the camera. The camera stays open between shots — tap the shutter button as many times as you need, and each photo appears in a strip at the bottom of the screen. When you're done, tap **Done** in the top-right corner to close the camera and return to the form. You can also tap **Cancel** to close the camera at any time — photos you already took are kept.
 - **Library** — tap the library button to pick a photo already on the device (useful if someone snapped a picture before opening the app)
 
 Photos appear as small thumbnails next to the buttons. To remove a photo before saving, tap the **X** on the thumbnail. Photos aren't uploaded until you tap "Create Work Order" or "Save as Draft" — you'll see a brief "Uploading..." indicator while they're sent to the server.
@@ -241,7 +241,7 @@ Below the header, each **item** gets its own card showing:
 
 If photos have been taken for an item, you'll see a row of **photo thumbnails** near the top of the item card. Tap any thumbnail to view it full-screen — tap the photo or swipe down to close the full-screen view. Photos that have been marked up show a small blue pencil badge on their thumbnail so you can tell at a glance which ones have annotations.
 
-You can add more photos to any item at any time, regardless of its status. Next to the thumbnails you'll see **Camera** and **Library** buttons — same as during check-in. New photos upload immediately and appear in the thumbnail strip.
+You can add more photos to any item at any time, regardless of its status. Next to the thumbnails you'll see **Camera** and **Library** buttons — same as during check-in. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom showing what you've captured. Tap **Done** when you're finished shooting. New photos upload immediately and appear in the thumbnail strip.
 
 #### Marking Up Photos
 
@@ -400,7 +400,7 @@ If nothing matches, you'll see "No Matching Items" instead of the grid.
 
 ### Adding Photos from the Tech Station
 
-When you open an item detail, you'll see a row of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting.
+When you open an item detail, you'll see a row of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting. Tapping **Camera** opens the continuous camera: tap the shutter as many times as you need, watch the thumbnails appear at the bottom of the screen, then tap **Done** when you're finished. No need to reopen the camera between shots.
 
 Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close. Photos with markup show a small blue pencil badge on their thumbnail.
 
@@ -539,13 +539,14 @@ After testing, the item needs a cost before it can go back to the front counter:
 3. Enter the cost — how this looks depends on your shop settings:
    - **Standard mode (default):** One field — type the total dollar amount
    - **Parts + Labor mode:** Two fields — **Parts ($)** and **Labor ($)**. The total calculates automatically as you type.
-4. Tap **Submit**
-5. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
-6. The item moves to **Checkout** (green) and appears on the front counter for customer pickup
+4. If the shop has **Sales Tax** enabled, you'll see a **"Taxable"** (or **"Taxable Parts"** in Parts + Labor mode) toggle. Turn it on if this item's parts are subject to sales tax. The sheet updates to show Subtotal, Tax, and Total so you can confirm the amount before submitting.
+5. Tap **Submit**
+6. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
+7. The item moves to **Checkout** (green) and appears on the front counter for customer pickup
 
 For totaled items with $0 cost, the manager approval step is skipped automatically.
 
-*(Parts + Labor mode is turned on and off by an admin in Admin Settings → Shop Settings.)*
+*(Parts + Labor mode and Sales Tax are turned on and off by an admin in Admin Settings → Shop Settings.)*
 
 ### Totaling an Item
 
@@ -661,6 +662,19 @@ The **Parts + Labor Split** toggle changes how techs enter cost on completed ite
 - **On:** Techs see two separate fields — **Parts ($)** and **Labor ($)**. The sheet shows a running total as they type. Both get saved individually so you can pull them apart in reports later.
 
 This setting affects the cost entry sheet for all items in the shop immediately after you toggle it.
+
+#### Sales Tax
+
+The **Charge Tax on Parts** toggle enables sales tax collection for the shop. When this is on:
+
+- A **tax rate field** appears below the toggle. Type your local sales tax percentage (e.g., `7.5` for 7.5%). The rate saves automatically when you dismiss the keyboard.
+- When techs enter cost on an item, a **"Taxable" toggle** appears in the cost entry sheet. They turn it on if that item's parts are subject to sales tax.
+- The cost entry sheet shows a live breakdown: **Subtotal → Tax → Total** so the tech can see exactly what the customer will be charged before submitting.
+- In Parts + Labor mode, tax is calculated on the parts amount only (labor is not taxed).
+- In standard mode (single total), tax is calculated on the full cost amount.
+- The tax amount is saved on the item alongside the cost and can be pulled into reports later.
+
+**Off by default.** If your shop doesn't charge sales tax, leave this off and the taxable toggle won't appear anywhere in the cost entry flow.
 
 #### Required Fields
 
