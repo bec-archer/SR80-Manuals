@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-01
+**Last Updated:** 2026-04-01 (Machine Brand field added)
 
 ---
 
@@ -614,6 +614,14 @@ The **Show Machine Type Field** toggle adds a "Machine Type" field to the job in
 - The options in the Machine Type dropdown are managed under **Manage Lists** (see below).
 - When Machine Type is on, you can also make it **required** using the Required Fields toggles further down.
 
+#### Machine Brand Field
+
+The **Show Machine Brand Field** toggle adds a "Machine Brand" field to the job intake form — who made the machine the equipment came off of (Caterpillar, John Deere, Komatsu, etc.).
+
+- **Off by default.** Turn it on if your shop wants to record the machine manufacturer at intake.
+- The options in the Machine Brand dropdown are managed under **Manage Lists** (see below).
+- When Machine Brand is on, you can also make it **required** using the Required Fields toggles further down.
+
 #### Color Field
 
 The **Show Color Field** toggle adds a color field to the job intake form for visual identification.
@@ -641,6 +649,7 @@ Required fields block job creation until they're filled in. Toggle each field on
 - **Description** — off by default
 - **Photos** — off by default
 - **Machine Type** — only visible when the Machine Type field is turned on
+- **Machine Brand** — only visible when the Machine Brand field is turned on
 - **Color** — only visible when the Color field is turned on
 
 If a required field is missing when Maria tries to create a job, the form won't let her save and the missing field gets highlighted.
@@ -649,10 +658,11 @@ If a required field is missing when Maria tries to create a job, the form won't 
 
 Manage Lists is where you control the dropdown options used throughout the app. Accessible from Admin Settings → **Manage Lists** under the "Shop" section.
 
-There are four lists you can manage:
+There are five lists you can manage:
 
 - **Equipment** — what the item IS (Cylinder, Pump, Hose, Other...)
-- **Machine** — what it came off of (Forklift, Excavator, Skid Steer...) — only shows up in job intake if Machine Type is turned on in Shop Settings
+- **Mach Type** — what it came off of (Forklift, Excavator, Skid Steer...) — only shows up in job intake if Machine Type is turned on in Shop Settings
+- **Brand** — who made the machine (Caterpillar, John Deere, Komatsu...) — only shows up in job intake if Machine Brand is turned on in Shop Settings
 - **Service** — the Reason for Service pills on the intake form
 - **Issues** — the repair checklist items techs check off when marking work done
 
