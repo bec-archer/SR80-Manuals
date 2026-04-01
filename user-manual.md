@@ -45,7 +45,7 @@ After your PIN is accepted, you'll see the device configuration screen.
 
 1. **Device Name** — Give this iPad a name so you can tell devices apart. Something like "Front Counter iPad" or "Back Shop Tech Station" works great.
 2. **Device Role** — Pick what this device will be used for:
-   - **Front Counter** — Check-in, job gallery, checkout workflow
+   - **Front Counter** — Check-in, job gallery, complete/close workflow
    - **Tech Station** — Repair queue, checklists, testing
    - **Admin** — Full access to everything
 3. Tap **Set Up Device**
@@ -126,6 +126,8 @@ Photos load in the background — you'll see the cards appear right away with pl
 
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
+When all items on a job have been priced and approved, a green **"COMPLETE"** badge appears in the top-left corner of the card's photo area — slightly tilted, just like in V1. This is your at-a-glance signal that the job is ready for customer pickup and payment.
+
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
 Pull down on the job board to refresh and see the latest updates from the back shop.
@@ -149,7 +151,7 @@ The search checks all items within each job, so searching "Pump" will show any j
 **Filtering:** Tap the filter button to open a filter sheet with dropdown pickers:
 
 - **Equipment Type** — show only jobs with a specific type of equipment (Cylinder, Pump, etc.)
-- **Status** — show only jobs with items at a specific stage (Checked In, In Progress, Tested, Checkout)
+- **Status** — show only jobs with items at a specific stage (Checked In, In Progress, Tested, Complete)
 - **Machine Type** — if machine types are turned on in admin settings, you can filter by those too
 - **Reason for Service** — tap one or more service reasons to filter by why the equipment was brought in. If you select multiple reasons, the job must have an item with ALL of those reasons.
 
@@ -319,7 +321,7 @@ The job now appears as a regular work order card (no more DRAFT badge) and is vi
 
 Coming soon.
 
-### Checkout & Pickup
+### Complete & Pickup
 
 Coming soon.
 
@@ -558,7 +560,7 @@ After testing, the item needs a cost before it can go back to the front counter:
 4. If the shop has **Sales Tax** enabled, you'll see a **"Taxable"** (or **"Taxable Parts"** in Parts + Labor mode) toggle. Turn it on if this item's parts are subject to sales tax. The sheet updates to show Subtotal, Tax, and Total so you can confirm the amount before submitting.
 5. Tap **Submit**
 6. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
-7. The item moves to **Checkout** (green) and appears on the front counter for customer pickup
+7. The item moves to **Complete** (green) and appears on the front counter for customer pickup
 
 For totaled items with $0 cost, the manager approval step is skipped automatically.
 
@@ -571,7 +573,7 @@ If an item is unfixable:
 1. Open the item
 2. Tap the **Totaled** button (black in light mode, white in dark mode)
 3. Confirm — you'll see a **"Totaled"** confirmation and the app takes you back to the queue
-4. If there's a diagnostic cost, enter it through the normal cost flow. If not, enter $0 and it moves straight to Checkout.
+4. If there's a diagnostic cost, enter it through the normal cost flow. If not, enter $0 and it moves straight to Complete.
 
 ### About the Action Buttons
 
