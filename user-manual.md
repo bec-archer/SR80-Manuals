@@ -756,7 +756,7 @@ The timeout is configurable by an admin (default is 2 minutes). Setting it to 0 
 
 ### Role Switcher (Debug Only)
 
-During development, you'll see a small purple **ladybug button** in the bottom-left corner. Tap it to switch between Front Counter, Tech Station, and Admin views without resetting the device. This only appears in debug/test builds — it won't be in the final app.
+During development, a hidden debug menu is available for switching between device roles without resetting the device. This only appears in debug/test builds — it won't be in the final app.
 
 ---
 
@@ -1030,7 +1030,7 @@ Tap any report to see the full detail: device info, description, error log, and 
 
 ### Auto-Reporting
 
-The app monitors itself in the background. If it detects a serious problem — like changes that repeatedly fail to sync, a photo that won't upload, or the connection dropping unexpectedly — it files a report automatically without anyone having to do anything. Bec also gets an email.
+The app monitors itself in the background. If it detects a serious problem — like changes that repeatedly fail to sync, a photo that won't upload, or the connection dropping unexpectedly — it files a report automatically without anyone having to do anything. Bec gets an email and a push notification on her iPhone and iPad.
 
 Auto-reports appear in the Bug Reports list with an **Auto** badge. They fire at most once per problem type every 10 minutes, so you won't get flooded.
 
