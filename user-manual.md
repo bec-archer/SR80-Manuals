@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-02 (Warranty Check-In — long-press closed job to start a linked warranty work order)
+**Last Updated:** 2026-04-02 (Device Management — view all registered devices, rename/reassign roles, revoke and reactivate)
 
 ---
 
@@ -117,7 +117,7 @@ Changes take effect immediately and are saved to this device only. The front cou
 
 When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
-- **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner.
+- **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile — slightly tilted, same as V1.
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
 - **Customer phone number** (tappable) and **name**
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
@@ -126,7 +126,7 @@ Photos load in the background — you'll see the cards appear right away with pl
 
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
-When all items on a job have been priced and approved, a green **"COMPLETE"** badge appears in the top-left corner of the card's photo area — slightly tilted, just like in V1. This is your at-a-glance signal that the job is ready for customer pickup and payment.
+Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
 
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
@@ -410,12 +410,20 @@ If a customer comes back in because something failed that you repaired before, y
 
 **How to start a warranty check-in:**
 
-1. Find the original job on the Job Board (it'll be in the Closed section at the bottom — tap the header to expand it if needed)
-2. **Long-press the job card** — hold your finger down for about a second
-3. A confirmation sheet will appear: "Check in for warranty work?" with the job number and customer name
-4. Tap **Check In for Warranty** to confirm
+You have two ways to kick one off — use whichever is faster:
 
-That's it. ShopTracker creates a new work order for this customer, linked to the original job, with the cost locked at $0. It opens just like a normal job — you can see it on the board, add items to it, and it'll go through the full repair flow (Checked In → In Progress → Tested → Complete → Close).
+**Option 1 — from the job card (fastest):**
+1. Find the original job in the Closed section at the bottom of the Job Board (tap the header to expand it)
+2. **Long-press the job card** — hold for about a second
+3. A confirmation sheet appears: "Check in for warranty work?"
+4. Tap **Check In for Warranty**
+
+**Option 2 — from inside the job detail:**
+1. Open the original closed job by tapping its card
+2. Scroll to the item that came back in — you'll see a red **"Check In for Warranty"** button below that item's card
+3. Tap it, confirm in the sheet that appears
+
+Both options do the same thing: ShopTracker creates a new work order for this customer, linked to the original job, with the cost locked at $0. It opens just like a normal job — you can see it on the board, and it'll go through the full repair flow (Checked In → In Progress → Tested → Complete → Close).
 
 **What a warranty job looks like:**
 
@@ -536,6 +544,29 @@ When you open an item detail from the tech queue, you'll see a **Notes** card be
 
 Use notes to document what you found during disassembly, anything unusual about the repair, or messages for the front counter ("customer needs to approve cost before we proceed"). Notes from both the front counter and the tech station show up in the same timeline, so everyone stays on the same page.
 
+### Working on Warranty Items
+
+When an item came back in because something failed from a previous repair, it shows up in your queue with a red **WARRANTY** badge in the item header. These are handled the same as any other item — grab it, repair it, test it — but there are a couple of things worth knowing.
+
+#### The Previous Repair Card
+
+When you open a warranty item, you'll see a red **"Previous Repair"** card near the top of the detail view, just below the header. This gives you context on what was done last time:
+
+- The **original job number** so you can look it up if needed
+- **Photos from the original repair** — the same photos the tech took when this item was first fixed. These load in a horizontal scroll strip so you can swipe through them.
+- **Issues found** — the repair checklist items the previous tech checked off (Seal, Wiper, etc.)
+- A **PASSED / FAILED** badge showing how the original test went
+
+This is there so you're not going in blind. If the original tech noted something unusual or took a photo of the damage, you can see it right here without having to hunt down the old job.
+
+#### Testing a Warranty Item
+
+When you tap **Tested** and mark it as passed, the app automatically closes out the cost at $0 (no cost entry step — it's already locked). You'll see a brief **"Warranty Complete!"** confirmation and then the app takes you back to the queue. There's nothing extra to do.
+
+If the warranty item *fails* the test, it goes back to In Progress for another repair round, same as any other item.
+
+**Admin override:** If an admin is logged in and needs to charge for the warranty work (unusual, but it happens), the normal **Enter Cost** button appears instead of the auto-complete. The admin can enter a cost and go through the standard approval flow.
+
 ### No Warranty Flag (Tech Station)
 
 If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag it right from the tech detail view.
@@ -615,7 +646,8 @@ Items with the READY badge need to be tested before they can leave the shop:
 
 **If PASSED:**
 
-The item moves to the **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after the inactivity timeout (see "Auto-Return to Queue" below).
+- **Regular items:** The item moves to **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after the inactivity timeout (see "Auto-Return to Queue" below).
+- **Warranty items:** The cost is already locked at $0, so there's no cost entry step. The app shows a brief **"Warranty Complete!"** confirmation and immediately returns to the queue. Done.
 
 **If FAILED:**
 
@@ -850,6 +882,59 @@ Hidden options don't show up for new jobs, but they still appear on any existing
 #### Reordering
 
 Tap the **Edit** button in the top right corner to enter reorder mode, then drag options into the order you want. The order is saved automatically as you drag.
+
+### Device Management
+
+Device Management is where you see every iPad and iPhone registered to this app, and where you can rename them, change their roles, or revoke access if a device is lost, stolen, or being retired.
+
+**Getting there:** Open Admin Settings and tap **Devices** under the "Shop" section.
+
+**Requires internet.** Device management won't work offline — if the connection is out, a banner will appear at the top of the list and changes will be disabled until you reconnect.
+
+#### Viewing Devices
+
+You'll see a list of all registered devices, each showing:
+
+- The **device name** (e.g., "Front Counter iPad")
+- A **role badge** — blue for Front Counter, teal for Tech Station, purple for Admin
+- **Last seen** — roughly when the device last opened the app ("2 hours ago", "3 days ago")
+- A **"this device"** label next to whichever device you're currently using
+
+Active devices appear at the top. Any revoked devices appear in a separate **Revoked** section at the bottom.
+
+Pull down to refresh the list.
+
+#### Renaming a Device or Changing Its Role
+
+Tap any device row to open its edit sheet.
+
+- **Name** — type whatever makes sense for your shop (e.g., "Maria's iPad", "Back Shop Tech", "Bec's iPhone")
+- **Role** — use the segmented picker to change the role: Front Counter, Tech Station, or Admin
+
+Tap **Save** when done.
+
+**Important:** Role changes on a device other than the one you're holding take effect the next time that device opens the app. You'll need to let whoever's on that device know to close and reopen it (or force-quit and relaunch). Role changes made to your *current* device take effect immediately.
+
+#### Revoking a Device
+
+Revoking removes a device's access until it goes through setup again. Use this if a device is lost, stolen, reassigned to someone new, or just needs a fresh start.
+
+**To revoke by swiping:** Swipe left on the device row and tap **Revoke**. Confirm in the popup.
+
+**To revoke from the detail sheet:** Tap the device row, scroll to the bottom, and tap **Revoke Device**.
+
+When a revoked device is opened again, it will show the Device Setup screen and need to be configured from scratch. The device keeps the same underlying identity (so it doesn't create a duplicate entry), but it'll need a new name, role, and admin PIN before it can be used.
+
+You **cannot revoke the device you're currently holding** — if you need to reassign your own device, do the reset from a different admin device, or use the **Reset Device** option in the Danger Zone at the bottom of Admin Settings.
+
+#### Reactivating a Revoked Device
+
+If a device was revoked by mistake, or it's back in service:
+
+1. Scroll to the **Revoked** section at the bottom of the device list
+2. Tap **Reactivate** next to the device name
+
+The device is immediately active again. If it hasn't gone through setup yet since being revoked, it'll still need to complete setup on next launch. If it already went through setup (i.e., it was re-enrolled), reactivating is a no-op — it's already active.
 
 ### Reports
 
