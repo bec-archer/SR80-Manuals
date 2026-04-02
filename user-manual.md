@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-02 (Device Management — view all registered devices, rename/reassign roles, revoke and reactivate)
+**Last Updated:** 2026-04-02 (Concurrent editing — live multi-device updates for detail views and tech station queue)
 
 ---
 
@@ -56,12 +56,14 @@ That's it! The device is now set up and will go straight to the correct view eve
 
 ### Admin Access on Non-Admin Devices
 
-If you're on the Front Counter or Tech Station iPad and need to do something that requires admin access (like changing settings), you don't have to go find an admin device. Any admin can temporarily unlock their access:
+If you're on the Front Counter or Tech Station iPad and need to do something that requires admin access (like changing settings or editing a closed item), you don't have to go find an admin device. Any admin can temporarily unlock their access:
 
-1. Navigate to the admin access option (gear icon or similar)
-2. Enter your admin PIN
+1. Open the sidebar and tap **Admin Settings**
+2. Enter your admin PIN when prompted
 3. You'll have admin access for a limited time (configurable in settings — defaults to 5 minutes)
 4. After the timer expires, the device automatically locks back to its assigned role
+
+**What happens when the timer fires:** The lock is immediate. If you have an admin-only screen open (like Admin Settings), it closes automatically and the app returns you to the default view for this device's role. The sidebar re-grays the items that require admin access. You won't lose any data — anything you saved is saved, but anything unsaved in an admin-only sheet is dismissed.
 
 Admin-role devices stay unlocked permanently — the auto-lock only applies when you're elevating access on a non-admin device.
 
@@ -173,6 +175,12 @@ Your search and filters work across both active and closed jobs. If you search f
 
 This is useful for looking up past work — warranty questions, repeat customers, or just checking what was done on an old job. Tap any closed job card to see the full detail view with all items, photos, and notes.
 
+**Read-only for Front Counter:** Closed jobs are read-only from the Front Counter. You can view everything — photos, notes, repair history, cost — but intake fields are locked and no action buttons appear on closed items.
+
+**Admin editing on closed jobs:** On an admin device (or a non-admin device with admin elevation active), closed items behave differently. The pencil icon reappears on closed item cards, so you can tap to edit intake fields if something needs correcting after the fact. A **Reopen Item** button is also visible on each closed item card — on non-admin devices it's grayed out with a lock icon as a visual reminder that it exists, but only an admin can use it.
+
+**Reopening an item:** If a closed item needs to come back through the shop (a customer returns, something wasn't right), an admin can tap **Reopen Item** on that item's card. After confirming, the item moves back to **Complete** status and becomes actionable again — the front counter will see it in the active board and can close it again once the customer's situation is resolved.
+
 ### Creating a New Work Order
 
 Tap the new job button from the Job Board to start a new work order (bottom-right on iPhone, top-right toolbar on iPad). The form has two main sections: **Customer** and **Items**.
@@ -197,6 +205,16 @@ Each work order needs at least one item. For each item, fill in:
 - **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
 - **Description / Notes** — any additional details about the item
 - **No Warranty** toggle — if this item carries no warranty coverage (e.g., a repack on a customer-damaged cylinder), switch this on before saving. It's off by default. See "No Warranty Flag" below for more detail.
+
+#### Marking a Job as Warranty at Creation
+
+Just above the item fields, there's a **Warranty job** toggle. If the customer is bringing something back in for warranty work but the original job isn't in ShopTracker (it was done on paper, before the app existed, or at another location), flip this on.
+
+When it's on, a note appears below: *"Cost will be locked at $0."* — just a reminder of what that means before you save.
+
+Warranty jobs go straight to Create Work Order — they can't be saved as drafts.
+
+Once created, the job works the same as any other warranty job: it gets a **WARRANTY** badge on the board, and cost is automatically locked at $0 when the tech completes it. See "Warranty Check-In" below for what that looks like once it's in the shop.
 
 Tap **+ Add Item** to add more items to the same work order (e.g., a customer drops off 3 cylinders at once).
 
@@ -432,6 +450,16 @@ Warranty jobs have a small **WARRANTY** badge on the gallery card so the whole t
 The $0 cost is locked in from the start. When the job reaches completion, the cost entry shows $0 and skips the manager approval step.
 
 [screenshot: long-press confirmation sheet on a closed job card]
+
+#### Warranty Flag — No Prior Job in the System
+
+The warranty check-in flow above works great when the original job is already in ShopTracker. But sometimes it isn't — the repair was done before the app existed, it was handled on a paper form, or it was done at another location. In those cases you can't link to an original job, but you can still flag the new job as warranty work.
+
+When creating the work order, flip the **Warranty job** toggle on (it's just above the item fields). That's it — the job gets created as a warranty job with $0 cost locked, the WARRANTY badge appears on the board, and the tech sees it as warranty work. No link to an original job, but all the same protections.
+
+If you forgot to toggle it when you created the job and it's still a draft, open the draft and you'll see the same toggle in the job header. Flip it on there and it applies when you finalize.
+
+**Admin note:** Admins can toggle the warranty flag on any job at any status, in case it needs to be corrected after the fact. This doesn't apply to jobs created through the warranty check-in flow — those are already linked to an original and shouldn't be changed.
 
 ---
 
@@ -936,6 +964,22 @@ If a device was revoked by mistake, or it's back in service:
 
 The device is immediately active again. If it hasn't gone through setup yet since being revoked, it'll still need to complete setup on next launch. If it already went through setup (i.e., it was re-enrolled), reactivating is a no-op — it's already active.
 
+### Editing Cost on a Complete Item
+
+Once a tech submits a cost and the item reaches **Complete** status, the cost is normally locked — the front counter just reads it at pickup. But sometimes a price needs to change after the fact (a part came in cheaper, the customer negotiated, a mistake was caught). Admins can re-edit the cost directly from the job detail view.
+
+**How to edit a cost:**
+
+1. Open the job from the Job Board
+2. Make sure admin access is active (admin-role device, or elevate with your PIN)
+3. On the Complete item's card, you'll see an orange **Edit Cost** button in the action area
+4. Tap it — the cost entry sheet opens pre-filled with the existing values
+5. Change whatever needs changing (total cost, parts/labor split, taxable toggle)
+6. Tap **Submit** → confirm manager approval
+7. The item stays at Complete status — only the cost values update
+
+This goes through the same manager approval prompt as the original cost entry. The updated cost appears immediately on the job detail and in the Close Job card total.
+
 ### Reports
 
 Coming soon.
@@ -1002,6 +1046,31 @@ If something goes wrong during sync (rare), Bec can see it in **Admin Settings �
 ### A device is showing the wrong role
 
 An admin will need to reset the device and set it up again with the correct role. See "Resetting a Device" above.
+
+---
+
+## Multiple Devices
+
+### Live Updates
+
+When two people are looking at the same job at the same time on different iPads, their screens stay in sync automatically. You don't need to pull down to refresh or tap anything — status changes, new notes, and new photos appear on their own, usually within a second.
+
+This works from any view where it matters:
+
+- **Job Board (Front Counter)** — if Tony moves an item to Tested in the back, Maria's board updates automatically. The status dot changes color, and if all items are now Complete, the job card reflects that.
+- **Job Detail** — if you have a job open and a tech updates an item's status or adds a note on their device, your view updates live. You don't need to close and reopen the job.
+- **Tech Station Queue** — when an item becomes Ready for Test (tech marks repair done on another iPad), it floats to the top of the queue immediately. When a tech grabs an item, it updates on every device — so two techs can't accidentally grab the same one.
+- **Item Detail (Tech Station)** — if you're looking at a specific item and it gets updated on another device, the status badge, repair history, notes, photos, and checklist all update in place.
+
+### If a sheet was open during an update
+
+Occasionally, if you have a cost entry, test result, or similar action sheet open and someone else changes that item's status on a different device, ShopTracker will close your sheet automatically and show a brief message: **"This item was updated on another device."**
+
+This just means the item moved to a different status while you had it open. Tap the appropriate action button again to continue from the current state.
+
+### Editing the same item at the same time
+
+If two people are filling in the same item's details simultaneously (e.g., both editing equipment info), the last save wins on a field-by-field basis — not the whole record. So if Maria is typing in the Description field and Tony changes the Equipment Type on his device, Tony's Equipment Type change comes through without touching Maria's Description. Whatever Maria saves last is what sticks for the Description field.
 
 ---
 
