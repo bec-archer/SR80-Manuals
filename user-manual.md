@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-01 (Item detail card layout redesign)
+**Last Updated:** 2026-04-02 (Warranty Check-In — long-press closed job to start a linked warranty work order)
 
 ---
 
@@ -130,7 +130,7 @@ When all items on a job have been priced and approved, a green **"COMPLETE"** ba
 
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
-Pull down on the job board to refresh and see the latest updates from the back shop.
+The Job Board updates automatically when jobs are created or changed on any device — you don't need to do anything to see new work orders appear. If you ever want to force an immediate refresh, pull down on the board.
 
 Tap the **new job button** (document with a plus badge, in CAT yellow) to create a new work order. On iPad, it's in the top right corner of the toolbar. On iPhone, it's at the bottom right of the screen (like the compose button in Apple Notes).
 
@@ -196,6 +196,7 @@ Each work order needs at least one item. For each item, fill in:
 - **Equipment Type** — what the item is (Cylinder, Pump, Hose, or Other)
 - **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
 - **Description / Notes** — any additional details about the item
+- **No Warranty** toggle — if this item carries no warranty coverage (e.g., a repack on a customer-damaged cylinder), switch this on before saving. It's off by default. See "No Warranty Flag" below for more detail.
 
 Tap **+ Add Item** to add more items to the same work order (e.g., a customer drops off 3 cylinders at once).
 
@@ -323,6 +324,25 @@ Once a tech grabs the item (moves it to In Progress), the intake fields lock. Th
 
 **Admin override:** If an admin needs to correct intake fields on an item that's already In Progress or beyond, they can elevate admin access on the device (enter their PIN), and the edit option becomes available again regardless of status.
 
+### No Warranty Flag
+
+Some repairs don't come with a warranty — a cylinder the customer drilled into, equipment that's beyond normal wear limits, or any job where you and the customer have agreed that the work is best-effort only. The No Warranty flag lets you document that upfront so there's no confusion later.
+
+**Setting it at intake:**
+When filling in the item form, there's a **No Warranty** toggle below the description field. Switch it on before saving the work order. It's off by default.
+
+**Setting it later:**
+If the warranty status changes after the work order is already in the system, you can still toggle it from the item card on the job detail view. As long as the item is still in **Checked In** status, you can flip the toggle there. Once a tech grabs the item, this moves to the Tech Station.
+
+**What it looks like:**
+When No Warranty is on, a small dark **NO WARRANTY** badge appears in the item header — both on the job detail view and on the job board gallery card. It's intentionally low-key (charcoal, not red) so it reads as informational rather than alarming.
+
+**Who can change it:**
+- **Front Counter** — can set it while the item is Checked In
+- **Tech Station** — can set it while the item is In Progress or Tested
+- **Admin** — can set it at any point (elevate admin access from the gear icon if needed)
+- Once a job is Closed or Totaled, the flag is locked
+
 ### Changing the Customer on a Job
 
 You can change the customer assigned to a work order — not just on drafts, but on finalized jobs too.
@@ -383,6 +403,27 @@ When the customer comes back for the rest, you'll see the Close Job card at the 
 #### After Closing
 
 Once the last item on a job is closed, the view automatically takes you back to the Job Board. The job moves from the active grid to the **Closed** section at the bottom (collapsed by default — tap the header to expand it).
+
+#### Warranty Check-In
+
+If a customer comes back in because something failed that you repaired before, you can check it in as a **warranty job** directly from the Job Board — no need to create a brand new work order from scratch.
+
+**How to start a warranty check-in:**
+
+1. Find the original job on the Job Board (it'll be in the Closed section at the bottom — tap the header to expand it if needed)
+2. **Long-press the job card** — hold your finger down for about a second
+3. A confirmation sheet will appear: "Check in for warranty work?" with the job number and customer name
+4. Tap **Check In for Warranty** to confirm
+
+That's it. ShopTracker creates a new work order for this customer, linked to the original job, with the cost locked at $0. It opens just like a normal job — you can see it on the board, add items to it, and it'll go through the full repair flow (Checked In → In Progress → Tested → Complete → Close).
+
+**What a warranty job looks like:**
+
+Warranty jobs have a small **WARRANTY** badge on the gallery card so the whole team can see at a glance what came back in. Inside the job detail, there's a line in the header showing the original job number — tap it to jump to the original work order if you need to review what was done.
+
+The $0 cost is locked in from the start. When the job reaches completion, the cost entry shows $0 and skips the manager approval step.
+
+[screenshot: long-press confirmation sheet on a closed job card]
 
 ---
 
@@ -495,6 +536,14 @@ When you open an item detail from the tech queue, you'll see a **Notes** card be
 
 Use notes to document what you found during disassembly, anything unusual about the repair, or messages for the front counter ("customer needs to approve cost before we proceed"). Notes from both the front counter and the tech station show up in the same timeline, so everyone stays on the same page.
 
+### No Warranty Flag (Tech Station)
+
+If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag it right from the tech detail view.
+
+Look for the **No Warranty** toggle on the item detail card. When it's on, you'll see a dark **NO WARRANTY** badge in the item header. Techs can set this while the item is **In Progress** or **Tested**. If the front counter already set it at intake, the toggle will already be on when you open the item.
+
+The flag is purely informational — it doesn't change the workflow or lock anything. It's there so the front counter can communicate it to the customer at pickup ("this one has no warranty, as we discussed").
+
 ### Editing Item Info from the Tech Station
 
 When you open an item detail, you may see a small blue **Edit** link in the top-right corner of the item info card. This lets you change the intake fields — equipment type, machine type, service reasons, and description — without going back to the front counter.
@@ -590,22 +639,21 @@ You can record an oil sample on any item that's at the **Ready for Test** or **T
 
 Photos upload automatically when you submit. Oil samples (with any attached photos) show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
 
-### Previous Round Checklists
+### Repair History
 
-When an item fails a test and goes back for another repair round, the previous round's checklist doesn't disappear — it's preserved in the history card below the current repair checklist.
+Below the Notes card on the item detail, there's a **Repair History** card — a chronological timeline of everything that's happened to the item, in order. This is the same timeline Maria sees on the Front Counter, so both sides of the shop are always looking at the same story.
 
-You'll see a section labeled **"Round 1 Checklist"** (or whichever round) with a comma-separated list of everything that was checked off during that round. If there have been multiple failed rounds, each one gets its own labeled list.
+The timeline includes:
 
-This way the tech on Round 2 can see exactly what was done in Round 1 without having to ask anyone.
+- **Tech assignment** — who grabbed it and when
+- **Repair rounds** — each round's completed checklist items (Wiper, Seal, etc.). If the item failed a test and went back for another round, you'll see "Round 1: ..." and "Round 2: ..." entries separately, so the history of what was done in each round is always clear
+- **Test results** — PASSED or FAILED with who tested it and when
+- **Oil samples** — Clean or Dirty, who performed it, when, and any notes
+- **Cost** — total price with parts/labor/tax breakdown if applicable, plus manager approval status
 
-### Test & Sample History
+This card only appears when there's something to show — brand-new items that haven't been touched yet won't have it.
 
-Below the repair checklist on the item detail, there's a **Test & Sample History** card that shows a chronological timeline of all test attempts and oil samples for the item. Each entry shows:
-
-- **Test results** — PASSED or FAILED with the round number, who tested it, and when
-- **Oil samples** — Clean or Dirty, who performed it, when, any notes, and photo thumbnails if photos were attached
-
-This card only appears once there's at least one test or oil sample recorded.
+On the old system, Tony had to flip through paper to see what was done in a previous round. Now it's right there on the screen.
 
 ### Entering Cost
 
