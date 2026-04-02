@@ -995,6 +995,53 @@ If a device needs to be reassigned (different role, different name, or just star
 
 ---
 
+## Reporting a Problem
+
+If something looks wrong or the app does something unexpected, you can report it directly from any screen without having to explain it to Bec later.
+
+### The Ladybug Button
+
+There's a small ladybug icon (🐞) in the top-right corner of every screen, on every device. Tap it whenever something seems off.
+
+A sheet slides up with:
+
+- **Description** — Optional. Write a quick note about what you were doing when the problem happened. The more detail, the better, but it's not required.
+- **Recent Errors** — A collapsible section showing the last few technical errors the app logged. You don't need to understand this — it's there automatically to help Bec diagnose the issue.
+- **Device Info** — Your device name, role, and app version. Attached automatically.
+
+Tap **Submit** and you're done. The report goes straight to Bec. You'll get a confirmation and the sheet closes.
+
+**You don't need to be sure something is wrong to submit a report.** If something felt weird or slow, report it. Bec would rather get a false alarm than miss a real issue.
+
+---
+
+## Bug Reports (Admin)
+
+**Getting there:** Open Admin Settings and tap **Bug Reports** under the "Diagnostics" section.
+
+Admins can view all submitted reports in a newest-first list. Each row shows:
+
+- **Manual** (blue) or **Auto** (amber) badge — Manual means someone tapped the ladybug button. Auto means the app detected a problem on its own.
+- The trigger or short description
+- Which device it came from
+- How long ago it was submitted
+
+Tap any report to see the full detail: device info, description, error log, and a snapshot of what the app was doing at the time.
+
+### Auto-Reporting
+
+The app monitors itself in the background. If it detects a serious problem — like changes that repeatedly fail to sync, a photo that won't upload, or the connection dropping unexpectedly — it files a report automatically without anyone having to do anything. Bec also gets an email.
+
+Auto-reports appear in the Bug Reports list with an **Auto** badge. They fire at most once per problem type every 10 minutes, so you won't get flooded.
+
+### Notification Banners
+
+When an auto-report fires, a brief amber banner appears at the top of the screen on admin devices. It shows a one-line summary of what happened. Tap it to go straight to Bug Reports, or wait 8 seconds and it dismisses on its own. If multiple alerts come in at once, they queue up and show one at a time.
+
+The **Bug Reports** link in Admin Settings shows a badge count of unread notifications. It clears when you open the Bug Reports view.
+
+---
+
 ## Troubleshooting
 
 ### "Incorrect PIN"
