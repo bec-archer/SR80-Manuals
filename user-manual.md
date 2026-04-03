@@ -125,6 +125,7 @@ When you open the app on a Front Counter device, you'll see the **Job Board** �
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
 - **Customer phone number** (tappable) and **name**
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
+- **Job cost** — appears once at least one item has been priced. If all items have a cost entered, you'll see the full total (e.g., "$340.00") in clear, readable text. If some items are still being worked on and don't have a cost yet, you'll see an approximate total with "partial" next to it (e.g., "~$180.00 partial") in lighter text — this tells you the number isn't final yet. Tax is included in the total when tax is enabled in admin settings. Draft jobs and jobs with no cost entered yet don't show a cost line at all. Warranty jobs show "$0.00".
 
 Photos load in the background — you'll see the cards appear right away with placeholder tiles, and the actual photos fill in a moment later.
 
