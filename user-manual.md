@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-03 (Equipment Tags section added — QR sticker workflow, printing, assigning at check-in, scanning from queue)
+**Last Updated:** 2026-04-03 (QR Code Functionality)
 
 ---
 
