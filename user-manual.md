@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-02 (Concurrent editing — live multi-device updates for detail views and tech station queue)
+**Last Updated:** 2026-04-03 (item sub-numbers now display correctly in YYYYMMDD-N-M format throughout)
 
 ---
 
@@ -64,6 +64,8 @@ If you're on the Front Counter or Tech Station iPad and need to do something tha
 4. After the timer expires, the device automatically locks back to its assigned role
 
 **What happens when the timer fires:** The lock is immediate. If you have an admin-only screen open (like Admin Settings), it closes automatically and the app returns you to the default view for this device's role. The sidebar re-grays the items that require admin access. You won't lose any data — anything you saved is saved, but anything unsaved in an admin-only sheet is dismissed.
+
+**What admin elevation does and doesn't change:** Elevation gives you access to Admin Settings, lets you edit closed items, and unlocks the cost override buttons on the Front Counter. It does **not** change which workflow buttons you see on item cards — those are always determined by the device's assigned role. A Front Counter device with admin elevation still shows Front Counter actions; a Tech Station device still shows Tech Station actions. The device's role is what determines the view, not the elevation state.
 
 Admin-role devices stay unlocked permanently — the auto-lock only applies when you're elevating access on a non-admin device.
 
@@ -255,7 +257,7 @@ Draft jobs have a warm amber-tinted header, just like on the Job Board.
 
 Below the header, each **item** gets its own card showing:
 
-- **Item number** and **status** (with a colored badge like "Checked In" in blue, "In Progress" in yellow, etc.)
+- **Item reference number** and **status** (with a colored badge like "Checked In" in blue, "In Progress" in yellow, etc.) — each item shows its full reference in `YYYYMMDD-N-M` format (e.g., `20260403-1-2` means job 20260403-1, second item). Single-item jobs still show just the job number.
 - **Equipment Type** — what the item is
 - **Machine Type** and **Color** — if those fields are turned on in admin settings
 - **Reason(s) for Service** — shown as blue pill-shaped tags
@@ -264,7 +266,7 @@ Below the header, each **item** gets its own card showing:
 
 On iPad, each item card uses a **two-column layout**: the left side holds the photos, and the right side holds the equipment details, notes, and repair history. On iPhone everything stacks single-column in the same order.
 
-If photos have been taken for an item, the left column shows a **square hero photo** — a large cropped preview of the first photo. Below it is a row of smaller thumbnails for any additional photos, followed by **Camera** and **Library** buttons to add more. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
+If photos have been taken for an item, the first photo is shown as a **square hero photo** — a large cropped preview sized to fill the available width so details are easy to see at a glance. On iPad this fills the left column; on iPhone it appears at the top of the card. Below the hero is a row of smaller thumbnails for any additional photos, followed by **Camera** and **Library** buttons to add more. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
 
 You can add more photos to any item at any time, regardless of its status. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom. Tap **Done** when you're finished. New photos upload immediately and appear in the strip.
 
@@ -756,7 +758,15 @@ The timeout is configurable by an admin (default is 2 minutes). Setting it to 0 
 
 ### Role Switcher (Debug Only)
 
-During development, a hidden debug menu is available for switching between device roles without resetting the device. This only appears in debug/test builds — it won't be in the final app.
+The role switcher is a developer tool for switching between Front Counter, Tech Station, and Admin views without resetting the device. It only appears in debug/test builds — it won't be in the final app.
+
+**Enabling it:** Open the sidebar, scroll to the **Developer** section at the bottom, and tap the **Role Switcher** toggle. You'll be prompted to enter an admin PIN. Once confirmed, a small purple ladybug button appears in the bottom-left corner of every screen.
+
+**Using it:** Tap the ladybug button to expand a menu showing the three device roles. Tap any role to switch to it instantly. A checkmark shows whichever role is currently active.
+
+**Disabling it:** Flip the toggle back off in the sidebar — no PIN required to turn it off.
+
+The toggle state persists across launches, so you don't have to re-enter your PIN every time you open the app. Only the initial enable requires a PIN.
 
 ---
 
