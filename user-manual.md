@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-03 (Equipment Tags expanded — assign tag from item detail at any status for all roles; QR icon state indicator)
+**Last Updated:** 2026-04-03 (QR tag button moved to right column in Tech Station; "Tag Assigned" confirmation after scan)
 
 ---
 
@@ -321,7 +321,7 @@ On a draft, you can **tap the customer section** in the header to assign or chan
 
 You can also **tap any item card** to edit it. This opens an edit sheet where you can change the equipment type, service reasons, description, and any other fields. Tap **Save** when you're done — the changes save to the server immediately.
 
-If an item is still missing required fields (like Equipment Type or Reason for Service), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap anywhere on the card — or tap the button — to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
+If an item is still missing required fields (like Equipment Type or Reason for Service), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap the item header row or the orange button to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
 
 #### Adding More Items to a Draft
 
@@ -1124,10 +1124,15 @@ No more hunting through the queue for the right item. Scan the cylinder, start w
 
 ### The QR Icon — What It Means
 
-Every item card has a small QR icon in the top-right corner (Front Counter) or toolbar (Tech Station). Its appearance tells you at a glance whether a tag is assigned:
+Every item has a QR button that tells you at a glance whether a tag is assigned. Where to find it:
 
+- **Front Counter** — top-right corner of the item card header, next to the status badge.
+- **Tech Station** — right side of the equipment name row (e.g., next to "Cylinder"), in the item detail view. Look for **⊡ Add Tag** in gray.
+
+What the button looks like:
+
+- **Gray "⊡ Add Tag"** — no tag assigned yet. Tap it to open the camera and scan a sticker onto this item right now.
 - **Green QR icon** — a tag is assigned to this item. Tap it to see the full-size QR code for printing or sharing.
-- **Gray viewfinder icon** — no tag assigned yet. Tap it to open the camera and scan a sticker onto this item right now.
 
 You can assign a tag at any point in the workflow — Checked In, In Progress, Tested, even Closed. You don't have to start the job over or ask an admin.
 
@@ -1156,17 +1161,17 @@ If a tag wasn't scanned at check-in — or if the job was created before your sh
 2. Look for the **gray viewfinder icon** in the top-right corner of the item card. That means no tag is assigned yet.
 3. Tap it. The camera opens.
 4. Point the camera at the sticker on the equipment.
-5. The app links the tag and immediately shows you the QR code to confirm.
+5. The app links the tag and shows a **"Tag Assigned" confirmation** with a green checkmark and the QR code.
 
 Next time you open that item, the icon will be **green** — tag is assigned.
 
 **From the Tech Station:**
 
 1. Open the item from the queue.
-2. Look for the **gray viewfinder icon** in the toolbar (top right). Gray = no tag.
+2. Look for **⊡ Add Tag** in gray, on the right side of the equipment name row (e.g., next to "Cylinder" or "Pump").
 3. Tap it. The camera opens.
 4. Scan the sticker on the equipment sitting on your bench.
-5. The app saves the assignment and shows you the QR code.
+5. The app saves the assignment and shows a **"Tag Assigned" confirmation** with a green checkmark and the QR code.
 
 From that point on, the icon is green, and anyone can scan that sticker to navigate straight to this item.
 
