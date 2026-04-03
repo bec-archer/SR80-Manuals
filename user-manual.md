@@ -207,6 +207,7 @@ Each work order needs at least one item. For each item, fill in:
 - **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
 - **Description / Notes** — any additional details about the item
 - **No Warranty** toggle — if this item carries no warranty coverage (e.g., a repack on a customer-damaged cylinder), switch this on before saving. It's off by default. See "No Warranty Flag" below for more detail.
+- **Scan Tag** — if the equipment has a QR sticker on it, tap this to scan it and link the tag to this item. See "Equipment Tags (QR Codes)" below.
 
 #### Marking a Job as Warranty at Creation
 
@@ -234,6 +235,22 @@ You have two options:
 Photos appear as small thumbnails next to the buttons. To remove a photo before saving, tap the **X** on the thumbnail. Photos aren't uploaded until you tap "Create Work Order" or "Save as Draft" — you'll see a brief "Uploading..." indicator while they're sent to the server.
 
 There's no limit on photos per item. Take as many as you need.
+
+#### Equipment Tags (QR Codes)
+
+ShopTracker supports QR stickers that permanently identify a piece of equipment. Once tagged, anyone in the shop can scan that sticker with the app to jump straight to the item's detail view — no searching required.
+
+**Tagging a new piece of equipment at check-in:**
+
+1. Peel a sticker off the tag sheet and stick it on the equipment (somewhere visible and durable — not on a cap or fitting that gets removed during repair).
+2. In the new work order form, tap **Scan Tag** in the item section.
+3. The camera opens with a yellow scan frame. Point it at the sticker.
+4. The app reads the code and displays **"Tag Assigned"** with a green checkmark. The sticker is now linked to this item.
+5. Finish filling in the form and create the work order. The link is saved automatically.
+
+**What if it's equipment we've seen before?** If the sticker was already in the system from a previous visit, the app recognizes it and links the new item to the same equipment record. You'll see the existing equipment type pre-filled if the item type field is still empty.
+
+**Viewing a tag code on an existing item:** On any item detail card, tap the **QR code icon** (top-right of the item) to see that item's tag. From there you can tap the share button to AirDrop it to a label printer or save it as an image.
 
 #### Saving
 
@@ -553,6 +570,16 @@ The Tech Station has the same **search bar** and **filter button** as the Front 
 Active filters show as removable chips below the toolbar, same as the Front Counter. Tap **X** on a chip to remove it, or **Clear All** to reset everything.
 
 If nothing matches, you'll see "No Matching Items" instead of the grid.
+
+### Scanning a QR Tag (Tech Station)
+
+If a piece of equipment has a QR sticker on it, you can scan it to jump straight to that item — no hunting through the queue.
+
+Tap the **QR code scan icon** in the toolbar (top-right on iPad, in the action bar on iPhone). The camera opens with a yellow scan frame. Point it at the sticker and hold steady for a moment. The app looks up the item linked to that tag and navigates directly to its detail view with all your normal tech actions ready.
+
+If the tag isn't recognized ("No item found"), the sticker may not have been assigned during check-in. Let the front counter know so they can link it when the work order is created.
+
+You can also view a tag code from any item detail: tap the **QR icon** in the top-right corner of the item view to see the sticker's QR code displayed large. This is useful if you need to reprint a tag.
 
 ### Adding Photos from the Tech Station
 
