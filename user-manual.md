@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-03 (item sub-numbers now display correctly in YYYYMMDD-N-M format throughout)
+**Last Updated:** 2026-04-03 (Equipment Tags section added — QR sticker workflow, printing, assigning at check-in, scanning from queue)
 
 ---
 
@@ -238,19 +238,7 @@ There's no limit on photos per item. Take as many as you need.
 
 #### Equipment Tags (QR Codes)
 
-ShopTracker supports QR stickers that permanently identify a piece of equipment. Once tagged, anyone in the shop can scan that sticker with the app to jump straight to the item's detail view — no searching required.
-
-**Tagging a new piece of equipment at check-in:**
-
-1. Peel a sticker off the tag sheet and stick it on the equipment (somewhere visible and durable — not on a cap or fitting that gets removed during repair).
-2. In the new work order form, tap **Scan Tag** in the item section.
-3. The camera opens with a yellow scan frame. Point it at the sticker.
-4. The app reads the code and displays **"Tag Assigned"** with a green checkmark. The sticker is now linked to this item.
-5. Finish filling in the form and create the work order. The link is saved automatically.
-
-**What if it's equipment we've seen before?** If the sticker was already in the system from a previous visit, the app recognizes it and links the new item to the same equipment record. You'll see the existing equipment type pre-filled if the item type field is still empty.
-
-**Viewing a tag code on an existing item:** On any item detail card, tap the **QR code icon** (top-right of the item) to see that item's tag. From there you can tap the share button to AirDrop it to a label printer or save it as an image.
+If the equipment has a sticker tag, tap **Scan Tag** in the item form and point the camera at it. The app links the sticker to this item. For the full tags workflow — printing stickers, what to do with returning equipment, reprinting a damaged tag — see the **Equipment Tags** section near the end of this manual.
 
 #### Saving
 
@@ -573,13 +561,7 @@ If nothing matches, you'll see "No Matching Items" instead of the grid.
 
 ### Scanning a QR Tag (Tech Station)
 
-If a piece of equipment has a QR sticker on it, you can scan it to jump straight to that item — no hunting through the queue.
-
-Tap the **QR code scan icon** in the toolbar (top-right on iPad, in the action bar on iPhone). The camera opens with a yellow scan frame. Point it at the sticker and hold steady for a moment. The app looks up the item linked to that tag and navigates directly to its detail view with all your normal tech actions ready.
-
-If the tag isn't recognized ("No item found"), the sticker may not have been assigned during check-in. Let the front counter know so they can link it when the work order is created.
-
-You can also view a tag code from any item detail: tap the **QR icon** in the top-right corner of the item view to see the sticker's QR code displayed large. This is useful if you need to reprint a tag.
+Tap the **scan icon** in the toolbar, point the camera at the sticker on your bench equipment, and the app jumps straight to that item's detail view. Full details — including what to do if a scan fails or a sticker needs reprinting — are in the **Equipment Tags** section near the end of this manual.
 
 ### Adding Photos from the Tech Station
 
@@ -1076,6 +1058,86 @@ Auto-reports appear in the Bug Reports list with an **Auto** badge. They fire at
 When an auto-report fires, a brief amber banner appears at the top of the screen on admin devices. It shows a one-line summary of what happened. Tap it to go straight to Bug Reports, or wait 8 seconds and it dismisses on its own. If multiple alerts come in at once, they queue up and show one at a time.
 
 The **Bug Reports** link in Admin Settings shows a badge count of unread notifications. It clears when you open the Bug Reports view.
+
+---
+
+## Equipment Tags
+
+ShopTracker supports QR sticker tags that permanently identify a physical piece of equipment. Once a sticker is on a cylinder or pump and linked in the app, anyone in the shop can scan it to jump straight to that item's current job — no searching, no scrolling.
+
+Tags are stickers with a unique QR code printed on them. They don't mean anything until they're assigned to a piece of equipment in the app for the first time. After that, the sticker stays on the equipment forever, and the app always knows what it is.
+
+---
+
+### Getting Sticker Sheets
+
+Sticker sheets are printed ahead of time and kept at the front counter, ready to use when equipment comes in.
+
+To print a batch:
+
+1. Open the **QR Sticker Sheet** file (ask Bec for the link — it opens in any browser).
+2. Set the count if you want more or fewer than the default (42 per sheet).
+3. Click **Print** → set scale to 100% with no margins.
+4. Cut out the stickers along the dashed lines.
+
+Each sticker has a unique ID on it. The IDs are meaningless until assigned. You can print as many sheets as you want — unused stickers don't need to be tracked anywhere.
+
+**Tip on placement:** Stick the tag somewhere that won't be removed or covered during repair. The barrel of a cylinder works well. Avoid end caps, fittings, or anywhere that gets disassembled. The tag needs to survive the job and still be readable when the customer brings the equipment back years later.
+
+---
+
+### Assigning a Tag at Check-In (Front Counter)
+
+When a customer brings in equipment that doesn't already have a tag:
+
+1. Peel a sticker off the sheet and stick it on the equipment.
+2. Create the new work order as normal. In the item form, tap **Scan Tag**.
+3. The camera opens with a yellow scan frame — point it at the sticker.
+4. The app reads the code and shows **"Tag Assigned ✓"** in green. The sticker is now permanently linked to that piece of equipment.
+5. Finish filling in the rest of the item details and create the work order.
+
+The link is saved when you create the work order. If you save as a draft, the tag assignment is saved with the draft too.
+
+**Equipment you've seen before:** If the equipment already has a sticker from a previous visit, scan it during check-in the same way. The app recognizes it, links the new job to the same equipment record, and may pre-fill the equipment type if that field is still empty. A returning cylinder with a tag is faster to check in than one without.
+
+---
+
+### Scanning from the Job Board (Front Counter)
+
+You can scan a sticker at any time — not just during check-in — to jump to an item's current job.
+
+Tap the **scan icon** (QR viewfinder icon) in the toolbar on the Job Board. The camera opens. Scan the sticker. If the equipment has an active job, the app navigates straight to the item detail for that job.
+
+This is useful when a customer calls about a job and you want to pull it up quickly, or when a completed item is sitting on the shelf and you need to check its status.
+
+---
+
+### Scanning from the Work Queue (Tech Station)
+
+Tap the **scan icon** in the toolbar on the Tech Station queue screen. The camera opens with a yellow scan frame — point it at the sticker on the equipment sitting on the bench. The app looks up the item and navigates directly to its detail view with all your normal action buttons ready.
+
+No more hunting through the queue for the right item. Scan the cylinder, start working.
+
+**If the scan doesn't find anything:** The sticker may not have been assigned during check-in yet. Let the front counter know — they can scan it into the work order form. If the job was already created without scanning the tag, the front counter can add the tag assignment later by editing the item (pending a future update).
+
+---
+
+### Viewing and Reprinting a Tag
+
+On any item detail card — whether you're on the Front Counter or Tech Station — tap the **QR code icon** in the top-right corner of the item view. A large, clean QR code for that item's tag appears.
+
+From that screen, tap the **Share** button to:
+- AirDrop it to a Mac and print from Preview
+- Save it as an image to Photos
+- Send it via Messages or email
+
+This is useful for reprinting a tag if a sticker gets damaged or falls off.
+
+---
+
+### When There's No Tag
+
+Not every job will have a tag, especially early on. The app works completely normally without one — tags are a convenience, not a requirement. You'll only see the "Tag Assigned" indicator if a sticker was scanned at check-in.
 
 ---
 
