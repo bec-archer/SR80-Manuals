@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-03 (QR tag button moved to right column in Tech Station; "Tag Assigned" confirmation after scan)
+**Last Updated:** 2026-04-03 (per-item deletion on draft jobs)
 
 ---
 
@@ -247,6 +247,8 @@ The button in the top right changes based on what you've filled in:
 - **"Create Work Order"** — appears when all required fields are filled in (customer, equipment type, at least one reason for service). This creates the work order with a job number and makes it visible to the back shop.
 - **"Save as Draft"** — appears when required fields are still missing. This saves your progress so you can come back to it later. Drafts appear at the top of your Job Board with an orange badge but are NOT visible to the Tech Station.
 
+**Tapping Back mid-form:** If you tap the **Back** button before finishing the form, ShopTracker saves your progress as a draft — including any photos you've already taken — and returns you to the Job Board. If you opened the form and didn't fill in anything at all, it just closes without creating a draft.
+
 ### Viewing a Job (Job Detail)
 
 Tap any card on the Job Board to open the full job detail view. This shows everything about the work order in one place.
@@ -326,6 +328,16 @@ If an item is still missing required fields (like Equipment Type or Reason for S
 #### Adding More Items to a Draft
 
 Below the item cards on a draft, you'll see an **"+ Add Item"** button. Tap it to add another item to the work order — same form as when you created the original items (equipment type, service reasons, description, photos). The new item appears in the list immediately after you tap **Add**.
+
+#### Removing an Item from a Draft
+
+Changed your mind about one of the items? On each item card in a draft, you'll see a small red **"Remove Item"** link (with a trash icon) at the bottom right of the card. Tap it and a confirmation will appear asking if you're sure — tap **Remove Item** to confirm.
+
+The item and all its photos are permanently deleted. This can't be undone.
+
+**If the draft only has one item**, you'll see a different message: "This is the only item on this draft. To remove it, delete the entire draft instead." Tap **Delete Draft** to delete the whole thing, or **Cancel** to go back.
+
+This only works on drafts — once a work order is finalized, you can't remove items from it.
 
 #### Deleting a Draft
 
