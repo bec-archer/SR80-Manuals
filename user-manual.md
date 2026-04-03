@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-03 (Equipment Tags section added — QR sticker workflow, printing, assigning at check-in, scanning from queue)
+**Last Updated:** 2026-04-03 (Equipment Tags expanded — assign tag from item detail at any status for all roles; QR icon state indicator)
 
 ---
 
@@ -1118,13 +1118,24 @@ Tap the **scan icon** in the toolbar on the Tech Station queue screen. The camer
 
 No more hunting through the queue for the right item. Scan the cylinder, start working.
 
-**If the scan doesn't find anything:** The sticker may not have been assigned during check-in yet. Let the front counter know — they can scan it into the work order form. If the job was already created without scanning the tag, the front counter can add the tag assignment later by editing the item (pending a future update).
+**If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below.
+
+---
+
+### The QR Icon — What It Means
+
+Every item card has a small QR icon in the top-right corner (Front Counter) or toolbar (Tech Station). Its appearance tells you at a glance whether a tag is assigned:
+
+- **Green QR icon** — a tag is assigned to this item. Tap it to see the full-size QR code for printing or sharing.
+- **Gray viewfinder icon** — no tag assigned yet. Tap it to open the camera and scan a sticker onto this item right now.
+
+You can assign a tag at any point in the workflow — Checked In, In Progress, Tested, even Closed. You don't have to start the job over or ask an admin.
 
 ---
 
 ### Viewing and Reprinting a Tag
 
-On any item detail card — whether you're on the Front Counter or Tech Station — tap the **QR code icon** in the top-right corner of the item view. A large, clean QR code for that item's tag appears.
+Tap the **green QR icon** on any item that already has a tag assigned. A large, clean QR code appears.
 
 From that screen, tap the **Share** button to:
 - AirDrop it to a Mac and print from Preview
@@ -1135,9 +1146,37 @@ This is useful for reprinting a tag if a sticker gets damaged or falls off.
 
 ---
 
+### Assigning a Tag After Check-In
+
+If a tag wasn't scanned at check-in — or if the job was created before your shop started using stickers — you can assign one at any time without touching the original work order.
+
+**From the Front Counter:**
+
+1. Open the job and find the item card.
+2. Look for the **gray viewfinder icon** in the top-right corner of the item card. That means no tag is assigned yet.
+3. Tap it. The camera opens.
+4. Point the camera at the sticker on the equipment.
+5. The app links the tag and immediately shows you the QR code to confirm.
+
+Next time you open that item, the icon will be **green** — tag is assigned.
+
+**From the Tech Station:**
+
+1. Open the item from the queue.
+2. Look for the **gray viewfinder icon** in the toolbar (top right). Gray = no tag.
+3. Tap it. The camera opens.
+4. Scan the sticker on the equipment sitting on your bench.
+5. The app saves the assignment and shows you the QR code.
+
+From that point on, the icon is green, and anyone can scan that sticker to navigate straight to this item.
+
+**If the sticker is already used:** If you scan a sticker that's already assigned to equipment from the same customer, the app links it automatically. If it belongs to a different customer, you'll see a prompt asking if you want to reassign it — tap **Assign Here Anyway** only if you're sure it's the right sticker and the previous assignment was a mistake.
+
+---
+
 ### When There's No Tag
 
-Not every job will have a tag, especially early on. The app works completely normally without one — tags are a convenience, not a requirement. You'll only see the "Tag Assigned" indicator if a sticker was scanned at check-in.
+The app works completely normally without a tag — tags are a convenience, not a requirement. Jobs with no tag assigned show the **gray viewfinder icon** on their item cards as a reminder, but everything else (photos, notes, status flow, cost entry) works exactly the same.
 
 ---
 
