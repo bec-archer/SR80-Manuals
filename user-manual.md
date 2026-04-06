@@ -198,15 +198,17 @@ When you open the app on a Front Counter device, you'll see the **Job Board** �
 
 - **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile — slightly tilted, same as V1.
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
-- **Customer phone number** (tappable) and **name**
+- **Customer phone number** (tappable — tap to call or text) and **name**
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
 - **Job cost** — appears once at least one item has been priced. If all items have a cost entered, you'll see the full total (e.g., "$340.00") in clear, readable text. If some items are still being worked on and don't have a cost yet, you'll see an approximate total with "partial" next to it (e.g., "~$180.00 partial") in lighter text — this tells you the number isn't final yet. Tax is included in the total when tax is enabled in admin settings. Draft jobs and jobs with no cost entered yet don't show a cost line at all. Warranty jobs show "$0.00".
 
 Photos load in the background — you'll see the cards appear right away with placeholder tiles, and the actual photos fill in a moment later.
 
+**Calling or texting a customer:** Wherever you see a phone number in yellow underlined text — on a job card, in the job detail header, or on the Tech Station item header — tap it. A menu pops up with **Call**, **Message**, and **Cancel**. Tap Call to dial the number, or Message to open a text. This works on any device, any role.
+
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
-Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
+Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. Similarly, if an item has been marked as **Totaled** (unfixable), a dark **TOTALED** badge appears in the same spot, replacing the status dot. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Warranty items show a red **WARRANTY** badge below the status badge — you might see COMPLETE + WARRANTY or TOTALED + WARRANTY stacked together. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
 
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
@@ -243,9 +245,9 @@ If your search or filters don't match any jobs, you'll see a "No Matching Jobs" 
 
 ### Closed Jobs (Job History)
 
-At the bottom of the Job Board, you'll see a **Closed** section with a count of how many jobs are fully closed or totaled. This section is collapsed by default so it doesn't clutter the active board.
+At the bottom of the Job Board, you'll see a **Closed** section with a count of how many jobs are fully closed. This section is collapsed by default so it doesn't clutter the active board.
 
-Tap the **Closed** header to expand it. You'll see the same card grid as above, but for jobs that are done — all items either closed or totaled. The cards are slightly dimmed so they're easy to tell apart from active jobs.
+Tap the **Closed** header to expand it. You'll see the same card grid as above, but for jobs that are done — all items closed (including Totaled items that were closed via "Customer Contacted"). The cards are slightly dimmed so they're easy to tell apart from active jobs.
 
 Tap the header again to collapse the section back down.
 
@@ -332,7 +334,7 @@ Tap any card on the Job Board to open the full job detail view. This shows every
 At the top you'll see a **header card** with:
 
 - **DRAFT badge** (orange) or **job number** (e.g., 20260325-1)
-- **Customer name, phone number, and company** (if applicable)
+- **Customer name, phone number** (tappable — tap to call or text), **and company** (if applicable)
 - **Status dots** — one colored dot per item, same colors as the Job Board
 - **Item count** and **creation date/time**
 
@@ -453,7 +455,7 @@ While the item is in **Checked In** status, you'll see a small **pencil icon** o
 
 Once a tech grabs the item (moves it to In Progress), the intake fields lock. The pencil icon disappears and tapping the card no longer opens the editor. This prevents accidental changes to information the tech is already working from.
 
-**Photos and notes are never locked.** You can add photos and notes to any item at any status (except Totaled), even after the intake fields are locked.
+**Photos and notes are never locked.** You can add photos and notes to any item at any status, even after the intake fields are locked.
 
 **Admin override:** If an admin needs to correct intake fields on an item that's already In Progress or beyond, they can elevate admin access on the device (enter their PIN), and the edit option becomes available again regardless of status.
 
@@ -536,6 +538,48 @@ When the customer comes back for the rest, you'll see the Close Job card at the 
 #### After Closing
 
 Once the last item on a job is closed, the view automatically takes you back to the Job Board. The job moves from the active grid to the **Closed** section at the bottom (collapsed by default — tap the header to expand it).
+
+#### Totaled Items — "Customer Contacted"
+
+Totaled items follow a different close path than normal items. They don't go through Complete — instead, they sit on the board with a **TOTALED** banner until you contact the customer.
+
+When you open a job with a Totaled item, you'll see:
+
+- The item's cost (if the tech entered a diagnostic charge) displayed in the repair summary — reference this when speaking to the customer
+- A green **"Customer Contacted"** button below the item card
+
+**To close a Totaled item:**
+
+1. Call or contact the customer about the unfixable item
+2. Open the job and find the Totaled item
+3. Tap **Customer Contacted**
+4. Select what happened from the list:
+   - "Left voicemail"
+   - "Customer coming in"
+   - "Scheduled pickup"
+   - "No answer — will try again"
+   - "Other"
+5. Optionally add a note with extra details
+6. Tap **Confirm**
+
+The item moves to Closed. A timestamp and your selected outcome are logged for the audit trail.
+
+**Important:** "Customer Contacted" requires an internet connection. If the app is offline, you'll see an error — try again once you're back online.
+
+**Note:** The Close Job card at the top of the job detail only shows Complete items — Totaled items handle their own close through "Customer Contacted." A job is fully closed when ALL items are closed, whether they got there through the normal Complete → Close path or the Totaled → Customer Contacted → Close path.
+
+[screenshot: Customer Contacted sheet with outcome picker and note field]
+
+#### Marking Items as Totaled (Front Counter)
+
+You can mark items as Totaled directly from the Front Counter — you don't have to wait for a tech. This is useful when an item is visibly unfixable at intake (severely bent rod, cracked housing, etc.).
+
+1. Open the job detail
+2. Find the item you want to mark
+3. Tap the **Totaled** button (available on items that are Checked In, In Progress, or Tested)
+4. Confirm
+
+The item gets a black TOTALED banner on the job card and enters the "Awaiting Customer" state.
 
 #### Warranty Check-In
 
@@ -637,7 +681,7 @@ Each card shows:
 - **Item photo** — the top half of every card is a large square photo of the equipment. The photo has a colored **status dot** in the top-right corner and an **equipment type label** in the bottom-right corner, same as the Front Counter cards. If no photo has been taken yet, you'll see a gray placeholder.
 - **Status label** — text below the photo showing the item's current stage (e.g., "Checked In", "In Progress", "Ready for Test")
 - **Equipment type** (e.g., Cylinder, Pump, Hose)
-- **Customer name** and **job number**
+- **Customer name**, **phone number** (tappable — tap to call or text), and **job number**
 - **Assigned tech's name** — if someone has grabbed it
 - **READY badge** — orange badge on items where repair is done and it's waiting on testing
 
@@ -848,7 +892,7 @@ After testing, the item needs a cost before it can go back to the front counter:
 6. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
 7. The item moves to **Complete** (green) and appears on the front counter for customer pickup
 
-For totaled items with $0 cost, the manager approval step is skipped automatically.
+For items with $0 cost, the manager approval step is skipped automatically.
 
 *(Parts + Labor mode and Sales Tax are turned on and off by an admin in Admin Settings → Shop Settings.)*
 
@@ -858,8 +902,11 @@ If an item is unfixable:
 
 1. Open the item
 2. Tap the **Totaled** button (black in light mode, white in dark mode)
-3. Confirm — you'll see a **"Totaled"** confirmation and the app takes you back to the queue
-4. If there's a diagnostic cost, enter it through the normal cost flow. If not, enter $0 and it moves straight to Complete.
+3. Confirm — the item is now marked Totaled and shows a black TOTALED banner on the job card
+
+**Adding a diagnostic cost (optional):** After marking an item Totaled, you'll see an **"Add Cost"** button. Tap it to enter the diagnostic cost — the same cost entry form you use for normal items. If the cost is more than $0, you'll see the manager approval prompt. If there's no charge, you can skip this entirely — cost entry is not required.
+
+The item stays in Totaled status after cost entry (it does NOT move to Complete). The Front Counter handles closing Totaled items through the "Customer Contacted" flow.
 
 ### About the Action Buttons
 
