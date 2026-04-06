@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-06 (add new customer from Customers sidebar + auto-capitalization)
+**Last Updated:** 2026-04-06 (customer contacts — multiple contacts per customer)
 
 ---
 
@@ -279,6 +279,7 @@ If the customer isn't in the system yet, tap **+ Add New Customer** to create on
 - **Phone** (required, 10 digits) — formats automatically as you type. If the phone number is already on file for another customer, you'll be warned and can choose to use the existing customer instead
 - **Email** (optional)
 - **Tax Exempt** toggle
+- **Add a Contact** (optional) — tap to expand and add a contact person (name, phone, email, role). Useful for commercial accounts where someone other than the customer will be the point of contact. You can add more contacts later from the customer detail screen.
 
 #### Adding Items
 
@@ -337,7 +338,8 @@ Tap any card on the Job Board to open the full job detail view. This shows every
 At the top you'll see a **header card** with:
 
 - **DRAFT badge** (orange) or **job number** (e.g., 20260325-1)
-- **Customer name, phone number** (tappable — tap to call or text), **and company** (if applicable)
+- **Customer name, phone number** (tappable — tap to call or text), **and company** (if applicable). A small **pencil icon** next to the customer name lets you edit the customer directly (opens the edit form with contacts).
+- **Additional contacts** — if the customer has contacts on file, they appear below the main customer info in smaller text, showing each contact's name, role, and tappable phone number
 - **Status dots** — one colored dot per item, same colors as the Job Board
 - **Item count** and **creation date/time**
 
@@ -409,6 +411,7 @@ Each event in the timeline shows a timestamp and looks like this:
 - **Round N: [repairs]** — the issue checklist items the tech checked off (e.g., "Seal, O-ring"). If the item went through multiple repair rounds after a failed test, each round appears separately in order.
 - **Passed / Failed — [tester name]** — every test attempt is shown, not just the most recent. So if an item failed its first test and passed its second, you'll see both entries with their times.
 - **Oil: Clean / Dirty — [performer]** — if an oil sample was taken
+- **Customer Contacted — [outcome]** — on Totaled items that were closed via the "Customer Contacted" flow, shows the contact outcome (e.g., "Left voicemail", "Customer coming in") and when it happened. Only appears on items that went through the Totaled path.
 
 If a cost has been recorded, a **cost summary** appears below the timeline showing the total. If parts and labor were entered separately, it shows a breakdown (Parts / Labor / Tax / Total). A green **"Approved"** badge or orange **"Pending Approval"** badge shows the manager approval status.
 
@@ -558,7 +561,8 @@ When you open a job with a Totaled item, you'll see:
 1. Call or contact the customer about the unfixable item
 2. Open the job and find the Totaled item
 3. Tap **Customer Contacted**
-4. Select what happened from the list:
+4. If the customer has additional contacts on file, you'll see a **"Who did you reach?"** picker at the top — select the customer themselves or a specific contact. If there are no contacts, this picker is hidden and you go straight to the outcome.
+5. Select what happened from the list:
    - "Left voicemail"
    - "Customer coming in"
    - "Scheduled pickup"
@@ -567,7 +571,7 @@ When you open a job with a Totaled item, you'll see:
 5. Optionally add a note with extra details
 6. Tap **Confirm**
 
-The item moves to Closed. A timestamp and your selected outcome are logged for the audit trail.
+The item moves to Closed. A timestamp and your selected outcome are logged for the audit trail and appear in the item's **Repair History** timeline — so anyone reviewing the closed job later can see when the customer was contacted and what the outcome was.
 
 **Important:** "Customer Contacted" requires an internet connection. If the app is offline, you'll see an error — try again once you're back online.
 
@@ -649,7 +653,28 @@ Tap any customer in the list to see their detail screen. At the top is a card wi
 
 If a customer is tax exempt and has a certificate on file, you'll see a blue **View Certificate** link next to the orange "Tax Exempt" badge. Tap it to open the certificate image.
 
-Below that, you'll see all of that customer's jobs split into two sections:
+#### Contacts
+
+Below the customer info card is a **Contacts** section. This is where you manage additional contacts for a customer — the shop manager, the owner, a driver, whoever else you might need to reach.
+
+Each contact shows their name, role (if set), phone number (tappable — tap to call or text), and email (tappable — opens a new email). Primary contacts have a star next to their name.
+
+**Adding a contact:** Tap the **Add** button (+ icon) next to the "Contacts" heading. Fill in:
+- **Name** (required)
+- **Phone** or **Email** (at least one required)
+- **Role** — type freely or tap a quick-pick chip: Owner, Manager, Driver, Spouse, Accounts Payable, Other
+- **Notes** — optional context like "Call after 5pm"
+- **Primary Contact** toggle — marks this person as the main point of contact (star icon)
+
+If you toggle Primary on and there's already a primary contact, the app asks to confirm the switch.
+
+**Editing a contact:** Tap any contact row to open the edit form with the same fields.
+
+**Deleting a contact:** Swipe left on a contact row and tap **Delete**. You'll be asked to confirm.
+
+[screenshot: Customer detail with contacts section showing two contacts]
+
+Below the contacts section, you'll see all of that customer's jobs split into two sections:
 
 **Active Jobs** — any jobs that are still being worked on, shown as full cards with photos (same cards as the Job Board). If the customer has no active jobs, this section doesn't appear.
 
@@ -666,12 +691,15 @@ Tap **Edit** in the top-right corner of any customer's detail screen to open the
 - **Name** and **Company** — with the same smart swap button as the new customer form
 - **Phone** and **Email**
 - **Tax Exempt** toggle — turn on or off as needed
+- **Contacts** — the same contacts list appears here. Add, edit, or delete contacts without leaving the edit form.
 
 **Uploading a tax exemption certificate:** When Tax Exempt is toggled on, you'll see a certificate section. Tap **Upload Certificate** to choose a photo from your library. A preview appears once selected — tap the **×** to remove it if you picked the wrong one. The certificate uploads automatically when you tap **Save**. If a certificate is already on file, you'll see "Certificate on file" with a **Replace** option to swap it out.
 
 **Toggling off Tax Exempt** automatically removes the certificate link from the customer's record.
 
 Tap **Save** to apply your changes. Tap **Cancel** to discard them.
+
+**Quick edit from Job Detail:** You can also edit a customer directly from a job's detail view — tap the **pencil icon** next to the customer name in the header card. This opens the same edit form, including the contacts section. Handy when you need to add a contact without navigating to the Customers list.
 
 ---
 
@@ -879,6 +907,7 @@ The timeline includes:
 - **Repair rounds** — each round's completed checklist items (Wiper, Seal, etc.). If the item failed a test and went back for another round, you'll see "Round 1: ..." and "Round 2: ..." entries separately, so the history of what was done in each round is always clear
 - **Test results** — PASSED or FAILED with who tested it and when
 - **Oil samples** — Clean or Dirty, who performed it, when, and any notes
+- **Customer Contacted** — on Totaled items, shows the contact outcome and timestamp after the "Customer Contacted" action was submitted
 - **Cost** — total price with parts/labor/tax breakdown if applicable, plus manager approval status
 
 This card only appears when there's something to show — brand-new items that haven't been touched yet won't have it.
@@ -1276,7 +1305,7 @@ To print a batch:
 3. Click **Print** → set scale to 100% with no margins.
 4. Cut out the stickers along the dashed lines.
 
-Each sticker has a unique ID on it. The IDs are meaningless until assigned. You can print as many sheets as you want — unused stickers don't need to be tracked anywhere.
+Each sticker has a unique code on it (looks like **SR-A3KX7N**). The codes are meaningless until assigned. You can print as many sheets as you want — unused stickers don't need to be tracked anywhere.
 
 **Tip on placement:** Stick the tag somewhere that won't be removed or covered during repair. The barrel of a cylinder works well. Avoid end caps, fittings, or anywhere that gets disassembled. The tag needs to survive the job and still be readable when the customer brings the equipment back years later.
 
@@ -1302,11 +1331,11 @@ The link is saved when you create the work order. If you save as a draft, the ta
 
 You can scan a sticker at any time — not just during check-in — to jump to an item's current job.
 
-Tap the **scan icon** (QR viewfinder icon) in the toolbar on the Job Board. The camera opens. Scan the sticker. If the equipment has an active job, the app navigates straight to the item detail for that job.
+Tap the **scan icon** (QR viewfinder icon) in the toolbar on the Job Board. The camera opens. Scan the sticker.
 
-This is useful when a customer calls about a job and you want to pull it up quickly, or when a completed item is sitting on the shelf and you need to check its status.
-
-If the item was totaled or closed, the app still navigates to it with a heads-up alert. If the tag was replaced (retired), you'll see which item it used to be linked to.
+- **Active job exists** — the app navigates straight to the item detail for that job. Useful when a customer calls and you want to pull it up quickly, or when a completed item is on the shelf and you need to check its status.
+- **No active job** (item was closed or picked up) — the app asks **"Create a new job for this item?"** and shows the customer name and equipment type. Tap **Create Job** to open a new work order with the customer and equipment type already filled in and the tag already linked. This is the fastest way to check in a repeat customer — scan the sticker, confirm, and you're already halfway through intake.
+- **Retired tag** — you'll see which item it used to be linked to.
 
 ---
 
@@ -1316,7 +1345,7 @@ Tap the **scan icon** in the toolbar on the Tech Station queue screen. The camer
 
 No more hunting through the queue for the right item. Scan the cylinder, start working.
 
-**If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below. If the tag was retired or the item was totaled/closed, the app will tell you — see "Scanning Old / Retired Tags" and "Scanning Tags on Totaled or Closed Items" below.
+**If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below. If the tag was retired, the app will tell you — see "Scanning Old / Retired Tags" below. If the equipment has no active job (closed or totaled), you'll see "No active item found" — creating new jobs is a Front Counter task. If you accidentally scan a shipping label or other non-shop QR code, you'll see **"Not an SR-80 tag"** — the app knows it's not one of ours because shop tags always start with "SR-".
 
 ---
 
@@ -1413,9 +1442,9 @@ Tap **View Item** to navigate to the item it used to be on — useful for tracki
 
 ---
 
-### Scanning Tags on Totaled or Closed Items
+### Scanning Tags on Closed or Totaled Items
 
-If you scan a sticker and the linked item has been totaled or closed, the app still navigates to that item's job detail view. You'll see a **"Heads Up"** alert letting you know the item has been totaled (or closed). This way you can still see the item's history even though it's no longer active.
+If you scan a sticker and the linked item has been closed (picked up) or totaled, the app offers to create a new job for that equipment — see "Scanning from the Job Board" above. The customer and equipment type are pre-filled so you can get straight to intake.
 
 ---
 
