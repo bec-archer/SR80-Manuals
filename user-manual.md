@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-03 (per-item deletion on draft jobs)
+**Last Updated:** 2026-04-06 (add new customer from Customers sidebar + auto-capitalization)
 
 ---
 
@@ -71,6 +71,9 @@
   - [The QR Icon — What It Means](#the-qr-icon-what-it-means)
   - [Viewing and Reprinting a Tag](#viewing-and-reprinting-a-tag)
   - [Assigning a Tag After Check-In](#assigning-a-tag-after-check-in)
+  - [Replacing a Tag](#replacing-a-tag)
+  - [Scanning Old / Retired Tags](#scanning-old--retired-tags)
+  - [Scanning Tags on Totaled or Closed Items](#scanning-tags-on-totaled-or-closed-items)
   - [When There's No Tag](#when-theres-no-tag)
 - [Reference & Troubleshooting](#reference-troubleshooting)
   - [Troubleshooting](#troubleshooting)
@@ -322,7 +325,7 @@ If the equipment has a sticker tag, tap **Scan Tag** in the item form and point 
 
 The button in the top right changes based on what you've filled in:
 
-- **"Create Work Order"** — appears when all required fields are filled in (customer, equipment type, at least one reason for service). This creates the work order with a job number and makes it visible to the back shop.
+- **"Create Work Order"** — appears when all required fields are filled in. Which fields are required depends on your admin settings (see [Required Fields](#required-fields)), but by default it's customer and equipment type. If photos, description, or other fields are set to required, those must be filled in too. This creates the work order with a job number and makes it visible to the back shop.
 - **"Save as Draft"** — appears when required fields are still missing. This saves your progress so you can come back to it later. Drafts appear at the top of your Job Board with an orange badge but are NOT visible to the Tech Station.
 
 **Tapping Back mid-form:** If you tap the **Back** button before finishing the form, ShopTracker saves your progress as a draft — including any photos you've already taken — and returns you to the Job Board. If you opened the form and didn't fill in anything at all, it just closes without creating a draft.
@@ -423,7 +426,7 @@ On a draft, you can **tap the customer section** in the header to assign or chan
 
 You can also **tap any item card** to edit it. This opens an edit sheet where you can change the equipment type, service reasons, description, and any other fields. Tap **Save** when you're done — the changes save to the server immediately.
 
-If an item is still missing required fields (like Equipment Type or Reason for Service), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap the item header row or the orange button to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
+If an item is still missing required fields (like Equipment Type, Reason for Service, Photos, or any other field your admin has set to required), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap the item header row or the orange button to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
 
 #### Adding More Items to a Draft
 
@@ -494,7 +497,7 @@ This works the same way as editing a draft — the customer picker sheet is iden
 
 ### Finalizing a Draft
 
-Once all required fields are filled in on a draft, the **Finalize** button in the top right corner becomes active.
+Once all required fields are filled in on a draft, the **Finalize** button in the top right corner becomes active. The same required field rules apply here as when creating a new job — if your admin has Photos, Description, or any other field set to required, those must be filled in on every item before you can finalize.
 
 Tap **Finalize** to convert the draft into a real work order. The app will:
 
@@ -635,6 +638,8 @@ Open the sidebar and tap **Customers** to see the customer list. Every customer 
 Customers marked as **Tax Exempt** have an orange badge next to their name.
 
 **Searching:** Type in the search bar at the top to filter by name, company, or phone number. The list filters as you type. Tap the **X** to clear the search.
+
+**Adding a new customer:** On Front Counter and Admin devices, a **+** button appears in the top-right corner. Tap it to open the new customer form — same form used during job creation (name, phone, company, email, tax exempt). The new customer appears at the top of the list as soon as you save. This is useful for pre-registering customers or adding walk-ins who aren't ready to check in yet.
 
 Pull down to refresh the list.
 
@@ -1050,7 +1055,7 @@ Required fields block job creation until they're filled in. Toggle each field on
 - **Machine Brand** — only visible when the Machine Brand field is turned on
 - **Color** — only visible when the Color field is turned on
 
-If a required field is missing when Maria tries to create a job, the form won't let her save and the missing field gets highlighted.
+If a required field is missing when Maria tries to create a job, the button stays on "Save as Draft" instead of "Create Work Order." The same enforcement applies when finalizing an existing draft — the Finalize button stays disabled until all required fields are filled in on every item. On drafts, items missing required fields are highlighted with an orange background and a "Complete Item Info" banner.
 
 ### Manage Lists
 
@@ -1158,7 +1163,41 @@ This goes through the same manager approval prompt as the original cost entry. T
 
 ### Reports
 
-Coming soon.
+**Getting there:** Tap **Reports** in the sidebar, or open Admin Settings and tap **Reports** under the "Shop" section.
+
+Reports are admin-only. They pull live data from Supabase every time you open them — there's no offline mode for reports.
+
+#### Picking a Date Range
+
+At the top of the screen, pick a time period for the report:
+
+- **Today** — midnight to now
+- **This Week** — Monday to now
+- **This Month** — first of the month to now
+- **Month** — pick any month/year from a date picker (full calendar month)
+- **Custom** — set a From and To date manually
+
+All dates use Eastern Time. Changing the date range automatically refreshes the current report.
+
+#### Choosing a Report
+
+Below the date range, tap the **Report** dropdown to switch between:
+
+1. **Revenue Summary** — Grand total, warranty item count, taxable vs non-taxable breakdown, tax collected, and parts vs labor split (if that setting is enabled in Shop Settings). Also shows total job and item counts for the period.
+2. **Jobs Completed** — Every job where all items were closed in the selected period. Shows job number, customer name, date closed, item count, and total cost. Most recent first.
+3. **Jobs Per Tech** — How many items each tech worked on and how many distinct jobs they touched. Based on when repair started, not when it finished.
+4. **Repair Time Per Tech** — Average and total repair time for each tech. Only counts items where the tech started AND finished the repair. Displayed as hours and minutes.
+5. **Parts vs. Labor** — Total parts cost, total labor cost, and grand total. Only available if the parts/labor split is turned on in Shop Settings — otherwise you'll see a message telling you to enable it.
+6. **Warranty Summary** — Count of warranty jobs and items vs non-warranty jobs in the same period. Warranty work is always $0 but the volume is tracked.
+7. **Repeat Customers** — Customers who've had more than one job, with at least one completed in the selected period. Shows lifetime job count, jobs in the selected range, and total lifetime spend. Sorted by most jobs first.
+
+#### Exporting to CSV
+
+Each report has an **Export CSV** button at the bottom. Tap it to open the standard iOS share sheet — from there you can AirDrop the file, save it to Files, email it, or send it anywhere else iOS lets you share.
+
+The file is named descriptively (e.g., `revenue-summary-2026-03-06-to-2026-04-06.csv`) and opens in Excel, Google Sheets, Numbers, or any spreadsheet app.
+
+[screenshot: Reports screen showing Revenue Summary with date range selector and export button]
 
 ### Resetting a Device
 
@@ -1267,6 +1306,8 @@ Tap the **scan icon** (QR viewfinder icon) in the toolbar on the Job Board. The 
 
 This is useful when a customer calls about a job and you want to pull it up quickly, or when a completed item is sitting on the shelf and you need to check its status.
 
+If the item was totaled or closed, the app still navigates to it with a heads-up alert. If the tag was replaced (retired), you'll see which item it used to be linked to.
+
 ---
 
 ### Scanning from the Work Queue (Tech Station)
@@ -1275,7 +1316,7 @@ Tap the **scan icon** in the toolbar on the Tech Station queue screen. The camer
 
 No more hunting through the queue for the right item. Scan the cylinder, start working.
 
-**If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below.
+**If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below. If the tag was retired or the item was totaled/closed, the app will tell you — see "Scanning Old / Retired Tags" and "Scanning Tags on Totaled or Closed Items" below.
 
 ---
 
@@ -1332,7 +1373,49 @@ Next time you open that item, the icon will be **green** — tag is assigned.
 
 From that point on, the icon is green, and anyone can scan that sticker to navigate straight to this item.
 
-**If the sticker is already used:** If you scan a sticker that's already assigned to equipment from the same customer, the app links it automatically. If it belongs to a different customer, you'll see a prompt asking if you want to reassign it — tap **Assign Here Anyway** only if you're sure it's the right sticker and the previous assignment was a mistake.
+**If the sticker is already used:** If you scan a sticker that's already assigned to another piece of equipment, the app will block the assignment and tell you which equipment and customer it belongs to. You'll need to scan a different sticker. To free up a used sticker, go to the item it's currently assigned to and use **Replace Tag** (see below).
+
+---
+
+### Replacing a Tag
+
+If a sticker gets damaged, lost, or you need to move a sticker to a different piece of equipment, you can replace the tag on any item that already has one assigned.
+
+1. Open the item (from the Job Board or Tech Station queue).
+2. Scroll to the bottom of the item card. You'll see a small **🔄 Replace Tag** link in gray text.
+3. Tap it. The camera opens.
+4. Scan the **new** sticker you want to assign.
+5. A confirmation dialog appears: **"Replace this item's tag?"** — explaining that the current tag will be deactivated.
+6. Tap **Replace Tag** to confirm.
+
+The old sticker is now retired. The new sticker is active. If anyone scans the old sticker later, they'll see a message that it was retired and which item it used to be linked to.
+
+**What can go wrong:**
+
+- **New sticker is already assigned to something else** — the app blocks it and tells you what it's assigned to. Scan a different sticker.
+- **You accidentally scan the same sticker** — the app tells you it's already the tag on this item. No changes made.
+
+**Replace Tag** is available to all roles (Front Counter, Tech Station, Admin) and at any item status.
+
+[screenshot: Replace Tag button at bottom of item card]
+
+---
+
+### Scanning Old / Retired Tags
+
+If you scan a sticker that was replaced (retired), the app shows a popup:
+
+> **"This tag has been retired."**
+> It was previously linked to Item [item number].
+> [View Item] [Dismiss]
+
+Tap **View Item** to navigate to the item it used to be on — useful for tracking down equipment history.
+
+---
+
+### Scanning Tags on Totaled or Closed Items
+
+If you scan a sticker and the linked item has been totaled or closed, the app still navigates to that item's job detail view. You'll see a **"Heads Up"** alert letting you know the item has been totaled (or closed). This way you can still see the item's history even though it's no longer active.
 
 ---
 
