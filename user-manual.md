@@ -340,7 +340,9 @@ At the top you'll see a **header card** with:
 
 Draft jobs have a warm amber-tinted header, just like on the Job Board.
 
-Below the header, each **item** gets its own card showing:
+Below the header, each **item** gets its own card. On jobs with multiple items, **items that are ready for action float to the top automatically** — Complete items appear first (ready for customer pickup and payment), then Totaled items (awaiting customer contact), then everything else in their normal order. This means you always see what needs your attention first, without scrolling past items that are still being worked on.
+
+Each item card shows:
 
 - **Item reference number** and **status** (with a colored badge like "Checked In" in blue, "In Progress" in yellow, etc.) — each item shows its full reference in `YYYYMMDD-N-M` format (e.g., `20260403-1-2` means job 20260403-1, second item). Single-item jobs still show just the job number.
 - **Equipment Type** — what the item is
@@ -357,7 +359,7 @@ On jobs with multiple items, the detail view can get long. Each item card has a 
 
 This is handy when you're done reviewing one item and want to get to the next without scrolling past a wall of photos and notes.
 
-**Smart auto-collapse:** On jobs with 3 or more items, any items that are already **Closed** or **Totaled** will automatically collapse when you open the job. Active items stay expanded so you see what matters first. You can always expand a closed item by tapping its chevron if you need to review it.
+**Smart auto-collapse:** On jobs with 3 or more items, any items that are already **Closed** will automatically collapse when you open the job. Totaled and active items stay expanded so you can see and act on them immediately. You can always expand a closed item by tapping its chevron if you need to review it.
 
 **Collapse All / Expand All:** On jobs with 3+ items, you'll see a small **"Collapse All"** or **"Expand All"** link in accent color (yellow) above the item list. Tap it to collapse or expand everything at once — useful when you just want to scan the status of each item without the full detail.
 
