@@ -98,6 +98,8 @@ At the bottom of the sidebar, under **This Device**, there's a **Display Size** 
 
 Every device can be set to a comfortable text size, independently of every other iPad in the shop. If the front counter iPad is farther from your eyes, or you just prefer bigger text, you can bump it up without affecting the back-shop screen.
 
+New devices start at **Extra Large** text with **Bold Text** turned on — these defaults are designed for shop-floor readability at arm's length. You can change them anytime using the steps below.
+
 **To change the display size:**
 
 1. Open the sidebar (swipe from the left, or tap the back arrow in the top-left)
@@ -206,9 +208,9 @@ Each work order needs at least one item. For each item, fill in:
 
 - **Equipment Type** — what the item is (Cylinder, Pump, Hose, or Other)
 - **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
-- **Description / Notes** — any additional details about the item
 - **No Warranty** toggle — if this item carries no warranty coverage (e.g., a repack on a customer-damaged cylinder), switch this on before saving. It's off by default. See "No Warranty Flag" below for more detail.
 - **Scan Tag** — if the equipment has a QR sticker on it, tap this to scan it and link the tag to this item. See "Equipment Tags (QR Codes)" below.
+- **Description / Notes** — any additional details about the item (at the bottom of the item card, below photos and reasons)
 
 #### Marking a Job as Warranty at Creation
 
@@ -226,7 +228,7 @@ To remove an item, tap the trash icon next to its header. You can't remove the l
 
 #### Taking Photos During Intake
 
-Each item has a **Photos** section at the bottom of the form. This is a great time to photograph the equipment as it comes in — document any existing damage, serial numbers, or anything else worth capturing before the tech starts work.
+Each item has a **Photos** section at the top of the item card, above the other fields. This is a great time to photograph the equipment as it comes in — document any existing damage, serial numbers, or anything else worth capturing before the tech starts work.
 
 You have two options:
 
@@ -273,6 +275,18 @@ Below the header, each **item** gets its own card showing:
 - **Assigned tech** — if a tech has grabbed the item, you'll see their name (e.g., "Assigned to Carlos")
 
 On iPad, each item card uses a **two-column layout**: the left side holds the photos, and the right side holds the equipment details, notes, and repair history. On iPhone everything stacks single-column in the same order.
+
+#### Collapsing and Expanding Items
+
+On jobs with multiple items, the detail view can get long. Each item card has a small **chevron** (▼/▲) at the right end of its header row. Tap the chevron to collapse that item down to just its header — you'll still see the status dot, item reference number, and status badge, but all the photos, details, and action buttons are hidden. Tap the chevron again to expand it back.
+
+This is handy when you're done reviewing one item and want to get to the next without scrolling past a wall of photos and notes.
+
+**Smart auto-collapse:** On jobs with 3 or more items, any items that are already **Closed** or **Totaled** will automatically collapse when you open the job. Active items stay expanded so you see what matters first. You can always expand a closed item by tapping its chevron if you need to review it.
+
+**Collapse All / Expand All:** On jobs with 3+ items, you'll see a small **"Collapse All"** or **"Expand All"** link in accent color (yellow) above the item list. Tap it to collapse or expand everything at once — useful when you just want to scan the status of each item without the full detail.
+
+Collapse state resets every time you open a job, so you always start fresh.
 
 If photos have been taken for an item, the first photo is shown as a **square hero photo** — a large cropped preview sized to fill the available width so details are easy to see at a glance. On iPad this fills the left column; on iPhone it appears at the top of the card. Below the hero is a row of smaller thumbnails for any additional photos, followed by **Camera** and **Library** buttons to add more. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
 
