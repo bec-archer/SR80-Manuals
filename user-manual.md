@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-06 (customer contacts — multiple contacts per customer)
+**Last Updated:** 2026-04-07 (name detection fix + job card name display)
 
 ---
 
@@ -282,6 +282,8 @@ If you type a company name that doesn't match any existing company, that's fine 
 - A row of customer name chips appears below the Customer field (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
 - If the company is **tax exempt**, you'll see a green indicator: "Tax exempt (via ABC Construction)" below the customer section. The tax status comes from the company automatically.
 
+**Customer fills in the company automatically:** If you select a customer who's already linked to a company (or create a new customer with a company name), the Company field on the main form will auto-fill. You don't need to type it twice — the app connects the dots for you.
+
 **Walk-ins:** If the customer is an individual (not from a company), just skip the Company field entirely. It's optional — leaving it blank works exactly like before.
 
 **Company-only jobs:** If you know the company but don't have an individual contact name, that's fine — just fill in the Company field and skip the Customer field. The work order will be linked to the company without requiring a customer contact. You can always add a customer later by editing the job.
@@ -292,7 +294,7 @@ Below the Company field, start typing a customer's name or phone number. Matchin
 
 If the customer isn't in the system yet, tap **+ Add New Customer** to create one. The new customer form includes:
 
-- **Name** — if you type a business name (ending in Inc, LLC, Corp, etc.), the app will automatically move it to the Company field. You can leave this blank if you have a company name instead — at least one of Name or Company is required.
+- **Name** — if you type a multi-word business name ending in a suffix like Inc, LLC, Corp, Co., or Ltd (e.g. "Smith Co."), the app will automatically move it to the Company field when you tap into the next field. It won't trigger on bare "Co" without a period, so names like "Collins" or "Cooper" won't get swiped. Each word auto-capitalizes as you type. You can leave this blank if you have a company name instead — at least one of Name or Company is required.
 - **Company** — pre-filled if you already selected a company on the main form. Use the **Swap** button if the name/company got put in the wrong field. You can leave this blank if you have a customer name instead — at least one of Name or Company is required.
 - **Phone** (required, 10 digits) — formats automatically as you type. If the phone number is already on file for another customer, you'll be warned and can choose to use the existing customer instead
 - **Email** (optional)
