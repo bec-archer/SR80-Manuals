@@ -31,6 +31,10 @@
   - [Customer List](#customer-list)
   - [Customer Detail](#customer-detail)
   - [Editing a Customer](#editing-a-customer)
+- [Companies](#companies)
+  - [Company List](#company-list)
+  - [Company Detail](#company-detail)
+  - [How Companies Work](#how-companies-work)
 - [Tech Station](#tech-station)
   - [Repair Queue](#repair-queue)
   - [Searching and Filtering the Queue](#searching-and-filtering-the-queue)
@@ -201,7 +205,7 @@ When you open the app on a Front Counter device, you'll see the **Job Board** �
 
 - **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile — slightly tilted, same as V1.
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
-- **Customer phone number** (tappable — tap to call or text) and **name**
+- **Customer phone number** (tappable — tap to call or text), **name**, and **company name** (if the job is linked to a company — shown in smaller text below the customer name)
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
 - **Job cost** — appears once at least one item has been priced. If all items have a cost entered, you'll see the full total (e.g., "$340.00") in clear, readable text. If some items are still being worked on and don't have a cost yet, you'll see an approximate total with "partial" next to it (e.g., "~$180.00 partial") in lighter text — this tells you the number isn't final yet. Tax is included in the total when tax is enabled in admin settings. Draft jobs and jobs with no cost entered yet don't show a cost line at all. Warranty jobs show "$0.00".
 
@@ -266,16 +270,30 @@ This is useful for looking up past work — warranty questions, repeat customers
 
 ### Creating a New Work Order
 
-Tap the new job button from the Job Board to start a new work order (bottom-right on iPhone, top-right toolbar on iPad). The form has two main sections: **Customer** and **Items**.
+Tap the new job button from the Job Board to start a new work order (bottom-right on iPhone, top-right toolbar on iPad). The form has three main sections: **Company**, **Customer**, and **Items**.
+
+#### Company (Optional)
+
+The first field on the form is **Company**. Start typing a company name and matching companies will appear as suggestions below the field. Tap a suggestion to select that company.
+
+If you type a company name that doesn't match any existing company, that's fine — a new company record will be created automatically when you save the work order. You don't need to do anything special.
+
+**What happens when you select a company:**
+- A row of customer name chips appears below the Customer field (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
+- If the company is **tax exempt**, you'll see a green indicator: "Tax exempt (via ABC Construction)" below the customer section. The tax status comes from the company automatically.
+
+**Walk-ins:** If the customer is an individual (not from a company), just skip the Company field entirely. It's optional — leaving it blank works exactly like before.
+
+**Company-only jobs:** If you know the company but don't have an individual contact name, that's fine — just fill in the Company field and skip the Customer field. The work order will be linked to the company without requiring a customer contact. You can always add a customer later by editing the job.
 
 #### Finding or Adding a Customer
 
-At the top of the form, start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
+Below the Company field, start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
 
 If the customer isn't in the system yet, tap **+ Add New Customer** to create one. The new customer form includes:
 
-- **Name** (required) — if you type a business name (ending in Inc, LLC, Corp, etc.), the app will automatically move it to the Company field
-- **Company** (optional) — use the **Swap** button if the name/company got put in the wrong field
+- **Name** — if you type a business name (ending in Inc, LLC, Corp, etc.), the app will automatically move it to the Company field. You can leave this blank if you have a company name instead — at least one of Name or Company is required.
+- **Company** — pre-filled if you already selected a company on the main form. Use the **Swap** button if the name/company got put in the wrong field. You can leave this blank if you have a customer name instead — at least one of Name or Company is required.
 - **Phone** (required, 10 digits) — formats automatically as you type. If the phone number is already on file for another customer, you'll be warned and can choose to use the existing customer instead
 - **Email** (optional)
 - **Tax Exempt** toggle
@@ -686,9 +704,9 @@ This is especially useful for warranty lookups ("didn't we just fix this custome
 
 ### Editing a Customer
 
-Tap **Edit** in the top-right corner of any customer's detail screen to open the edit form. You can update:
+Tap the **...** button in the top-right corner of any customer's detail screen and choose **Edit** to open the edit form. You can update:
 
-- **Name** and **Company** — with the same smart swap button as the new customer form
+- **Name** and **Company** — with the same smart swap button as the new customer form. At least one of Name or Company must be filled in — you can clear one as long as the other has a value.
 - **Phone** and **Email**
 - **Tax Exempt** toggle — turn on or off as needed
 - **Contacts** — the same contacts list appears here. Add, edit, or delete contacts without leaving the edit form.
@@ -700,6 +718,52 @@ Tap **Edit** in the top-right corner of any customer's detail screen to open the
 Tap **Save** to apply your changes. Tap **Cancel** to discard them.
 
 **Quick edit from Job Detail:** You can also edit a customer directly from a job's detail view — tap the **pencil icon** next to the customer name in the header card. This opens the same edit form, including the contacts section. Handy when you need to add a contact without navigating to the Customers list.
+
+### Deleting a Customer
+
+On Admin devices (or while admin-elevated), the **...** menu on a customer's detail screen includes **Delete Customer** in red.
+
+Tap it and you'll see a confirmation dialog warning that this is permanent. Any jobs that were linked to this customer will keep their data (items, photos, notes) but lose the customer association. Contacts under this customer are deleted automatically.
+
+This cannot be undone.
+
+---
+
+## Companies
+
+The Companies view lets you browse and manage all companies in the system. It's available on Front Counter and Admin devices via the sidebar.
+
+### Company List
+
+Open the sidebar and tap **Companies** to see the company list. Every company is listed alphabetically, showing its name, phone number (if set), and a "Tax Exempt" badge if applicable.
+
+**Searching:** Type in the search bar at the top to filter by name. The list filters as you type.
+
+Pull down to refresh.
+
+### Company Detail
+
+Tap any company to see its detail screen:
+
+- **Company info** — phone, email, tax exempt status, and notes
+- **Customers** — all people linked to this company, shown as tappable rows. Tap a customer to see their full detail screen.
+- **Job History** — all jobs across all customers under this company, sorted newest first. Each row shows job number, customer name, date, item count, and cost. Tap any job to see the full detail view.
+
+**Editing a company:** Tap the **...** button in the top-right and choose **Edit** to update the company's name, phone, email, tax exempt status, or notes.
+
+**Deleting a company (Admin only):** The **...** menu also includes **Delete Company** in red on Admin devices (or while admin-elevated). A confirmation dialog warns that this is permanent — linked customers and jobs keep their data but lose the company association. This cannot be undone.
+
+### How Companies Work
+
+Companies are created automatically during check-in. When someone types a new company name during job creation, a company record is created behind the scenes. There's no separate "Create Company" step.
+
+Multiple customers (people) can belong to the same company. When a company is selected during check-in, the app shows suggestions for existing customers under that company — making repeat check-ins faster.
+
+**Tax exempt status** flows from the company to all customers under it. If "ABC Construction" is tax exempt, every job checked in under that company inherits the tax exempt status automatically.
+
+**Customer detail** screens show the company as a tappable link. Tap it to jump to the company detail view.
+
+[screenshot: Company detail showing customers list and job history]
 
 ---
 
@@ -716,7 +780,7 @@ Each card shows:
 - **Item photo** — the top half of every card is a large square photo of the equipment. The photo has a colored **status dot** in the top-right corner and an **equipment type label** in the bottom-right corner, same as the Front Counter cards. If no photo has been taken yet, you'll see a gray placeholder.
 - **Status label** — text below the photo showing the item's current stage (e.g., "Checked In", "In Progress", "Ready for Test")
 - **Equipment type** (e.g., Cylinder, Pump, Hose)
-- **Customer name**, **phone number** (tappable — tap to call or text), and **job number**
+- **Customer name**, **company name** (if applicable, shown below the customer name), **phone number** (tappable — tap to call or text), and **job number**
 - **Assigned tech's name** — if someone has grabbed it
 - **READY badge** — orange badge on items where repair is done and it's waiting on testing
 
@@ -735,7 +799,7 @@ The Tech Station has the same **search bar** and **filter button** as the Front 
 **Searching:** Tap the search bar and type to filter the queue in real time. You can search by:
 
 - Equipment type (e.g., "Cylinder")
-- Customer name or job number
+- Customer name, company name, or job number
 - Tech name (e.g., "Tony")
 - Machine type or item description
 - Service reason (e.g., "Seal")
@@ -1219,6 +1283,8 @@ Below the date range, tap the **Report** dropdown to switch between:
 5. **Parts vs. Labor** — Total parts cost, total labor cost, and grand total. Only available if the parts/labor split is turned on in Shop Settings — otherwise you'll see a message telling you to enable it.
 6. **Warranty Summary** — Count of warranty jobs and items vs non-warranty jobs in the same period. Warranty work is always $0 but the volume is tracked.
 7. **Repeat Customers** — Customers who've had more than one job, with at least one completed in the selected period. Shows lifetime job count, jobs in the selected range, and total lifetime spend. Sorted by most jobs first.
+8. **Revenue by Company** — Revenue totals grouped by company. Shows each company's total revenue, job count, and item count for the selected period. "Walk-in / No Company" groups all jobs without a company. Sorted by highest revenue first.
+9. **Jobs by Company** — Job history grouped by company. Shows every closed job under each company with job number, customer name, date, item count, and cost. Sorted by most jobs first.
 
 #### Exporting to CSV
 
