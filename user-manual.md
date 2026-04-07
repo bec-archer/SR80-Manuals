@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-07 (bug report screenshots + navigation breadcrumbs)
+**Last Updated:** 2026-04-07 (customer/company/equipment flags)
 
 ---
 
@@ -31,10 +31,12 @@
   - [Customer List](#customer-list)
   - [Customer Detail](#customer-detail)
   - [Editing a Customer](#editing-a-customer)
+  - [Flagging a Customer](#flagging-a-customer)
 - [Companies](#companies)
   - [Company List](#company-list)
   - [Company Detail](#company-detail)
   - [How Companies Work](#how-companies-work)
+  - [Flagging a Company](#flagging-a-company)
 - [Tech Station](#tech-station)
   - [Repair Queue](#repair-queue)
   - [Searching and Filtering the Queue](#searching-and-filtering-the-queue)
@@ -61,6 +63,7 @@
   - [Shop Settings](#shop-settings)
   - [Manage Lists](#manage-lists)
   - [Device Management](#device-management)
+  - [Managing Flags (Admin Only)](#managing-flags-admin-only)
   - [Editing Cost on a Complete Item](#editing-cost-on-a-complete-item)
   - [Reports](#reports)
   - [Resetting a Device](#resetting-a-device)
@@ -79,6 +82,7 @@
   - [Scanning Old / Retired Tags](#scanning-old--retired-tags)
   - [Scanning Tags on Totaled or Closed Items](#scanning-tags-on-totaled-or-closed-items)
   - [When There's No Tag](#when-theres-no-tag)
+  - [Flagging Equipment](#flagging-equipment)
 - [Reference & Troubleshooting](#reference-troubleshooting)
   - [Troubleshooting](#troubleshooting)
   - [Working Offline](#working-offline)
@@ -224,6 +228,8 @@ Photos load in the background — you'll see the cards appear right away with pl
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
 Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. Similarly, if an item has been marked as **Totaled** (unfixable), a dark **TOTALED** badge appears in the same spot, replacing the status dot. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Warranty items show a red **WARRANTY** badge below the status badge — you might see COMPLETE + WARRANTY or TOTALED + WARRANTY stacked together. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
+
+**Flagged customers:** If a customer (or their company) has been flagged, you'll see a small amber **flag icon** on their job cards. This is a heads-up that there's something to be aware of — tap into the job to see the full flag banner with the reason. See [Flagging a Customer](#flagging-a-customer) for details.
 
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
@@ -737,6 +743,22 @@ Tap it and you'll see a confirmation dialog warning that this is permanent. Any 
 
 This cannot be undone.
 
+### Flagging a Customer
+
+If a customer has been causing problems — warranty fraud, bringing in different equipment and claiming it's the same piece, slow pay, or anything else the shop needs to be aware of — you can flag them. A flagged customer gets a visible warning banner that shows up everywhere their name appears, so nobody at the counter or in the back is caught off guard.
+
+**Setting a flag:** Open the customer's detail screen and tap the **Flag Customer** button (flag icon). You'll be asked to type a reason — be specific, because this is what everyone will see. Something like "Claims warranty on different cylinders" or "Owes balance on two previous jobs" is more useful than "Problem customer." Tap **Confirm** to set the flag.
+
+Any device role can set a flag — Front Counter, Tech Station, or Admin. If a tech in the back notices something sketchy, they can flag the customer right from their station.
+
+**What it looks like:** Once flagged, an amber warning banner appears at the top of the customer's detail screen showing the reason, who flagged them, and when. This same banner also shows up on every job detail view for that customer, on the Tech Station item detail, and during new job creation if someone selects that customer. On the Job Board, flagged customers' job cards show a small flag icon so Maria can spot them at a glance without opening the job.
+
+The flag is informational — it doesn't block anything. You can still create jobs, check in warranty work, and process pickups for a flagged customer. It just makes sure everyone knows the deal.
+
+**Removing a flag:** Only Admin devices can remove a flag. Open the customer's detail screen and tap **Remove Flag**, then confirm. The banner disappears from all views. The flag history is preserved in the system even after removal, so there's a record of what happened.
+
+[screenshot: Customer detail with amber flag banner at top]
+
 ---
 
 ## Companies
@@ -775,6 +797,18 @@ Multiple customers (people) can belong to the same company. When a company is se
 
 [screenshot: Company detail showing customers list and job history]
 
+### Flagging a Company
+
+If a company has a pattern of issues — multiple customers from the same outfit pulling warranty stunts, slow-paying across the board, or anything else worth tracking — you can flag the whole company. This works exactly like customer flags but at the company level.
+
+**Setting a flag:** Open the company's detail screen and tap **Flag Company** (flag icon). Type a reason and confirm. Any device role can set a company flag.
+
+**How it propagates:** When a company is flagged, the amber warning banner shows up on the company detail screen AND on every job for every customer under that company. If "Shady LLC" is flagged and three different drivers from Shady LLC come in on different days, Maria will see the flag warning on each of their jobs. The customer doesn't need to be individually flagged — the company flag covers everyone under it.
+
+A customer can be flagged independently of their company. If both the customer AND their company are flagged, you'll see both banners (with their separate reasons) so nothing gets lost.
+
+**Removing a flag:** Admin only. Tap **Remove Flag** on the company detail screen and confirm.
+
 ---
 
 ## Tech Station
@@ -799,6 +833,8 @@ Photos load in the background, so cards appear instantly and photos fill in a mo
 Items with the READY badge also have a warm orange tint on the card so they stand out.
 
 Tap any card to open the item detail view with actions for whatever the item needs next.
+
+**Flagged customers:** If the item belongs to a flagged customer or company, you'll see an amber warning banner at the top of the item detail view with the flag reason. Techs can also flag customers directly from the item detail if they notice something off — tap **Flag Customer** and enter a reason. Only admins can remove flags. See [Flagging a Customer](#flagging-a-customer) for the full rundown.
 
 Pull down to refresh the queue. The grid adapts automatically when you rotate the iPad between landscape and portrait.
 
@@ -1256,6 +1292,14 @@ If a device was revoked by mistake, or it's back in service:
 
 The device is immediately active again. If it hasn't gone through setup yet since being revoked, it'll still need to complete setup on next launch. If it already went through setup (i.e., it was re-enrolled), reactivating is a no-op — it's already active.
 
+### Managing Flags (Admin Only)
+
+Anyone in the shop can flag a customer, company, or piece of equipment — but **only admins can remove flags.** This is intentional. The person at the counter or in the back can raise a concern immediately, but clearing it requires someone with admin access to review the situation first.
+
+To remove a flag, navigate to the flagged customer's detail screen (or company detail, or equipment detail) and tap **Remove Flag**. You'll see a confirmation dialog. Once removed, the amber warning banner disappears from all views. The flag history is preserved — there's a record of when the flag was set, why, and when it was removed — so you always have a paper trail.
+
+If you're reviewing flag history, the information is stored in the system even after flags are removed. This is useful if the same customer or company gets flagged again down the line.
+
 ### Editing Cost on a Complete Item
 
 Once a tech submits a cost and the item reaches **Complete** status, the cost is normally locked — the front counter just reads it at pickup. But sometimes a price needs to change after the fact (a part came in cheaper, the customer negotiated, a mistake was caught). Admins can re-edit the cost directly from the job detail view.
@@ -1544,6 +1588,18 @@ If you scan a sticker and the linked item has been closed (picked up) or totaled
 ### When There's No Tag
 
 The app works completely normally without a tag — tags are a convenience, not a requirement. Jobs with no tag assigned show the **gray viewfinder icon** on their item cards as a reminder, but everything else (photos, notes, status flow, cost entry) works exactly the same.
+
+---
+
+### Flagging Equipment
+
+If a specific piece of equipment has a history of suspicious warranty claims or other issues, you can flag it. This requires the equipment to have a tag — you can only flag equipment that has a QR sticker record in the system.
+
+**Setting a flag:** From an item detail view where equipment info is displayed (near the QR tag section), tap **Flag Equipment**. Type a reason (e.g., "3rd warranty claim — customer keeps swapping cylinders") and confirm. Any role can set equipment flags.
+
+**What it looks like:** A flagged piece of equipment shows the amber warning banner on any item detail view where that equipment appears. If this cylinder comes back in six months under a new job, the banner will be there waiting.
+
+**Removing a flag:** Admin only — tap **Remove Flag** and confirm. The flag history is preserved even after removal.
 
 ---
 
