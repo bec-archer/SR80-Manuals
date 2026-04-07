@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-07 (name detection fix + job card name display)
+**Last Updated:** 2026-04-07 (multi-admin PIN setup, PIN reset, PIN status badges)
 
 ---
 
@@ -118,6 +118,14 @@ The very first screen asks for an admin PIN.
 
 1. You'll see a standard "Enter PIN" screen
 2. Type your admin PIN and tap **Unlock**
+
+**If you're a new admin and don't have a PIN yet:**
+
+1. On the "Enter PIN" screen, tap **"Don't have a PIN yet?"** at the bottom
+2. The app checks if there are any admins who still need a PIN
+3. If your name shows up, tap it, then create and confirm your PIN — same as the first-time flow
+4. If all admins already have PINs, you'll see a message to ask another admin to reset yours (see Employee Management below)
+5. You can tap **"Back to PIN entry"** at any time to return to the normal PIN screen
 
 #### Step 2: Name the Device
 
@@ -1048,7 +1056,7 @@ Employee management is where you add, edit, and deactivate the people who use Sh
 
 #### Viewing Employees
 
-You'll see a list of all active employees, each showing their name, role badge (Tech, Admin, or Tester), and an "Authorized Tester" badge if they're allowed to test items. Inactive employees appear in a separate section at the bottom.
+You'll see a list of all active employees, each showing their name, role badge (Tech, Admin, or Tester), and an "Authorized Tester" badge if they're allowed to test items. Admin employees also show a PIN status badge — green **"PIN Set"** if they have a PIN configured, or gray **"No PIN"** if they still need to set one up. Inactive employees appear in a separate section at the bottom.
 
 Pull down to refresh the list.
 
@@ -1069,7 +1077,15 @@ The new employee will immediately appear in all relevant pickers across the app 
 
 Tap any active employee in the list to open their edit form. You can change their name, role, or tester authorization. Tap **Save** when done.
 
-**Note:** PINs are not managed here. If an admin needs to set or change their PIN, they do it through the normal PIN entry flow during Device Setup.
+#### Resetting an Admin's PIN
+
+If an admin forgets their PIN, another admin can reset it:
+
+1. Swipe left on the admin employee's name in the list
+2. Tap the orange **Reset PIN** button
+3. Confirm in the popup
+
+This clears their PIN entirely. The next time that person needs admin access, they'll use the **"Don't have a PIN yet?"** option on the PIN entry screen to set up a new one. The resetting admin never sees or chooses the other person's PIN — it's always self-service.
 
 #### Deactivating an Employee
 
