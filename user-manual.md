@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-07 (multi-admin PIN setup, PIN reset, PIN status badges)
+**Last Updated:** 2026-04-07 (bug report screenshots + navigation breadcrumbs)
 
 ---
 
@@ -1334,7 +1334,14 @@ Admins can view all submitted reports in a newest-first list. Each row shows:
 - Which device it came from
 - How long ago it was submitted
 
-Tap any report to see the full detail: device info, description, error log, and a snapshot of what the app was doing at the time.
+Tap any report to see the full detail, which includes:
+
+- **Screenshot** — The app automatically captures a picture of whatever was on screen at the moment the report was filed. Tap the screenshot to view it full-size with pinch-to-zoom.
+- **Navigation Trail** — A breadcrumb trail showing the last screens the user visited before the report. This helps Bec figure out what path led to the problem (e.g., "Job Board → Job Detail → Item Detail → Ladybug Report").
+- **Details** — Device info, trigger type, timestamps.
+- **Description** — What the user typed (if anything).
+- **Error Log** — Recent technical errors logged by the app.
+- **App State** — A snapshot of what the app was doing at the time (sync status, which screen was open, etc.).
 
 #### Auto-Reporting
 
@@ -1365,6 +1372,8 @@ A sheet slides up with:
 - **Device Info** — Your device name, role, and app version. Attached automatically.
 
 Tap **Submit** and you're done. The report goes straight to Bec. You'll get a confirmation and the sheet closes.
+
+When you submit, the app also automatically captures a screenshot of whatever was on screen and records which screens you visited recently. This gives Bec a visual snapshot and a breadcrumb trail to help figure out what happened — you don't need to explain where you were or try to recreate the problem.
 
 **You don't need to be sure something is wrong to submit a report.** If something felt weird or slow, report it. Bec would rather get a false alarm than miss a real issue.
 
