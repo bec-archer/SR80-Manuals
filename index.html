@@ -6,174 +6,638 @@
     <title>ShopTracker User Manual</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
     <style>
+        :root {
+            --bg: #fbfaf6;
+            --bg-sidebar: #f4f1ea;
+            --bg-elevated: #ffffff;
+            --border: #e6e1d4;
+            --border-strong: #d8d2c1;
+            --text: #1d1d1f;
+            --text-muted: #6b6b70;
+            --text-faint: #9a9a9f;
+            --accent: #c9a227;        /* warm Notes-yellow accent */
+            --accent-bg: #fff6d6;
+            --link: #1466c9;
+            --code-bg: #f1ede3;
+            --sidebar-width: 300px;
+            --header-height: 64px;
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        html { scroll-behavior: smooth; }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.6;
-            color: #1d1d1f;
-            background: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 16px;
+            line-height: 1.65;
+            color: var(--text);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        .header {
-            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: white;
-            padding: 2rem 1.5rem;
-            text-align: center;
-        }
-
-        .header h1 {
-            font-size: 1.75rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-
-        .header p {
-            font-size: 0.9rem;
-            opacity: 0.8;
-        }
-
-        .nav {
-            background: #f5f5f7;
-            border-bottom: 1px solid #d2d2d7;
-            padding: 0.75rem 1.5rem;
-            position: sticky;
+        /* ---------- Top Bar ---------- */
+        .topbar {
+            position: fixed;
             top: 0;
-            z-index: 10;
-            overflow-x: auto;
+            left: 0;
+            right: 0;
+            height: var(--header-height);
+            background: var(--bg);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 1.25rem;
+            z-index: 20;
+        }
+        .topbar .brand {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .topbar .brand-title {
+            font-size: 1.05rem;
+            font-weight: 600;
+            color: var(--text);
+            letter-spacing: -0.01em;
+        }
+        .topbar .brand-sub {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+        .topbar .menu-btn {
+            display: none;
+            background: none;
+            border: 1px solid var(--border-strong);
+            color: var(--text);
+            border-radius: 8px;
+            padding: 0.45rem 0.65rem;
+            cursor: pointer;
+            margin-right: 0.75rem;
+            font-size: 1rem;
+            line-height: 1;
+        }
+        .topbar .menu-btn:hover { background: var(--bg-sidebar); }
+
+        /* ---------- Layout ---------- */
+        .layout {
+            display: flex;
+            padding-top: var(--header-height);
+            min-height: 100vh;
+        }
+
+        /* ---------- Sidebar ---------- */
+        .sidebar {
+            width: var(--sidebar-width);
+            flex-shrink: 0;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            top: var(--header-height);
+            bottom: 0;
+            left: 0;
+            overflow-y: auto;
+            padding: 1rem 0.5rem 2rem;
+        }
+        .sidebar::-webkit-scrollbar { width: 8px; }
+        .sidebar::-webkit-scrollbar-thumb {
+            background: var(--border-strong);
+            border-radius: 4px;
+        }
+        .sidebar::-webkit-scrollbar-track { background: transparent; }
+
+        .sidebar-title {
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-faint);
+            padding: 0.5rem 1rem 0.75rem;
+        }
+
+        .toc { list-style: none; }
+        .toc-group { margin-bottom: 0.15rem; }
+
+        .toc-group-header {
+            display: flex;
+            align-items: center;
+            gap: 0.45rem;
+            padding: 0.45rem 0.75rem;
+            border-radius: 7px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 0.92rem;
+            font-weight: 600;
+            user-select: none;
+            transition: background 0.12s ease;
+        }
+        .toc-group-header:hover { background: rgba(0,0,0,0.04); }
+        .toc-group-header.active {
+            background: var(--accent-bg);
+            color: #6e5400;
+        }
+
+        .toc-caret {
+            display: inline-block;
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            transition: transform 0.18s ease;
+            width: 0.75rem;
+            text-align: center;
+            flex-shrink: 0;
+        }
+        .toc-group.expanded .toc-caret { transform: rotate(90deg); }
+
+        .toc-group-label {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
             white-space: nowrap;
         }
 
-        .nav a {
-            display: inline-block;
-            color: #1d1d1f;
+        .toc-sub {
+            list-style: none;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.22s ease;
+            padding-left: 0.25rem;
+        }
+        .toc-group.expanded .toc-sub {
+            max-height: 2000px;
+        }
+
+        .toc-sub li a {
+            display: block;
+            padding: 0.35rem 0.75rem 0.35rem 1.75rem;
+            font-size: 0.86rem;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
-            padding: 0.35rem 0.75rem;
             border-radius: 6px;
-            transition: background 0.2s;
+            margin: 1px 0;
+            border-left: 2px solid transparent;
+            line-height: 1.4;
+        }
+        .toc-sub li a:hover {
+            background: rgba(0,0,0,0.035);
+            color: var(--text);
+        }
+        .toc-sub li a.active {
+            background: var(--accent-bg);
+            color: #5a4500;
+            border-left-color: var(--accent);
+            font-weight: 600;
         }
 
-        .nav a:hover { background: #e8e8ed; }
-        .nav a.active { background: #1a1a2e; color: white; }
-
-        .content {
-            max-width: 740px;
+        /* ---------- Main Content ---------- */
+        .main {
+            flex: 1;
+            margin-left: var(--sidebar-width);
+            padding: 2rem 2.5rem 5rem;
+            min-width: 0;
+        }
+        .main-inner {
+            max-width: 760px;
             margin: 0 auto;
-            padding: 2rem 1.5rem 4rem;
-        }
-
-        .content h1 { font-size: 1.75rem; margin: 2rem 0 0.75rem; font-weight: 700; }
-        .content h2 { font-size: 1.4rem; margin: 2.5rem 0 0.75rem; font-weight: 600; padding-top: 1rem; border-top: 1px solid #e8e8ed; }
-        .content h3 { font-size: 1.1rem; margin: 1.75rem 0 0.5rem; font-weight: 600; }
-        .content h4 { font-size: 1rem; margin: 1.5rem 0 0.5rem; font-weight: 600; }
-
-        .content p { margin-bottom: 1rem; }
-        .content ul, .content ol { margin: 0 0 1rem 1.5rem; }
-        .content li { margin-bottom: 0.35rem; }
-
-        .content strong { font-weight: 600; }
-        .content em { font-style: italic; color: #6e6e73; }
-
-        .content hr {
-            border: none;
-            border-top: 1px solid #e8e8ed;
-            margin: 2rem 0;
-        }
-
-        .content code {
-            background: #f5f5f7;
-            padding: 0.15rem 0.4rem;
-            border-radius: 4px;
-            font-size: 0.9em;
         }
 
         .loading {
-            text-align: center;
             padding: 4rem 1rem;
-            color: #6e6e73;
+            text-align: center;
+            color: var(--text-muted);
+        }
+
+        /* Markdown content styling */
+        .content h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin: 0.5rem 0 0.75rem;
+        }
+        .content h2 {
+            font-size: 1.55rem;
+            font-weight: 700;
+            letter-spacing: -0.015em;
+            margin: 3rem 0 1rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+        }
+        .content h2:first-of-type {
+            border-top: none;
+            padding-top: 0;
+        }
+        .content h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin: 2rem 0 0.6rem;
+            letter-spacing: -0.005em;
+        }
+        .content h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 1.5rem 0 0.5rem;
+            color: var(--text);
+        }
+        .content h2, .content h3, .content h4 {
+            scroll-margin-top: calc(var(--header-height) + 1rem);
+        }
+
+        .content p {
+            margin-bottom: 1rem;
+            color: #2a2a2e;
+        }
+        .content ul, .content ol {
+            margin: 0 0 1rem 1.5rem;
+            color: #2a2a2e;
+        }
+        .content li { margin-bottom: 0.35rem; }
+        .content li > p { margin-bottom: 0.35rem; }
+
+        .content strong { font-weight: 650; color: var(--text); }
+        .content em { font-style: italic; color: #4a4a4e; }
+
+        .content a {
+            color: var(--link);
+            text-decoration: none;
+            border-bottom: 1px solid rgba(20, 102, 201, 0.25);
+        }
+        .content a:hover {
+            border-bottom-color: var(--link);
+        }
+
+        .content hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 2.5rem 0;
+        }
+
+        .content code {
+            background: var(--code-bg);
+            padding: 0.1rem 0.4rem;
+            border-radius: 4px;
+            font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+            font-size: 0.88em;
+            color: #6b4e00;
+        }
+        .content pre {
+            background: var(--code-bg);
+            padding: 1rem 1.25rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+        .content pre code {
+            background: none;
+            padding: 0;
+            color: var(--text);
+        }
+
+        .content blockquote {
+            border-left: 3px solid var(--accent);
+            background: var(--accent-bg);
+            padding: 0.75rem 1rem;
+            margin: 1rem 0;
+            border-radius: 0 8px 8px 0;
+            color: #4a3a00;
+        }
+        .content blockquote p:last-child { margin-bottom: 0; }
+
+        .content table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1rem 0;
+            font-size: 0.92rem;
+        }
+        .content th, .content td {
+            border: 1px solid var(--border);
+            padding: 0.5rem 0.75rem;
+            text-align: left;
+        }
+        .content th {
+            background: var(--bg-sidebar);
+            font-weight: 600;
         }
 
         .footer {
+            max-width: 760px;
+            margin: 4rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
             text-align: center;
-            padding: 2rem 1rem;
-            font-size: 0.8rem;
-            color: #86868b;
-            border-top: 1px solid #e8e8ed;
+            font-size: 0.78rem;
+            color: var(--text-faint);
         }
 
-        @media (max-width: 600px) {
-            .header { padding: 1.5rem 1rem; }
-            .header h1 { font-size: 1.4rem; }
-            .content { padding: 1.5rem 1rem 3rem; }
-            .content h2 { font-size: 1.2rem; }
+        /* Backdrop for mobile drawer */
+        .backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            z-index: 15;
+        }
+        .backdrop.visible { display: block; }
+
+        /* ---------- Responsive ---------- */
+        @media (max-width: 900px) {
+            .topbar .menu-btn { display: inline-flex; }
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.22s ease;
+                box-shadow: 2px 0 16px rgba(0,0,0,0.08);
+                z-index: 18;
+            }
+            .sidebar.open { transform: translateX(0); }
+            .main {
+                margin-left: 0;
+                padding: 1.5rem 1.25rem 4rem;
+            }
+            .content h1 { font-size: 1.65rem; }
+            .content h2 { font-size: 1.35rem; margin-top: 2.25rem; }
+            .content h3 { font-size: 1.1rem; }
         }
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>ShopTracker User Manual</h1>
-        <p>Hydraulics SR-80 Repair Tracking</p>
-    </div>
+    <header class="topbar">
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
+        <div class="brand">
+            <span class="brand-title">ShopTracker User Manual</span>
+            <span class="brand-sub">Hydraulics SR-80</span>
+        </div>
+    </header>
 
-    <nav class="nav" id="nav">
-        <a href="#getting-started" class="active">Getting Started</a>
-        <a href="#front-counter">Front Counter</a>
-        <a href="#tech-station">Tech Station</a>
-        <a href="#admin">Admin</a>
-        <a href="#troubleshooting">Troubleshooting</a>
-    </nav>
+    <div class="backdrop" id="backdrop"></div>
 
-    <div class="content" id="content">
-        <div class="loading">Loading manual...</div>
-    </div>
+    <div class="layout">
+        <aside class="sidebar" id="sidebar" aria-label="Table of contents">
+            <div class="sidebar-title">Contents</div>
+            <ul class="toc" id="toc">
+                <li style="padding: 0.5rem 1rem; color: var(--text-faint); font-size: 0.85rem;">Loading…</li>
+            </ul>
+        </aside>
 
-    <div class="footer">
-        Hydraulics SR-80 &middot; ShopTracker
+        <main class="main">
+            <div class="main-inner">
+                <article class="content" id="content">
+                    <div class="loading">Loading manual…</div>
+                </article>
+                <div class="footer">Hydraulics SR-80 &middot; ShopTracker</div>
+            </div>
+        </main>
     </div>
 
     <script>
+        // ---------- GitHub-compatible slug ----------
+        // Matches github-slugger behavior: lowercase, strip punctuation
+        // (keeping letters, digits, spaces, hyphens, underscores), each
+        // space individually becomes a hyphen (so "A & B" -> "a--b").
+        const seenSlugs = {};
+        function slugify(text) {
+            let s = text.toLowerCase();
+            // Remove anything that isn't a letter, number, space, hyphen, or underscore
+            s = s.replace(/[^\p{L}\p{N}\s\-_]/gu, '');
+            s = s.replace(/ /g, '-');
+            // Collapse any accidental runs caused by exotic whitespace — keep double
+            // hyphens from real double-spaces intact, so no collapsing here.
+            let base = s;
+            let n = seenSlugs[base] || 0;
+            seenSlugs[base] = n + 1;
+            return n === 0 ? base : `${base}-${n}`;
+        }
+
+        // ---------- Render markdown & build TOC ----------
         async function loadManual() {
             try {
                 const response = await fetch('user-manual.md');
                 if (!response.ok) throw new Error('Failed to load manual');
-                const markdown = await response.text();
+                let markdown = await response.text();
+
+                // Strip the existing in-document Table of Contents block.
+                // We replace it with the sidebar, so it's redundant in the body.
+                markdown = stripInlineTOC(markdown);
+
+                // Configure marked to emit clean HTML
+                marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
+
                 const html = marked.parse(markdown);
-                document.getElementById('content').innerHTML = html;
-                setupNavHighlighting();
+                const content = document.getElementById('content');
+                content.innerHTML = html;
+
+                // Assign IDs to all headers using the slugger
+                assignHeaderIds(content);
+
+                // Build sidebar TOC from the rendered headers
+                buildSidebarTOC(content);
+
+                // Wire up interactions
+                setupScrollSpy(content);
+                handleInitialHash();
             } catch (err) {
+                console.error(err);
                 document.getElementById('content').innerHTML =
-                    '<p style="text-align:center;color:#86868b;padding:4rem 0;">Could not load the manual. Please try refreshing.</p>';
+                    '<p style="text-align:center;color:var(--text-muted);padding:4rem 0;">' +
+                    'Could not load the manual. Please try refreshing.</p>';
             }
         }
 
-        function setupNavHighlighting() {
-            const sections = document.querySelectorAll('.content h2');
-            const navLinks = document.querySelectorAll('.nav a');
-
-            const sectionMap = {};
-            navLinks.forEach(link => {
-                const href = link.getAttribute('href').replace('#', '');
-                sectionMap[href] = link;
-            });
-
-            const observer = new IntersectionObserver(entries => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const id = entry.target.id;
-                        navLinks.forEach(l => l.classList.remove('active'));
-                        if (sectionMap[id]) sectionMap[id].classList.add('active');
+        function stripInlineTOC(md) {
+            // Remove a "## Table of Contents" heading and its bullet list,
+            // up until the next heading or horizontal rule.
+            const lines = md.split('\n');
+            const out = [];
+            let inTOC = false;
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (!inTOC && /^##\s+Table of Contents\s*$/i.test(line)) {
+                    inTOC = true;
+                    continue;
+                }
+                if (inTOC) {
+                    // Exit the TOC block when we hit the next heading or a standalone ---
+                    if (/^#{1,6}\s+/.test(line)) {
+                        inTOC = false;
+                        out.push(line);
+                        continue;
                     }
-                });
-            }, { rootMargin: '-20% 0px -70% 0px' });
+                    if (/^---\s*$/.test(line)) {
+                        inTOC = false;
+                        // Skip the --- separator too since it was the TOC's closer
+                        continue;
+                    }
+                    // Skip TOC content (bullets, blank lines, etc.)
+                    continue;
+                }
+                out.push(line);
+            }
+            return out.join('\n');
+        }
 
-            sections.forEach(section => {
-                const text = section.textContent.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-$/, '');
-                section.id = text;
-                observer.observe(section);
+        function assignHeaderIds(root) {
+            const headers = root.querySelectorAll('h1, h2, h3, h4, h5, h6');
+            headers.forEach(h => {
+                const text = h.textContent || '';
+                const id = slugify(text);
+                h.id = id;
             });
         }
+
+        function buildSidebarTOC(root) {
+            const toc = document.getElementById('toc');
+            toc.innerHTML = '';
+
+            // H2 = top-level group (collapsible), H3 = sub-item
+            const h2s = root.querySelectorAll('h2');
+            h2s.forEach(h2 => {
+                const groupLi = document.createElement('li');
+                groupLi.className = 'toc-group';
+                groupLi.dataset.targetId = h2.id;
+
+                const header = document.createElement('div');
+                header.className = 'toc-group-header';
+                header.innerHTML =
+                    '<span class="toc-caret">▶</span>' +
+                    '<span class="toc-group-label"></span>';
+                header.querySelector('.toc-group-label').textContent = h2.textContent;
+
+                header.addEventListener('click', (e) => {
+                    const hasSubs = groupLi.querySelector('.toc-sub li');
+                    if (hasSubs) {
+                        // Toggle expansion, but ALSO navigate to the section
+                        groupLi.classList.toggle('expanded');
+                    }
+                    navigateTo(h2.id);
+                });
+
+                groupLi.appendChild(header);
+
+                // Collect h3s that belong to this h2 (until the next h2)
+                const subList = document.createElement('ul');
+                subList.className = 'toc-sub';
+                let node = h2.nextElementSibling;
+                while (node && node.tagName !== 'H2') {
+                    if (node.tagName === 'H3') {
+                        const subLi = document.createElement('li');
+                        const a = document.createElement('a');
+                        a.href = '#' + node.id;
+                        a.textContent = node.textContent;
+                        a.addEventListener('click', (e) => {
+                            e.preventDefault();
+                            navigateTo(node.id);
+                        });
+                        subLi.appendChild(a);
+                        subList.appendChild(subLi);
+                    }
+                    node = node.nextElementSibling;
+                }
+                groupLi.appendChild(subList);
+                toc.appendChild(groupLi);
+            });
+
+            // Expand the first group by default
+            const first = toc.querySelector('.toc-group');
+            if (first) first.classList.add('expanded');
+        }
+
+        function navigateTo(id) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.replaceState(null, '', '#' + id);
+            // Close sidebar on mobile after navigation
+            if (window.innerWidth <= 900) {
+                closeSidebar();
+            }
+        }
+
+        function handleInitialHash() {
+            if (location.hash) {
+                const id = decodeURIComponent(location.hash.slice(1));
+                const el = document.getElementById(id);
+                if (el) {
+                    // Expand the enclosing group in the sidebar
+                    expandGroupContaining(id);
+                    // Defer scroll so layout is settled
+                    setTimeout(() => {
+                        el.scrollIntoView({ behavior: 'auto', block: 'start' });
+                    }, 60);
+                }
+            }
+        }
+
+        function expandGroupContaining(id) {
+            const toc = document.getElementById('toc');
+            const groups = toc.querySelectorAll('.toc-group');
+            groups.forEach(g => {
+                if (g.dataset.targetId === id) {
+                    g.classList.add('expanded');
+                    return;
+                }
+                const match = g.querySelector('.toc-sub a[href="#' + CSS.escape(id) + '"]');
+                if (match) g.classList.add('expanded');
+            });
+        }
+
+        // ---------- Scroll spy ----------
+        function setupScrollSpy(root) {
+            const headers = Array.from(root.querySelectorAll('h2, h3'));
+            if (!headers.length) return;
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        setActive(entry.target.id);
+                    }
+                });
+            }, {
+                rootMargin: '-80px 0px -70% 0px',
+                threshold: 0
+            });
+
+            headers.forEach(h => observer.observe(h));
+        }
+
+        function setActive(id) {
+            const toc = document.getElementById('toc');
+
+            // Clear previous active states
+            toc.querySelectorAll('.toc-group-header.active').forEach(el => el.classList.remove('active'));
+            toc.querySelectorAll('.toc-sub a.active').forEach(el => el.classList.remove('active'));
+
+            // Find whatever matches this id (either an h2 group OR an h3 sub-link)
+            const groups = toc.querySelectorAll('.toc-group');
+            for (const g of groups) {
+                if (g.dataset.targetId === id) {
+                    g.querySelector('.toc-group-header').classList.add('active');
+                    g.classList.add('expanded');
+                    return;
+                }
+                const sub = g.querySelector('.toc-sub a[href="#' + CSS.escape(id) + '"]');
+                if (sub) {
+                    sub.classList.add('active');
+                    g.querySelector('.toc-group-header').classList.add('active');
+                    g.classList.add('expanded');
+                    return;
+                }
+            }
+        }
+
+        // ---------- Mobile drawer ----------
+        function openSidebar() {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('backdrop').classList.add('visible');
+        }
+        function closeSidebar() {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('backdrop').classList.remove('visible');
+        }
+        document.getElementById('menuBtn').addEventListener('click', () => {
+            const sb = document.getElementById('sidebar');
+            if (sb.classList.contains('open')) closeSidebar();
+            else openSidebar();
+        });
+        document.getElementById('backdrop').addEventListener('click', closeSidebar);
 
         loadManual();
     </script>
