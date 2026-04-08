@@ -117,6 +117,93 @@
             padding: 0.5rem 1rem 0.75rem;
         }
 
+        /* ---------- Search ---------- */
+        .search-wrap {
+            padding: 0.25rem 0.75rem 0.75rem;
+            position: relative;
+        }
+        .search-input {
+            width: 100%;
+            padding: 0.55rem 2rem 0.55rem 2rem;
+            font: inherit;
+            font-size: 0.88rem;
+            color: var(--text);
+            background: var(--bg-elevated);
+            border: 1px solid var(--border-strong);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.12s ease, box-shadow 0.12s ease;
+        }
+        .search-input::placeholder { color: var(--text-faint); }
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.18);
+        }
+        .search-icon {
+            position: absolute;
+            left: 1.35rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-faint);
+            pointer-events: none;
+            font-size: 0.9rem;
+        }
+        .search-clear {
+            position: absolute;
+            right: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-faint);
+            cursor: pointer;
+            font-size: 1rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 4px;
+            display: none;
+            line-height: 1;
+        }
+        .search-clear:hover { color: var(--text); background: rgba(0,0,0,0.05); }
+        .search-wrap.has-value .search-clear { display: block; }
+
+        .search-hint {
+            position: absolute;
+            right: 1.1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.7rem;
+            color: var(--text-faint);
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 1px 5px;
+            pointer-events: none;
+        }
+        .search-wrap.has-value .search-hint { display: none; }
+
+        .toc-highlight {
+            background: var(--accent-bg);
+            color: #5a4500;
+            border-radius: 2px;
+            padding: 0 1px;
+        }
+
+        .no-results {
+            padding: 1rem 1rem;
+            color: var(--text-faint);
+            font-size: 0.85rem;
+            text-align: center;
+            display: none;
+        }
+        .no-results.visible { display: block; }
+
+        /* When filtering, hide non-matching items */
+        .toc.filtering .toc-group:not(.has-match) { display: none; }
+        .toc.filtering .toc-sub li:not(.match) { display: none; }
+        .toc.filtering .toc-group.has-match { }
+        .toc.filtering .toc-group.has-match .toc-sub { max-height: 2000px; }
+        .toc.filtering .toc-group-header .toc-caret { visibility: hidden; }
+
         .toc { list-style: none; }
         .toc-group { margin-bottom: 0.15rem; }
 
@@ -372,10 +459,25 @@
 
     <div class="layout">
         <aside class="sidebar" id="sidebar" aria-label="Table of contents">
+            <div class="search-wrap" id="searchWrap">
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input
+                    type="search"
+                    class="search-input"
+                    id="searchInput"
+                    placeholder="Search the manual"
+                    autocomplete="off"
+                    spellcheck="false"
+                    aria-label="Search the manual"
+                >
+                <span class="search-hint" id="searchHint">⌘K</span>
+                <button type="button" class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
+            </div>
             <div class="sidebar-title">Contents</div>
             <ul class="toc" id="toc">
                 <li style="padding: 0.5rem 1rem; color: var(--text-faint); font-size: 0.85rem;">Loading…</li>
             </ul>
+            <div class="no-results" id="noResults">No matches found</div>
         </aside>
 
         <main class="main">
@@ -433,6 +535,7 @@
 
                 // Wire up interactions
                 setupScrollSpy(content);
+                setupSearch();
                 handleInitialHash();
             } catch (err) {
                 console.error(err);
@@ -621,6 +724,150 @@
                     return;
                 }
             }
+        }
+
+        // ---------- Search / filter ----------
+        function escapeHTML(s) {
+            return s.replace(/[&<>"']/g, c => ({
+                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+            }[c]));
+        }
+        function escapeRegex(s) {
+            return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+        function highlightMatch(text, query) {
+            if (!query) return escapeHTML(text);
+            const re = new RegExp('(' + escapeRegex(query) + ')', 'ig');
+            // Escape first, then inject highlight spans (regex runs on raw text,
+            // we then re-assemble using escaped chunks)
+            const parts = text.split(re);
+            return parts.map(p => {
+                if (p.toLowerCase() === query.toLowerCase()) {
+                    return '<span class="toc-highlight">' + escapeHTML(p) + '</span>';
+                }
+                return escapeHTML(p);
+            }).join('');
+        }
+
+        function filterTOC(rawQuery) {
+            const toc = document.getElementById('toc');
+            const noResults = document.getElementById('noResults');
+            const query = (rawQuery || '').trim().toLowerCase();
+
+            if (!query) {
+                toc.classList.remove('filtering');
+                noResults.classList.remove('visible');
+                // Restore original labels (strip any highlight spans)
+                toc.querySelectorAll('.toc-group-label').forEach(el => {
+                    el.textContent = el.dataset.label || el.textContent;
+                });
+                toc.querySelectorAll('.toc-sub a').forEach(el => {
+                    el.textContent = el.dataset.label || el.textContent;
+                });
+                toc.querySelectorAll('.toc-group').forEach(g => {
+                    g.classList.remove('has-match', 'expanded-by-search');
+                });
+                // Re-expand only the currently active group (or the first)
+                const activeHeader = toc.querySelector('.toc-group-header.active');
+                if (!activeHeader) {
+                    const first = toc.querySelector('.toc-group');
+                    if (first) first.classList.add('expanded');
+                }
+                return;
+            }
+
+            toc.classList.add('filtering');
+            let anyMatch = false;
+
+            toc.querySelectorAll('.toc-group').forEach(group => {
+                const headerLabel = group.querySelector('.toc-group-label');
+                const groupText = (headerLabel.dataset.label || headerLabel.textContent);
+                const groupMatches = groupText.toLowerCase().includes(query);
+
+                let subMatchCount = 0;
+                group.querySelectorAll('.toc-sub li').forEach(li => {
+                    const a = li.querySelector('a');
+                    const label = a.dataset.label || a.textContent;
+                    const matches = label.toLowerCase().includes(query);
+                    if (matches) {
+                        li.classList.add('match');
+                        a.innerHTML = highlightMatch(label, query);
+                        subMatchCount++;
+                    } else {
+                        li.classList.remove('match');
+                        a.textContent = label;
+                    }
+                });
+
+                if (groupMatches || subMatchCount > 0) {
+                    group.classList.add('has-match', 'expanded');
+                    anyMatch = true;
+                    if (groupMatches) {
+                        headerLabel.innerHTML = highlightMatch(groupText, query);
+                    } else {
+                        headerLabel.textContent = groupText;
+                    }
+                } else {
+                    group.classList.remove('has-match');
+                    headerLabel.textContent = groupText;
+                }
+            });
+
+            noResults.classList.toggle('visible', !anyMatch);
+        }
+
+        function setupSearch() {
+            const input = document.getElementById('searchInput');
+            const clearBtn = document.getElementById('searchClear');
+            const wrap = document.getElementById('searchWrap');
+
+            // Cache original labels so we can restore them after highlighting
+            document.querySelectorAll('.toc-group-label').forEach(el => {
+                el.dataset.label = el.textContent;
+            });
+            document.querySelectorAll('.toc-sub a').forEach(el => {
+                el.dataset.label = el.textContent;
+            });
+
+            input.addEventListener('input', (e) => {
+                const v = e.target.value;
+                wrap.classList.toggle('has-value', v.length > 0);
+                filterTOC(v);
+            });
+
+            input.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    input.value = '';
+                    wrap.classList.remove('has-value');
+                    filterTOC('');
+                    input.blur();
+                } else if (e.key === 'Enter') {
+                    // Jump to the first visible match
+                    const firstMatch =
+                        document.querySelector('.toc.filtering .toc-sub li.match a') ||
+                        document.querySelector('.toc.filtering .toc-group.has-match .toc-group-header');
+                    if (firstMatch) {
+                        firstMatch.click();
+                    }
+                }
+            });
+
+            clearBtn.addEventListener('click', () => {
+                input.value = '';
+                wrap.classList.remove('has-value');
+                filterTOC('');
+                input.focus();
+            });
+
+            // Global hotkey: Cmd/Ctrl + K
+            document.addEventListener('keydown', (e) => {
+                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                    e.preventDefault();
+                    if (window.innerWidth <= 900) openSidebar();
+                    input.focus();
+                    input.select();
+                }
+            });
         }
 
         // ---------- Mobile drawer ----------
