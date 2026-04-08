@@ -618,21 +618,25 @@
                 // Collect h3s that belong to this h2 (until the next h2)
                 const subList = document.createElement('ul');
                 subList.className = 'toc-sub';
-                let node = h2.nextElementSibling;
-                while (node && node.tagName !== 'H2') {
-                    if (node.tagName === 'H3') {
+                let cursor = h2.nextElementSibling;
+                while (cursor && cursor.tagName !== 'H2') {
+                    if (cursor.tagName === 'H3') {
+                        // Capture this specific h3 in a block-scoped const so the
+                        // click handler closure doesn't see the loop cursor change.
+                        const h3 = cursor;
+                        const h3Id = h3.id;
                         const subLi = document.createElement('li');
                         const a = document.createElement('a');
-                        a.href = '#' + node.id;
-                        a.textContent = node.textContent;
+                        a.href = '#' + h3Id;
+                        a.textContent = h3.textContent;
                         a.addEventListener('click', (e) => {
                             e.preventDefault();
-                            navigateTo(node.id);
+                            navigateTo(h3Id);
                         });
                         subLi.appendChild(a);
                         subList.appendChild(subLi);
                     }
-                    node = node.nextElementSibling;
+                    cursor = cursor.nextElementSibling;
                 }
                 groupLi.appendChild(subList);
                 toc.appendChild(groupLi);
