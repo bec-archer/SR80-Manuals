@@ -20,13 +20,14 @@
   - [Closed Jobs (Job History)](#closed-jobs-job-history)
   - [Creating a New Work Order](#creating-a-new-work-order)
   - [Viewing a Job (Job Detail)](#viewing-a-job-job-detail)
+  - [Hoses & Parts (Adding Materials to a Job)](#hoses--parts-adding-materials-to-a-job)
   - [Editing a Draft Work Order](#editing-a-draft-work-order)
   - [Editing a Checked-In Item](#editing-a-checked-in-item)
   - [No Warranty Flag](#no-warranty-flag)
   - [Changing the Customer on a Job](#changing-the-customer-on-a-job)
   - [Finalizing a Draft](#finalizing-a-draft)
   - [Customer Check-In](#customer-check-in)
-  - [Complete & Pickup](#complete-pickup)
+  - [Complete & Pickup](#complete--pickup)
 - [Customers](#customers)
   - [Customer List](#customer-list)
   - [Customer Detail](#customer-detail)
@@ -75,15 +76,15 @@
   - [Assigning a Tag at Check-In (Front Counter)](#assigning-a-tag-at-check-in-front-counter)
   - [Scanning from the Job Board (Front Counter)](#scanning-from-the-job-board-front-counter)
   - [Scanning from the Work Queue (Tech Station)](#scanning-from-the-work-queue-tech-station)
-  - [The QR Icon — What It Means](#the-qr-icon-what-it-means)
+  - [The QR Icon — What It Means](#the-qr-icon--what-it-means)
   - [Viewing and Reprinting a Tag](#viewing-and-reprinting-a-tag)
   - [Assigning a Tag After Check-In](#assigning-a-tag-after-check-in)
   - [Replacing a Tag](#replacing-a-tag)
   - [Scanning Old / Retired Tags](#scanning-old--retired-tags)
-  - [Scanning Tags on Totaled or Closed Items](#scanning-tags-on-totaled-or-closed-items)
+  - [Scanning Tags on Closed or Totaled Items](#scanning-tags-on-closed-or-totaled-items)
   - [When There's No Tag](#when-theres-no-tag)
   - [Flagging Equipment](#flagging-equipment)
-- [Reference & Troubleshooting](#reference-troubleshooting)
+- [Reference & Troubleshooting](#reference--troubleshooting)
   - [Troubleshooting](#troubleshooting)
   - [Working Offline](#working-offline)
   - [Multiple Devices](#multiple-devices)
@@ -455,6 +456,26 @@ Below each item card, you may see **action buttons** depending on the item's sta
 
 Use the **back arrow** to return to the Job Board.
 
+### Hoses & Parts (Adding Materials to a Job)
+
+If a repair involves hoses, fittings, or adapters, you can add those as separate line items on the work order. These show up in the **Hoses & Parts** section on the job detail view, just below the consolidated cost summary card at the top.
+
+**To add materials:**
+
+1. Open the job from the Job Board
+2. Tap the green **[+]** button next to the "Hoses & Parts" header
+3. A sheet opens with three tabs at the top: **Hose Assembly**, **Fitting**, and **Adapter**
+
+**Hose Assembly** — for a complete hose build. Enter three costs: Fitting 1, Fitting 2, and Hose. This matches the shop's shorthand (e.g., 20/20/85 = two $20 fittings + $85 hose = $125 total). Optionally add a description (e.g., "Boom cylinder supply line"). Tap **Save**.
+
+**Fitting** or **Adapter** — for standalone parts. Enter a description and cost. Tap **Save**.
+
+All materials are always taxed when the shop's "Charge Tax on Parts" setting is turned on. If a customer is tax exempt, no tax is charged on anything (materials included).
+
+Each material shows up as a row in the Hoses & Parts section with a colored pill (Hose Assembly, Fitting, or Adapter) and the cost breakdown. The totals from materials roll into the cost summary card at the top of the job detail — so when it's time to enter amounts into Square, everything is in one place.
+
+**Who can add materials:** Anyone — front counter, techs, and admins — can add materials to a job at any time while it's open.
+
 ### Editing a Draft Work Order
 
 If you tapped "Save as Draft" when creating a work order and need to come back to finish it, tap the draft card on the Job Board to open it.
@@ -554,13 +575,17 @@ When all items on a job have been priced and approved (all showing green/Complet
 
 #### Closing an Entire Job (Most Common)
 
-Open the job from the Job Board. Right below the customer info card, you'll see a **Close Job card** with:
+Open the job from the Job Board. Right below the customer info card, you'll see the **cost summary card** — this is the one place that shows everything Maria needs to type into Square:
 
-- A line for each item showing its number, equipment type, and cost
-- If tax is turned on and an item was marked taxable, a small tax line appears under that item
-- A **Total** line at the bottom with the full amount
+- **NON-TAXABLE** section — Labor total
+- **TAXABLE** section — Parts (if parts/labor split is on), Hose Assemblies, Fittings / Adapters
+- **Taxable Subtotal** — the sum of everything subject to sales tax
+- **Tax (X.XX%)** — the calculated tax, or an orange **TAX EXEMPT** pill if the customer is tax exempt
+- **Grand Total** — the big bold total at the bottom of the card
 
-Below the cost summary is a green **"Close Job"** button (or **"Close All N Items"** if there are multiple items). Tap it, confirm, and you're done — all items close at once and the app takes you back to the Job Board. The job moves to the Closed section at the bottom of the board.
+This card shows up as soon as the job has any costed content — you don't have to wait for items to be marked Complete to see the totals. So even mid-job, you can glance at the card to see where things stand.
+
+When every item on the job is Complete (green), a green **"Close Job"** button (or **"Close All N Items"** if there are multiple items) appears inside that same card, right below the Grand Total. Tap it, confirm, and you're done — all items close at once and the app takes you back to the Job Board. The job moves to the Closed section at the bottom of the board.
 
 #### Partial Pickup (Customer Takes Some Items, Not All)
 
@@ -573,9 +598,9 @@ Sometimes a customer picks up one or two items but leaves others in the shop. Wh
 
 The closed item grays out and shows a **"Picked Up"** badge in the top-right corner. The job stays on the active board because other items are still being worked on.
 
-When the customer comes back for the rest, you'll see the Close Job card at the top (once all remaining items are Complete) and can close everything in one tap.
+When the customer comes back for the rest, the cost summary card at the top will already be showing the remaining balance. Once all remaining items are Complete, the green **Close Job** button appears inside that same card and you can close everything in one tap.
 
-**Note:** The per-item Close button only appears during partial pickup situations — when some items are ready but others are still in the shop. When all items are Complete, use the Close Job card at the top instead.
+**Note:** The per-item Close button only appears during partial pickup situations — when some items are ready but others are still in the shop. When all items are Complete, use the Close Job button in the cost summary card at the top instead.
 
 #### After Closing
 
@@ -609,7 +634,7 @@ The item moves to Closed. A timestamp and your selected outcome are logged for t
 
 **Important:** "Customer Contacted" requires an internet connection. If the app is offline, you'll see an error — try again once you're back online.
 
-**Note:** The Close Job card at the top of the job detail only shows Complete items — Totaled items handle their own close through "Customer Contacted." A job is fully closed when ALL items are closed, whether they got there through the normal Complete → Close path or the Totaled → Customer Contacted → Close path.
+**Note:** The Close Job button inside the cost summary card only closes Complete items — Totaled items handle their own close through "Customer Contacted." A job is fully closed when ALL items are closed, whether they got there through the normal Complete → Close path or the Totaled → Customer Contacted → Close path.
 
 [screenshot: Customer Contacted sheet with outcome picker and note field]
 
