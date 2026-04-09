@@ -1,896 +1,1784 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ShopTracker User Manual</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/12.0.1/marked.min.js"></script>
-    <style>
-        :root {
-            --bg: #fbfaf6;
-            --bg-sidebar: #f4f1ea;
-            --bg-elevated: #ffffff;
-            --border: #e6e1d4;
-            --border-strong: #d8d2c1;
-            --text: #1d1d1f;
-            --text-muted: #6b6b70;
-            --text-faint: #9a9a9f;
-            --accent: #c9a227;        /* warm Notes-yellow accent */
-            --accent-bg: #fff6d6;
-            --link: #1466c9;
-            --code-bg: #f1ede3;
-            --sidebar-width: 300px;
-            --header-height: 64px;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Helvetica, Arial, sans-serif;
-            font-size: 16px;
-            line-height: 1.65;
-            color: var(--text);
-            background: var(--bg);
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
-
-        /* ---------- Top Bar ---------- */
-        .topbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: var(--header-height);
-            background: var(--bg);
-            border-bottom: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            padding: 0 1.25rem;
-            z-index: 20;
-        }
-        .topbar .brand {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
-        .topbar .brand-title {
-            font-size: 1.05rem;
-            font-weight: 600;
-            color: var(--text);
-            letter-spacing: -0.01em;
-        }
-        .topbar .brand-sub {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            margin-top: 1px;
-        }
-        .topbar .menu-btn {
-            display: none;
-            background: none;
-            border: 1px solid var(--border-strong);
-            color: var(--text);
-            border-radius: 8px;
-            padding: 0.45rem 0.65rem;
-            cursor: pointer;
-            margin-right: 0.75rem;
-            font-size: 1rem;
-            line-height: 1;
-        }
-        .topbar .menu-btn:hover { background: var(--bg-sidebar); }
-
-        /* ---------- Layout ---------- */
-        .layout {
-            display: flex;
-            padding-top: var(--header-height);
-            min-height: 100vh;
-        }
-
-        /* ---------- Sidebar ---------- */
-        .sidebar {
-            width: var(--sidebar-width);
-            flex-shrink: 0;
-            background: var(--bg-sidebar);
-            border-right: 1px solid var(--border);
-            position: fixed;
-            top: var(--header-height);
-            bottom: 0;
-            left: 0;
-            overflow-y: auto;
-            padding: 1rem 0.5rem 2rem;
-        }
-        .sidebar::-webkit-scrollbar { width: 8px; }
-        .sidebar::-webkit-scrollbar-thumb {
-            background: var(--border-strong);
-            border-radius: 4px;
-        }
-        .sidebar::-webkit-scrollbar-track { background: transparent; }
-
-        .sidebar-title {
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.06em;
-            color: var(--text-faint);
-            padding: 0.5rem 1rem 0.75rem;
-        }
-
-        /* ---------- Search ---------- */
-        .search-wrap {
-            padding: 0.25rem 0.75rem 0.75rem;
-            position: relative;
-        }
-        .search-input {
-            width: 100%;
-            padding: 0.55rem 2rem 0.55rem 2rem;
-            font: inherit;
-            font-size: 0.88rem;
-            color: var(--text);
-            background: var(--bg-elevated);
-            border: 1px solid var(--border-strong);
-            border-radius: 8px;
-            outline: none;
-            transition: border-color 0.12s ease, box-shadow 0.12s ease;
-        }
-        .search-input::placeholder { color: var(--text-faint); }
-        .search-input:focus {
-            border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.18);
-        }
-        .search-icon {
-            position: absolute;
-            left: 1.35rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--text-faint);
-            pointer-events: none;
-            font-size: 0.9rem;
-        }
-        .search-clear {
-            position: absolute;
-            right: 1.1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: var(--text-faint);
-            cursor: pointer;
-            font-size: 1rem;
-            padding: 0.1rem 0.3rem;
-            border-radius: 4px;
-            display: none;
-            line-height: 1;
-        }
-        .search-clear:hover { color: var(--text); background: rgba(0,0,0,0.05); }
-        .search-wrap.has-value .search-clear { display: block; }
-
-        .search-hint {
-            position: absolute;
-            right: 1.1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 0.7rem;
-            color: var(--text-faint);
-            background: var(--bg-sidebar);
-            border: 1px solid var(--border);
-            border-radius: 4px;
-            padding: 1px 5px;
-            pointer-events: none;
-        }
-        .search-wrap.has-value .search-hint { display: none; }
-
-        .toc-highlight {
-            background: var(--accent-bg);
-            color: #5a4500;
-            border-radius: 2px;
-            padding: 0 1px;
-        }
-
-        .no-results {
-            padding: 1rem 1rem;
-            color: var(--text-faint);
-            font-size: 0.85rem;
-            text-align: center;
-            display: none;
-        }
-        .no-results.visible { display: block; }
-
-        /* When filtering, hide non-matching items */
-        .toc.filtering .toc-group:not(.has-match) { display: none; }
-        .toc.filtering .toc-sub li:not(.match) { display: none; }
-        .toc.filtering .toc-group.has-match { }
-        .toc.filtering .toc-group.has-match .toc-sub { max-height: 2000px; }
-        .toc.filtering .toc-group-header .toc-caret { visibility: hidden; }
-
-        .toc { list-style: none; }
-        .toc-group { margin-bottom: 0.15rem; }
-
-        .toc-group-header {
-            display: flex;
-            align-items: center;
-            gap: 0.45rem;
-            padding: 0.45rem 0.75rem;
-            border-radius: 7px;
-            cursor: pointer;
-            color: var(--text);
-            font-size: 0.92rem;
-            font-weight: 600;
-            user-select: none;
-            transition: background 0.12s ease;
-        }
-        .toc-group-header:hover { background: rgba(0,0,0,0.04); }
-        .toc-group-header.active {
-            background: var(--accent-bg);
-            color: #6e5400;
-        }
-
-        .toc-caret {
-            display: inline-block;
-            font-size: 0.7rem;
-            color: var(--text-faint);
-            transition: transform 0.18s ease;
-            width: 0.75rem;
-            text-align: center;
-            flex-shrink: 0;
-        }
-        .toc-group.expanded .toc-caret { transform: rotate(90deg); }
-
-        .toc-group-label {
-            flex: 1;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
-
-        .toc-sub {
-            list-style: none;
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.22s ease;
-            padding-left: 0.25rem;
-        }
-        .toc-group.expanded .toc-sub {
-            max-height: 2000px;
-        }
-
-        .toc-sub li a {
-            display: block;
-            padding: 0.35rem 0.75rem 0.35rem 1.75rem;
-            font-size: 0.86rem;
-            color: var(--text-muted);
-            text-decoration: none;
-            border-radius: 6px;
-            margin: 1px 0;
-            border-left: 2px solid transparent;
-            line-height: 1.4;
-        }
-        .toc-sub li a:hover {
-            background: rgba(0,0,0,0.035);
-            color: var(--text);
-        }
-        .toc-sub li a.active {
-            background: var(--accent-bg);
-            color: #5a4500;
-            border-left-color: var(--accent);
-            font-weight: 600;
-        }
-
-        /* ---------- Main Content ---------- */
-        .main {
-            flex: 1;
-            margin-left: var(--sidebar-width);
-            padding: 2rem 2.5rem 5rem;
-            min-width: 0;
-        }
-        .main-inner {
-            max-width: 760px;
-            margin: 0 auto;
-        }
-
-        .loading {
-            padding: 4rem 1rem;
-            text-align: center;
-            color: var(--text-muted);
-        }
-
-        /* Markdown content styling */
-        .content h1 {
-            font-size: 2rem;
-            font-weight: 700;
-            letter-spacing: -0.02em;
-            margin: 0.5rem 0 0.75rem;
-        }
-        .content h2 {
-            font-size: 1.55rem;
-            font-weight: 700;
-            letter-spacing: -0.015em;
-            margin: 3rem 0 1rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border);
-        }
-        .content h2:first-of-type {
-            border-top: none;
-            padding-top: 0;
-        }
-        .content h3 {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin: 2rem 0 0.6rem;
-            letter-spacing: -0.005em;
-        }
-        .content h4 {
-            font-size: 1rem;
-            font-weight: 600;
-            margin: 1.5rem 0 0.5rem;
-            color: var(--text);
-        }
-        .content h2, .content h3, .content h4 {
-            scroll-margin-top: calc(var(--header-height) + 1rem);
-        }
-
-        .content p {
-            margin-bottom: 1rem;
-            color: #2a2a2e;
-        }
-        .content ul, .content ol {
-            margin: 0 0 1rem 1.5rem;
-            color: #2a2a2e;
-        }
-        .content li { margin-bottom: 0.35rem; }
-        .content li > p { margin-bottom: 0.35rem; }
-
-        .content strong { font-weight: 650; color: var(--text); }
-        .content em { font-style: italic; color: #4a4a4e; }
-
-        .content a {
-            color: var(--link);
-            text-decoration: none;
-            border-bottom: 1px solid rgba(20, 102, 201, 0.25);
-        }
-        .content a:hover {
-            border-bottom-color: var(--link);
-        }
-
-        .content hr {
-            border: none;
-            border-top: 1px solid var(--border);
-            margin: 2.5rem 0;
-        }
-
-        .content code {
-            background: var(--code-bg);
-            padding: 0.1rem 0.4rem;
-            border-radius: 4px;
-            font-family: "SF Mono", ui-monospace, Menlo, Consolas, monospace;
-            font-size: 0.88em;
-            color: #6b4e00;
-        }
-        .content pre {
-            background: var(--code-bg);
-            padding: 1rem 1.25rem;
-            border-radius: 10px;
-            overflow-x: auto;
-            margin: 1rem 0;
-        }
-        .content pre code {
-            background: none;
-            padding: 0;
-            color: var(--text);
-        }
-
-        .content blockquote {
-            border-left: 3px solid var(--accent);
-            background: var(--accent-bg);
-            padding: 0.75rem 1rem;
-            margin: 1rem 0;
-            border-radius: 0 8px 8px 0;
-            color: #4a3a00;
-        }
-        .content blockquote p:last-child { margin-bottom: 0; }
-
-        .content table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 1rem 0;
-            font-size: 0.92rem;
-        }
-        .content th, .content td {
-            border: 1px solid var(--border);
-            padding: 0.5rem 0.75rem;
-            text-align: left;
-        }
-        .content th {
-            background: var(--bg-sidebar);
-            font-weight: 600;
-        }
-
-        .footer {
-            max-width: 760px;
-            margin: 4rem auto 0;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
-            text-align: center;
-            font-size: 0.78rem;
-            color: var(--text-faint);
-        }
-
-        /* Backdrop for mobile drawer */
-        .backdrop {
-            display: none;
-            position: fixed;
-            inset: 0;
-            background: rgba(0,0,0,0.35);
-            z-index: 15;
-        }
-        .backdrop.visible { display: block; }
-
-        /* ---------- Responsive ---------- */
-        @media (max-width: 900px) {
-            .topbar .menu-btn { display: inline-flex; }
-            .sidebar {
-                transform: translateX(-100%);
-                transition: transform 0.22s ease;
-                box-shadow: 2px 0 16px rgba(0,0,0,0.08);
-                z-index: 18;
-            }
-            .sidebar.open { transform: translateX(0); }
-            .main {
-                margin-left: 0;
-                padding: 1.5rem 1.25rem 4rem;
-            }
-            .content h1 { font-size: 1.65rem; }
-            .content h2 { font-size: 1.35rem; margin-top: 2.25rem; }
-            .content h3 { font-size: 1.1rem; }
-        }
-    </style>
-</head>
-<body>
-    <header class="topbar">
-        <button class="menu-btn" id="menuBtn" aria-label="Toggle navigation">☰</button>
-        <div class="brand">
-            <span class="brand-title">ShopTracker User Manual</span>
-            <span class="brand-sub">Hydraulics SR-80</span>
-        </div>
-    </header>
-
-    <div class="backdrop" id="backdrop"></div>
-
-    <div class="layout">
-        <aside class="sidebar" id="sidebar" aria-label="Table of contents">
-            <div class="search-wrap" id="searchWrap">
-                <span class="search-icon" aria-hidden="true">⌕</span>
-                <input
-                    type="search"
-                    class="search-input"
-                    id="searchInput"
-                    placeholder="Search the manual"
-                    autocomplete="off"
-                    spellcheck="false"
-                    aria-label="Search the manual"
-                >
-                <span class="search-hint" id="searchHint">⌘K</span>
-                <button type="button" class="search-clear" id="searchClear" aria-label="Clear search">✕</button>
-            </div>
-            <div class="sidebar-title">Contents</div>
-            <ul class="toc" id="toc">
-                <li style="padding: 0.5rem 1rem; color: var(--text-faint); font-size: 0.85rem;">Loading…</li>
-            </ul>
-            <div class="no-results" id="noResults">No matches found</div>
-        </aside>
-
-        <main class="main">
-            <div class="main-inner">
-                <article class="content" id="content">
-                    <div class="loading">Loading manual…</div>
-                </article>
-                <div class="footer">Hydraulics SR-80 &middot; ShopTracker</div>
-            </div>
-        </main>
-    </div>
-
-    <script>
-        // ---------- GitHub-compatible slug ----------
-        // Matches github-slugger behavior: lowercase, strip punctuation
-        // (keeping letters, digits, spaces, hyphens, underscores), each
-        // space individually becomes a hyphen (so "A & B" -> "a--b").
-        const seenSlugs = {};
-        function slugify(text) {
-            let s = text.toLowerCase();
-            // Remove anything that isn't a letter, number, space, hyphen, or underscore
-            s = s.replace(/[^\p{L}\p{N}\s\-_]/gu, '');
-            s = s.replace(/ /g, '-');
-            // Collapse any accidental runs caused by exotic whitespace — keep double
-            // hyphens from real double-spaces intact, so no collapsing here.
-            let base = s;
-            let n = seenSlugs[base] || 0;
-            seenSlugs[base] = n + 1;
-            return n === 0 ? base : `${base}-${n}`;
-        }
-
-        // ---------- Render markdown & build TOC ----------
-        async function loadManual() {
-            try {
-                const response = await fetch('user-manual.md');
-                if (!response.ok) throw new Error('Failed to load manual');
-                let markdown = await response.text();
-
-                // Strip the existing in-document Table of Contents block.
-                // We replace it with the sidebar, so it's redundant in the body.
-                markdown = stripInlineTOC(markdown);
-
-                // Configure marked to emit clean HTML
-                marked.setOptions({ gfm: true, breaks: false, headerIds: false, mangle: false });
-
-                const html = marked.parse(markdown);
-                const content = document.getElementById('content');
-                content.innerHTML = html;
-
-                // Assign IDs to all headers using the slugger
-                assignHeaderIds(content);
-
-                // Build sidebar TOC from the rendered headers
-                buildSidebarTOC(content);
-
-                // Wire up interactions
-                setupScrollSpy(content);
-                setupSearch();
-                handleInitialHash();
-            } catch (err) {
-                console.error(err);
-                document.getElementById('content').innerHTML =
-                    '<p style="text-align:center;color:var(--text-muted);padding:4rem 0;">' +
-                    'Could not load the manual. Please try refreshing.</p>';
-            }
-        }
-
-        function stripInlineTOC(md) {
-            // Remove a "## Table of Contents" heading and its bullet list,
-            // up until the next heading or horizontal rule.
-            const lines = md.split('\n');
-            const out = [];
-            let inTOC = false;
-            for (let i = 0; i < lines.length; i++) {
-                const line = lines[i];
-                if (!inTOC && /^##\s+Table of Contents\s*$/i.test(line)) {
-                    inTOC = true;
-                    continue;
-                }
-                if (inTOC) {
-                    // Exit the TOC block when we hit the next heading or a standalone ---
-                    if (/^#{1,6}\s+/.test(line)) {
-                        inTOC = false;
-                        out.push(line);
-                        continue;
-                    }
-                    if (/^---\s*$/.test(line)) {
-                        inTOC = false;
-                        // Skip the --- separator too since it was the TOC's closer
-                        continue;
-                    }
-                    // Skip TOC content (bullets, blank lines, etc.)
-                    continue;
-                }
-                out.push(line);
-            }
-            return out.join('\n');
-        }
-
-        function assignHeaderIds(root) {
-            const headers = root.querySelectorAll('h1, h2, h3, h4, h5, h6');
-            headers.forEach(h => {
-                const text = h.textContent || '';
-                const id = slugify(text);
-                h.id = id;
-            });
-        }
-
-        function buildSidebarTOC(root) {
-            const toc = document.getElementById('toc');
-            toc.innerHTML = '';
-
-            // H2 = top-level group (collapsible), H3 = sub-item
-            const h2s = root.querySelectorAll('h2');
-            h2s.forEach(h2 => {
-                const groupLi = document.createElement('li');
-                groupLi.className = 'toc-group';
-                groupLi.dataset.targetId = h2.id;
-
-                const header = document.createElement('div');
-                header.className = 'toc-group-header';
-                header.innerHTML =
-                    '<span class="toc-caret">▶</span>' +
-                    '<span class="toc-group-label"></span>';
-                header.querySelector('.toc-group-label').textContent = h2.textContent;
-
-                header.addEventListener('click', (e) => {
-                    const hasSubs = groupLi.querySelector('.toc-sub li');
-                    if (hasSubs) {
-                        // Toggle expansion, but ALSO navigate to the section
-                        groupLi.classList.toggle('expanded');
-                    }
-                    navigateTo(h2.id);
-                });
-
-                groupLi.appendChild(header);
-
-                // Collect h3s that belong to this h2 (until the next h2)
-                const subList = document.createElement('ul');
-                subList.className = 'toc-sub';
-                let cursor = h2.nextElementSibling;
-                while (cursor && cursor.tagName !== 'H2') {
-                    if (cursor.tagName === 'H3') {
-                        // Capture this specific h3 in a block-scoped const so the
-                        // click handler closure doesn't see the loop cursor change.
-                        const h3 = cursor;
-                        const h3Id = h3.id;
-                        const subLi = document.createElement('li');
-                        const a = document.createElement('a');
-                        a.href = '#' + h3Id;
-                        a.textContent = h3.textContent;
-                        a.addEventListener('click', (e) => {
-                            e.preventDefault();
-                            navigateTo(h3Id);
-                        });
-                        subLi.appendChild(a);
-                        subList.appendChild(subLi);
-                    }
-                    cursor = cursor.nextElementSibling;
-                }
-                groupLi.appendChild(subList);
-                toc.appendChild(groupLi);
-            });
-
-            // Expand the first group by default
-            const first = toc.querySelector('.toc-group');
-            if (first) first.classList.add('expanded');
-        }
-
-        function navigateTo(id) {
-            const el = document.getElementById(id);
-            if (!el) return;
-            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            history.replaceState(null, '', '#' + id);
-            // Close sidebar on mobile after navigation
-            if (window.innerWidth <= 900) {
-                closeSidebar();
-            }
-        }
-
-        function handleInitialHash() {
-            if (location.hash) {
-                const id = decodeURIComponent(location.hash.slice(1));
-                const el = document.getElementById(id);
-                if (el) {
-                    // Expand the enclosing group in the sidebar
-                    expandGroupContaining(id);
-                    // Defer scroll so layout is settled
-                    setTimeout(() => {
-                        el.scrollIntoView({ behavior: 'auto', block: 'start' });
-                    }, 60);
-                }
-            }
-        }
-
-        function expandGroupContaining(id) {
-            const toc = document.getElementById('toc');
-            const groups = toc.querySelectorAll('.toc-group');
-            groups.forEach(g => {
-                if (g.dataset.targetId === id) {
-                    g.classList.add('expanded');
-                    return;
-                }
-                const match = g.querySelector('.toc-sub a[href="#' + CSS.escape(id) + '"]');
-                if (match) g.classList.add('expanded');
-            });
-        }
-
-        // ---------- Scroll spy ----------
-        function setupScrollSpy(root) {
-            const headers = Array.from(root.querySelectorAll('h2, h3'));
-            if (!headers.length) return;
-
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        setActive(entry.target.id);
-                    }
-                });
-            }, {
-                rootMargin: '-80px 0px -70% 0px',
-                threshold: 0
-            });
-
-            headers.forEach(h => observer.observe(h));
-        }
-
-        function setActive(id) {
-            const toc = document.getElementById('toc');
-
-            // Clear previous active states
-            toc.querySelectorAll('.toc-group-header.active').forEach(el => el.classList.remove('active'));
-            toc.querySelectorAll('.toc-sub a.active').forEach(el => el.classList.remove('active'));
-
-            // Find whatever matches this id (either an h2 group OR an h3 sub-link)
-            const groups = toc.querySelectorAll('.toc-group');
-            for (const g of groups) {
-                if (g.dataset.targetId === id) {
-                    g.querySelector('.toc-group-header').classList.add('active');
-                    g.classList.add('expanded');
-                    return;
-                }
-                const sub = g.querySelector('.toc-sub a[href="#' + CSS.escape(id) + '"]');
-                if (sub) {
-                    sub.classList.add('active');
-                    g.querySelector('.toc-group-header').classList.add('active');
-                    g.classList.add('expanded');
-                    return;
-                }
-            }
-        }
-
-        // ---------- Search / filter ----------
-        function escapeHTML(s) {
-            return s.replace(/[&<>"']/g, c => ({
-                '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
-            }[c]));
-        }
-        function escapeRegex(s) {
-            return s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-        function highlightMatch(text, query) {
-            if (!query) return escapeHTML(text);
-            const re = new RegExp('(' + escapeRegex(query) + ')', 'ig');
-            // Escape first, then inject highlight spans (regex runs on raw text,
-            // we then re-assemble using escaped chunks)
-            const parts = text.split(re);
-            return parts.map(p => {
-                if (p.toLowerCase() === query.toLowerCase()) {
-                    return '<span class="toc-highlight">' + escapeHTML(p) + '</span>';
-                }
-                return escapeHTML(p);
-            }).join('');
-        }
-
-        function filterTOC(rawQuery) {
-            const toc = document.getElementById('toc');
-            const noResults = document.getElementById('noResults');
-            const query = (rawQuery || '').trim().toLowerCase();
-
-            if (!query) {
-                toc.classList.remove('filtering');
-                noResults.classList.remove('visible');
-                // Restore original labels (strip any highlight spans)
-                toc.querySelectorAll('.toc-group-label').forEach(el => {
-                    el.textContent = el.dataset.label || el.textContent;
-                });
-                toc.querySelectorAll('.toc-sub a').forEach(el => {
-                    el.textContent = el.dataset.label || el.textContent;
-                });
-                toc.querySelectorAll('.toc-group').forEach(g => {
-                    g.classList.remove('has-match', 'expanded-by-search');
-                });
-                // Re-expand only the currently active group (or the first)
-                const activeHeader = toc.querySelector('.toc-group-header.active');
-                if (!activeHeader) {
-                    const first = toc.querySelector('.toc-group');
-                    if (first) first.classList.add('expanded');
-                }
-                return;
-            }
-
-            toc.classList.add('filtering');
-            let anyMatch = false;
-
-            toc.querySelectorAll('.toc-group').forEach(group => {
-                const headerLabel = group.querySelector('.toc-group-label');
-                const groupText = (headerLabel.dataset.label || headerLabel.textContent);
-                const groupMatches = groupText.toLowerCase().includes(query);
-
-                let subMatchCount = 0;
-                group.querySelectorAll('.toc-sub li').forEach(li => {
-                    const a = li.querySelector('a');
-                    const label = a.dataset.label || a.textContent;
-                    const matches = label.toLowerCase().includes(query);
-                    if (matches) {
-                        li.classList.add('match');
-                        a.innerHTML = highlightMatch(label, query);
-                        subMatchCount++;
-                    } else {
-                        li.classList.remove('match');
-                        a.textContent = label;
-                    }
-                });
-
-                if (groupMatches || subMatchCount > 0) {
-                    group.classList.add('has-match', 'expanded');
-                    anyMatch = true;
-                    if (groupMatches) {
-                        headerLabel.innerHTML = highlightMatch(groupText, query);
-                    } else {
-                        headerLabel.textContent = groupText;
-                    }
-                } else {
-                    group.classList.remove('has-match');
-                    headerLabel.textContent = groupText;
-                }
-            });
-
-            noResults.classList.toggle('visible', !anyMatch);
-        }
-
-        function setupSearch() {
-            const input = document.getElementById('searchInput');
-            const clearBtn = document.getElementById('searchClear');
-            const wrap = document.getElementById('searchWrap');
-
-            // Cache original labels so we can restore them after highlighting
-            document.querySelectorAll('.toc-group-label').forEach(el => {
-                el.dataset.label = el.textContent;
-            });
-            document.querySelectorAll('.toc-sub a').forEach(el => {
-                el.dataset.label = el.textContent;
-            });
-
-            input.addEventListener('input', (e) => {
-                const v = e.target.value;
-                wrap.classList.toggle('has-value', v.length > 0);
-                filterTOC(v);
-            });
-
-            input.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    input.value = '';
-                    wrap.classList.remove('has-value');
-                    filterTOC('');
-                    input.blur();
-                } else if (e.key === 'Enter') {
-                    // Jump to the first visible match
-                    const firstMatch =
-                        document.querySelector('.toc.filtering .toc-sub li.match a') ||
-                        document.querySelector('.toc.filtering .toc-group.has-match .toc-group-header');
-                    if (firstMatch) {
-                        firstMatch.click();
-                    }
-                }
-            });
-
-            clearBtn.addEventListener('click', () => {
-                input.value = '';
-                wrap.classList.remove('has-value');
-                filterTOC('');
-                input.focus();
-            });
-
-            // Global hotkey: Cmd/Ctrl + K
-            document.addEventListener('keydown', (e) => {
-                if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-                    e.preventDefault();
-                    if (window.innerWidth <= 900) openSidebar();
-                    input.focus();
-                    input.select();
-                }
-            });
-        }
-
-        // ---------- Mobile drawer ----------
-        function openSidebar() {
-            document.getElementById('sidebar').classList.add('open');
-            document.getElementById('backdrop').classList.add('visible');
-        }
-        function closeSidebar() {
-            document.getElementById('sidebar').classList.remove('open');
-            document.getElementById('backdrop').classList.remove('visible');
-        }
-        document.getElementById('menuBtn').addEventListener('click', () => {
-            const sb = document.getElementById('sidebar');
-            if (sb.classList.contains('open')) closeSidebar();
-            else openSidebar();
-        });
-        document.getElementById('backdrop').addEventListener('click', closeSidebar);
-
-        loadManual();
-    </script>
-</body>
-</html>
+# ShopTracker User Manual
+
+**App:** ShopTracker (SR80)
+**Version:** 1.0 (in development)
+**Last Updated:** 2026-04-09 (warranty pill refactor: item-level is_warranty, shared WarrantyPill/NoWarrantyPill components, Mark Complete (No Warranty) bypass, FC post-check-in job-level warranty toggle)
+
+---
+
+## Table of Contents
+
+- [Getting Started](#getting-started)
+  - [What is ShopTracker?](#what-is-shoptracker)
+  - [Device Setup (First Time Only)](#device-setup-first-time-only)
+  - [Admin Access on Non-Admin Devices](#admin-access-on-non-admin-devices)
+  - [Sidebar Navigation](#sidebar-navigation)
+  - [Display Size Settings](#display-size-settings)
+- [Front Counter](#front-counter)
+  - [Job Board](#job-board)
+  - [Searching and Filtering Jobs](#searching-and-filtering-jobs)
+  - [Closed Jobs (Job History)](#closed-jobs-job-history)
+  - [Creating a New Work Order](#creating-a-new-work-order)
+  - [Viewing a Job (Job Detail)](#viewing-a-job-job-detail)
+  - [Hoses & Parts (Adding Materials to a Job)](#hoses--parts-adding-materials-to-a-job)
+  - [Editing a Draft Work Order](#editing-a-draft-work-order)
+  - [Editing a Checked-In Item](#editing-a-checked-in-item)
+  - [No Warranty Flag](#no-warranty-flag)
+  - ["On Fire" Priority Flag (🔥)](#on-fire-priority-flag-)
+  - [Changing the Customer on a Job](#changing-the-customer-on-a-job)
+  - [Finalizing a Draft](#finalizing-a-draft)
+  - [Customer Check-In](#customer-check-in)
+  - [Complete & Pickup](#complete--pickup)
+- [Customers](#customers)
+  - [Customer List](#customer-list)
+  - [Customer Detail](#customer-detail)
+  - [Editing a Customer](#editing-a-customer)
+  - [Flagging a Customer](#flagging-a-customer)
+- [Companies](#companies)
+  - [Company List](#company-list)
+  - [Company Detail](#company-detail)
+  - [How Companies Work](#how-companies-work)
+  - [Flagging a Company](#flagging-a-company)
+- [Tech Station](#tech-station)
+  - [Repair Queue](#repair-queue)
+  - [Searching and Filtering the Queue](#searching-and-filtering-the-queue)
+  - [Scanning a QR Tag (Tech Station)](#scanning-a-qr-tag-tech-station)
+  - [Adding Photos from the Tech Station](#adding-photos-from-the-tech-station)
+  - [Adding Notes from the Tech Station](#adding-notes-from-the-tech-station)
+  - [Working on Warranty Items](#working-on-warranty-items)
+  - [No Warranty Flag (Tech Station)](#no-warranty-flag-tech-station)
+  - [Mark Complete (No Warranty)](#mark-complete-no-warranty)
+  - [Editing Item Info from the Tech Station](#editing-item-info-from-the-tech-station)
+  - [Grabbing an Item](#grabbing-an-item)
+  - [Reassigning a Tech](#reassigning-a-tech)
+  - [Repair Checklist](#repair-checklist)
+  - [Marking Repair as Done](#marking-repair-as-done)
+  - [Testing an Item](#testing-an-item)
+  - [Oil Sample](#oil-sample)
+  - [Repair History](#repair-history)
+  - [Entering Cost](#entering-cost)
+  - [Totaling an Item](#totaling-an-item)
+  - [About the Action Buttons](#about-the-action-buttons)
+  - [Auto-Return to Queue](#auto-return-to-queue)
+  - [Role Switcher (Debug Only)](#role-switcher-debug-only)
+- [Admin](#admin)
+  - [Employee Management](#employee-management)
+  - [Shop Settings](#shop-settings)
+  - [Manage Lists](#manage-lists)
+  - [Device Management](#device-management)
+  - [Managing Flags (Admin Only)](#managing-flags-admin-only)
+  - [Editing Cost on a Complete Item](#editing-cost-on-a-complete-item)
+  - [Reports](#reports)
+  - [Resetting a Device](#resetting-a-device)
+  - [Bug Reports (Admin)](#bug-reports-admin)
+- [Reporting a Problem](#reporting-a-problem)
+  - [The Ladybug Button](#the-ladybug-button)
+- [Equipment Tags](#equipment-tags)
+  - [Getting Sticker Sheets](#getting-sticker-sheets)
+  - [Assigning a Tag at Check-In (Front Counter)](#assigning-a-tag-at-check-in-front-counter)
+  - [Scanning from the Job Board (Front Counter)](#scanning-from-the-job-board-front-counter)
+  - [Scanning from the Work Queue (Tech Station)](#scanning-from-the-work-queue-tech-station)
+  - [The QR Icon — What It Means](#the-qr-icon--what-it-means)
+  - [Viewing and Reprinting a Tag](#viewing-and-reprinting-a-tag)
+  - [Assigning a Tag After Check-In](#assigning-a-tag-after-check-in)
+  - [Replacing a Tag](#replacing-a-tag)
+  - [Scanning Old / Retired Tags](#scanning-old--retired-tags)
+  - [Scanning Tags on Closed or Totaled Items](#scanning-tags-on-closed-or-totaled-items)
+  - [When There's No Tag](#when-theres-no-tag)
+  - [Flagging Equipment](#flagging-equipment)
+- [Reference & Troubleshooting](#reference--troubleshooting)
+  - [Troubleshooting](#troubleshooting)
+  - [Working Offline](#working-offline)
+  - [Multiple Devices](#multiple-devices)
+
+---
+
+## Getting Started
+
+### What is ShopTracker?
+
+ShopTracker is the repair tracking app for Hydraulics SR-80. It runs on iPads in the shop and replaces the paper-and-whiteboard system. Jobs come in at the front counter, get worked on in the back, and ShopTracker keeps everyone on the same page in real time.
+
+There are three types of devices in the shop:
+
+- **Front Counter** — where Maria (or whoever's working the counter) checks equipment in, creates jobs, and handles customer pickup
+- **Tech Station** — the iPad in the back shop where techs see their repair queue, log what they've done, and mark items as ready for testing
+- **Admin** — Bec, Jamie, or Lee's device with full access to everything: both views, settings, reports, and employee management
+
+### Device Setup (First Time Only)
+
+When you open ShopTracker on a brand new device (or after a reset), you'll go through a one-time setup to tell the app who this device is and what it's for. Once set up, the device remembers its identity even if the app is closed or updated.
+
+#### Step 1: Admin PIN
+
+The very first screen asks for an admin PIN.
+
+**If this is the very first device being set up** (no one has a PIN yet):
+
+1. You'll see a "Welcome to SR80" screen
+2. Pick your name from the list of admin employees (Bec, Jamie, or Lee)
+3. Create a PIN — this can be 4 to 8 digits, whatever you're comfortable remembering
+4. Enter it again to confirm
+5. That's your PIN from now on — you'll use it anytime admin access is needed
+
+**If PINs already exist** (someone else set up their PIN first):
+
+1. You'll see a standard "Enter PIN" screen
+2. Type your admin PIN and tap **Unlock**
+
+**If you're a new admin and don't have a PIN yet:**
+
+1. On the "Enter PIN" screen, tap **"Don't have a PIN yet?"** at the bottom
+2. The app checks if there are any admins who still need a PIN
+3. If your name shows up, tap it, then create and confirm your PIN — same as the first-time flow
+4. If all admins already have PINs, you'll see a message to ask another admin to reset yours (see Employee Management below)
+5. You can tap **"Back to PIN entry"** at any time to return to the normal PIN screen
+
+#### Step 2: Name the Device
+
+After your PIN is accepted, you'll see the device configuration screen.
+
+1. **Device Name** — Give this iPad a name so you can tell devices apart. Something like "Front Counter iPad" or "Back Shop Tech Station" works great.
+2. **Device Role** — Pick what this device will be used for:
+   - **Front Counter** — Check-in, job gallery, complete/close workflow
+   - **Tech Station** — Repair queue, checklists, testing
+   - **Admin** — Full access to everything
+3. Tap **Set Up Device**
+
+That's it! The device is now set up and will go straight to the correct view every time you open the app. You won't see this setup screen again unless an admin resets the device.
+
+---
+
+### Admin Access on Non-Admin Devices
+
+If you're on the Front Counter or Tech Station iPad and need to do something that requires admin access (like changing settings or editing a closed item), you don't have to go find an admin device. Any admin can temporarily unlock their access:
+
+1. Open the sidebar and tap **Admin Settings**
+2. Enter your admin PIN when prompted
+3. You'll have admin access for a limited time (configurable in settings — defaults to 5 minutes)
+4. After the timer expires, the device automatically locks back to its assigned role
+
+**What happens when the timer fires:** The lock is immediate. If you have an admin-only screen open (like Admin Settings), it closes automatically and the app returns you to the default view for this device's role. The sidebar re-grays the items that require admin access. You won't lose any data — anything you saved is saved, but anything unsaved in an admin-only sheet is dismissed.
+
+**What admin elevation does and doesn't change:** Elevation gives you access to Admin Settings, lets you edit closed items, and unlocks the cost override buttons on the Front Counter. It does **not** change which workflow buttons you see on item cards — those are always determined by the device's assigned role. A Front Counter device with admin elevation still shows Front Counter actions; a Tech Station device still shows Tech Station actions. The device's role is what determines the view, not the elevation state.
+
+Admin-role devices stay unlocked permanently — the auto-lock only applies when you're elevating access on a non-admin device.
+
+### Sidebar Navigation
+
+The app has a sidebar menu that lets you switch between different views. The sidebar is hidden by default so it doesn't take up screen space — you open it when you need it.
+
+**To open the sidebar:**
+
+- **Swipe from the left edge** of the screen, or
+- **Tap the back arrow button** in the top-left corner of the toolbar
+
+The sidebar slides over the current view. Tap any item to switch to that view. The sidebar closes automatically when you make a selection, or you can swipe it away.
+
+**What you see in the sidebar depends on your device role:**
+
+- **Front Counter** — "Jobs" and "Customers" are available. Jobs is selected by default. "Work Queue" and "Admin Settings" are visible but grayed out since those aren't part of the front counter workflow.
+- **Tech Station** — "Work Queue" is available and selected by default. Everything else is grayed out.
+- **Admin** — all four options are available: Jobs, Customers, Work Queue, and Admin Settings. Jobs is selected by default.
+
+If an admin temporarily unlocks a non-admin device (see "Admin Access on Non-Admin Devices" above), all sidebar items become available until the admin session expires.
+
+The grayed-out items are there so everyone can see what the app can do — they just can't access views that aren't meant for their device's role.
+
+At the bottom of the sidebar, under **This Device**, there's a **Display Size** button — see below.
+
+---
+
+### Display Size Settings
+
+Every device can be set to a comfortable text size, independently of every other iPad in the shop. If the front counter iPad is farther from your eyes, or you just prefer bigger text, you can bump it up without affecting the back-shop screen.
+
+New devices start at **Extra Large** text with **Bold Text** turned on — these defaults are designed for shop-floor readability at arm's length. You can change them anytime using the steps below.
+
+**To change the display size:**
+
+1. Open the sidebar (swipe from the left, or tap the back arrow in the top-left)
+2. At the bottom of the sidebar, under **This Device**, tap **Display Size**
+3. A settings panel slides up from the bottom
+
+**Text Size** — three options:
+- **Default** — standard size, same as most apps
+- **Large** — noticeably bigger, good for extended use or reading glasses situations
+- **Extra Large** — significantly bigger, designed for arm's-length viewing or anyone who needs more visual breathing room
+
+**Bold Text** — toggle this on to make all text heavier/darker throughout the app. Works independently from the size setting — you can have bold text at any size.
+
+Changes take effect immediately and are saved to this device only. The front counter iPad, back shop station, and admin device each remember their own settings.
+
+---
+
+## Front Counter
+
+### Job Board
+
+When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
+
+- **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile — slightly tilted, same as V1.
+- **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
+- **Customer phone number** (tappable — tap to call or text), **name**, and **company name** (if the job is linked to a company — shown in smaller text below the customer name)
+- **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
+- **Job cost** — appears once at least one item has been priced. If all items have a cost entered, you'll see the full total (e.g., "$340.00") in clear, readable text. If some items are still being worked on and don't have a cost yet, you'll see an approximate total with "partial" next to it (e.g., "~$180.00 partial") in lighter text — this tells you the number isn't final yet. Tax is included in the total when tax is enabled in admin settings. Draft jobs and jobs with no cost entered yet don't show a cost line at all. Warranty jobs show "$0.00".
+
+Photos load in the background — you'll see the cards appear right away with placeholder tiles, and the actual photos fill in a moment later.
+
+**Calling or texting a customer:** Wherever you see a phone number in yellow underlined text — on a job card, in the job detail header, or on the Tech Station item header — tap it. A menu pops up with **Call**, **Message**, and **Cancel**. Tap Call to dial the number, or Message to open a text. This works on any device, any role.
+
+**Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
+
+Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. Similarly, if an item has been marked as **Totaled** (unfixable), a dark **TOTALED** badge appears in the same spot, replacing the status dot. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Warranty items show a red **WARRANTY** badge below the status badge — you might see COMPLETE + WARRANTY or TOTALED + WARRANTY stacked together. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
+
+**Flagged customers:** If a customer (or their company) has been flagged, you'll see a small amber **flag icon** on their job cards. This is a heads-up that there's something to be aware of — tap into the job to see the full flag banner with the reason. See [Flagging a Customer](#flagging-a-customer) for details.
+
+Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
+
+**On Fire jobs** — any job with at least one item marked on fire jumps to the very top of the active board (right below any drafts), ahead of everything else. On-fire items have a **red border** around their photo tile and a **🔥 badge in the bottom-left corner** so they're impossible to miss. See [On Fire Priority Flag](#on-fire-priority-flag) below for how to set and clear them.
+
+The Job Board updates automatically when jobs are created or changed on any device — you don't need to do anything to see new work orders appear. If you ever want to force an immediate refresh, pull down on the board.
+
+Tap the **new job button** (document with a plus badge, in CAT yellow) to create a new work order. On iPad, it's in the top right corner of the toolbar. On iPhone, it's at the bottom right of the screen (like the compose button in Apple Notes).
+
+### Searching and Filtering Jobs
+
+On iPad, the **search bar** and **filter button** (circle with three lines) sit in the toolbar next to the new job button. On iPhone, they appear just below the navigation bar at the top of the screen.
+
+**Searching:** Tap the search bar and start typing. The board filters in real time as you type. You can search by:
+
+- Customer name, phone number, or company
+- Job number (e.g., "20260325")
+- Equipment type (e.g., "Cylinder")
+- Machine type or item description
+- Service reason (e.g., "Leaking")
+
+The search checks all items within each job, so searching "Pump" will show any job that has at least one pump in it. Tap the **X** in the search bar to clear your search and see all jobs again.
+
+**Complete filter:** Next to the search bar you'll also see a small **COMPLETE** button. Tap it to instantly show only jobs where every item is ready for pickup — the same jobs that have a green "COMPLETE" badge on their card. Tap it again to show all jobs. This is the fastest way to see exactly what's waiting at the counter.
+
+**Filtering:** Tap the filter button (circle with three lines) to open a filter sheet with dropdown pickers:
+
+- **Equipment Type** — show only jobs with a specific type of equipment (Cylinder, Pump, etc.)
+- **Status** — show only jobs with items at a specific stage (Checked In, In Progress, Tested, Complete)
+- **Machine Type** — if machine types are turned on in admin settings, you can filter by those too
+- **Reason for Service** — tap one or more service reasons to filter by why the equipment was brought in. If you select multiple reasons, the job must have an item with ALL of those reasons.
+
+When filters are active, the filter button fills in blue and a row of **filter chips** appears below the toolbar. Each chip shows what's being filtered (e.g., "Type: Cylinder") with an **X** to remove that specific filter. Tap **Clear All** to remove all filters at once.
+
+If your search or filters don't match any jobs, you'll see a "No Matching Jobs" message instead of the grid.
+
+### Closed Jobs (Job History)
+
+At the bottom of the Job Board, you'll see a **Closed** section with a count of how many jobs are fully closed. This section is collapsed by default so it doesn't clutter the active board.
+
+Tap the **Closed** header to expand it. You'll see the same card grid as above, but for jobs that are done — all items closed (including Totaled items that were closed via "Customer Contacted"). The cards are slightly dimmed so they're easy to tell apart from active jobs.
+
+Tap the header again to collapse the section back down.
+
+Your search and filters work across both active and closed jobs. If you search for a customer name and they have a closed job that matches, you'll see it in the closed section (expand it to check).
+
+This is useful for looking up past work — warranty questions, repeat customers, or just checking what was done on an old job. Tap any closed job card to see the full detail view with all items, photos, and notes.
+
+**Read-only for Front Counter:** Closed jobs are read-only from the Front Counter. You can view everything — photos, notes, repair history, cost — but intake fields are locked and no action buttons appear on closed items.
+
+**Admin editing on closed jobs:** On an admin device (or a non-admin device with admin elevation active), closed items behave differently. The pencil icon reappears on closed item cards, so you can tap to edit intake fields if something needs correcting after the fact. A **Reopen Item** button is also visible on each closed item card — on non-admin devices it's grayed out with a lock icon as a visual reminder that it exists, but only an admin can use it.
+
+**Reopening an item:** If a closed item needs to come back through the shop (a customer returns, something wasn't right), an admin can tap **Reopen Item** on that item's card. After confirming, the item moves back to **Complete** status and becomes actionable again — the front counter will see it in the active board and can close it again once the customer's situation is resolved.
+
+### Creating a New Work Order
+
+Tap the new job button from the Job Board to start a new work order (bottom-right on iPhone, top-right toolbar on iPad). The form has three main sections: **Company**, **Customer**, and **Items**.
+
+#### Company (Optional)
+
+The first field on the form is **Company**. Start typing a company name and matching companies will appear as suggestions below the field. Tap a suggestion to select that company.
+
+If you type a company name that doesn't match any existing company, that's fine — a new company record will be created automatically when you save the work order. You don't need to do anything special.
+
+**What happens when you select a company:**
+- A row of customer name chips appears below the Customer field (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
+- If the company is **tax exempt**, you'll see a green indicator: "Tax exempt (via ABC Construction)" below the customer section. The tax status comes from the company automatically.
+
+**Customer fills in the company automatically:** If you select a customer who's already linked to a company (or create a new customer with a company name), the Company field on the main form will auto-fill. You don't need to type it twice — the app connects the dots for you.
+
+**Walk-ins:** If the customer is an individual (not from a company), just skip the Company field entirely. It's optional — leaving it blank works exactly like before.
+
+**Company-only jobs:** If you know the company but don't have an individual contact name, that's fine — just fill in the Company field and skip the Customer field. The work order will be linked to the company without requiring a customer contact. You can always add a customer later by editing the job.
+
+#### Finding or Adding a Customer
+
+Below the Company field, start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
+
+If the customer isn't in the system yet, tap **+ Add New Customer** to create one. The new customer form includes:
+
+- **Name** — if you type a multi-word business name ending in a suffix like Inc, LLC, Corp, Co., or Ltd (e.g. "Smith Co."), the app will automatically move it to the Company field when you tap into the next field. It won't trigger on bare "Co" without a period, so names like "Collins" or "Cooper" won't get swiped. Each word auto-capitalizes as you type. You can leave this blank if you have a company name instead — at least one of Name or Company is required.
+- **Company** — pre-filled if you already selected a company on the main form. Use the **Swap** button if the name/company got put in the wrong field. You can leave this blank if you have a customer name instead — at least one of Name or Company is required.
+- **Phone** (required, 10 digits) — formats automatically as you type. If the phone number is already on file for another customer, you'll be warned and can choose to use the existing customer instead
+- **Email** (optional)
+- **Tax Exempt** toggle
+- **Add a Contact** (optional) — tap to expand and add a contact person (name, phone, email, role). Useful for commercial accounts where someone other than the customer will be the point of contact. You can add more contacts later from the customer detail screen.
+
+#### Adding Items
+
+Each work order needs at least one item. For each item, fill in:
+
+- **Equipment Type** — what the item is (Cylinder, Pump, Hose, or Other)
+- **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
+- **Warranty pill** — a red pill with a shield icon labelled **Warranty**, just below Reason(s) for Service. Tap it once to mark this specific item as a warranty repair. It fills in solid red with white text when it's on, and reads as a red-outlined shield when it's off. Each item on a job has its own Warranty pill — you can mix warranty and non-warranty items on the same work order. See "Marking an Item as Warranty at Creation" below. The old "No Warranty on This Item" toggle has moved — it now lives on the Tech Station side once the item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section.
+- **Scan Tag** — if the equipment has a QR sticker on it, tap this to scan it and link the tag to this item. See "Equipment Tags (QR Codes)" below.
+- **Description / Notes** — any additional details about the item (at the bottom of the item card, below photos and reasons)
+
+#### Marking an Item as Warranty at Creation
+
+Inside each item card, there's a red pill labelled **Warranty** with a shield icon, sitting just below Reason(s) for Service. Tap it once to flag that item as a warranty repair — it fills in solid red when it's selected. Tap it again to unselect. Each item has its own pill, so you can have a mix of warranty and non-warranty items on the same work order (e.g., one cylinder under warranty from a previous repair, two others paid).
+
+The item-level Warranty pill is a labeling flag — it tells the shop that this particular item is warranty work. It does NOT by itself set the job-wide warranty lock or force the cost to $0 on the tech side. For that, you use the job-level **Warranty** control described in "Marking the Whole Job as Warranty" below, which is typically how you'd handle a job where everything is warranty work.
+
+**When you'd use the item-level pill:**
+- A repeat customer drops off three cylinders, and only one of them is warranty from a previous job
+- You want a visual record on the item that it came back under warranty, even though the rest of the job is being paid normally
+
+**When you'd use the job-level Warranty toggle instead:**
+- The whole job is warranty work (see "Marking the Whole Job as Warranty")
+- You want the cost automatically locked at $0
+
+If you got to the form through the **Check In for Warranty** button on an existing closed job, the item-level Warranty pill is already selected on every pre-filled item.
+
+#### Marking the Whole Job as Warranty
+
+If the entire job is warranty work — the customer brought something back in for a repair that's still under warranty — you have two paths depending on whether the original job is in ShopTracker:
+
+- **The original job IS in ShopTracker** → use the **Warranty Check-In** flow from the Job Board. See "Warranty Check-In" below.
+- **The original job is NOT in ShopTracker** (done on paper, before the app existed, at another location) → create the work order like normal, then open the job detail view and tap the red **Warranty** pill in the warranty card near the top of the screen. It uses the exact same pill styling as the item-level pill so you know it's the same concept, just applied to the whole job. Toggling it on locks the cost at $0 for all items and shows the **WARRANTY** badge on the gallery card.
+
+You can toggle the job-level Warranty pill any time after check-in too, as long as at least one item is still active (not Closed or Totaled). This is useful when the customer calls back after drop-off and confirms something was under warranty, or when you discover the equipment's repair history during inspection. Once every item on the job is Closed or Totaled, the toggle locks to prevent retroactively flipping warranty on a wrapped-up job.
+
+Tap **+ Add Item** to add more items to the same work order (e.g., a customer drops off 3 cylinders at once).
+
+To remove an item, tap the trash icon next to its header. You can't remove the last item.
+
+#### Taking Photos During Intake
+
+Each item has a **Photos** section at the top of the item card, above the other fields. This is a great time to photograph the equipment as it comes in — document any existing damage, serial numbers, or anything else worth capturing before the tech starts work.
+
+You have two options:
+
+- **Camera** — tap the camera button to open the camera. The camera stays open between shots — tap the shutter button as many times as you need, and each photo appears in a strip at the bottom of the screen. If you snap a bad photo, tap the **X** on its thumbnail in the strip to remove it. When you're done, tap **Done** in the top-right corner to close the camera and return to the form. You can also tap **Cancel** to close the camera at any time — photos you already took are kept.
+- **Library** — tap the library button to pick a photo already on the device (useful if someone snapped a picture before opening the app)
+
+Photos appear as small thumbnails next to the buttons. To remove a photo before saving, tap the **X** on the thumbnail. Photos aren't uploaded until you tap "Create Work Order" or "Save as Draft" — you'll see a brief "Uploading..." indicator while they're sent to the server.
+
+There's no limit on photos per item. Take as many as you need.
+
+#### Equipment Tags (QR Codes)
+
+If the equipment has a sticker tag, tap **Scan Tag** in the item form and point the camera at it. The app links the sticker to this item. For the full tags workflow — printing stickers, what to do with returning equipment, reprinting a damaged tag — see the **Equipment Tags** section near the end of this manual.
+
+#### Saving
+
+The button in the top right changes based on what you've filled in:
+
+- **"Create Work Order"** — appears when all required fields are filled in. Which fields are required depends on your admin settings (see [Required Fields](#required-fields)), but by default it's customer and equipment type. If photos, description, or other fields are set to required, those must be filled in too. This creates the work order with a job number and makes it visible to the back shop.
+- **"Save as Draft"** — appears when required fields are still missing. This saves your progress so you can come back to it later. Drafts appear at the top of your Job Board with an orange badge but are NOT visible to the Tech Station.
+
+**Tapping Back mid-form:** If you tap the **Back** button before finishing the form, ShopTracker saves your progress as a draft — including any photos you've already taken — and returns you to the Job Board. If you opened the form and didn't fill in anything at all, it just closes without creating a draft.
+
+### Viewing a Job (Job Detail)
+
+Tap any card on the Job Board to open the full job detail view. This shows everything about the work order in one place.
+
+At the top you'll see a **header card** with:
+
+- **DRAFT badge** (orange) or **job number** (e.g., 20260325-1)
+- **Customer name, phone number** (tappable — tap to call or text), **and company** (if applicable). A small **pencil icon** next to the customer name lets you edit the customer directly (opens the edit form with contacts).
+- **Additional contacts** — if the customer has contacts on file, they appear below the main customer info in smaller text, showing each contact's name, role, and tappable phone number
+- **Status dots** — one colored dot per item, same colors as the Job Board
+- **Item count** and **creation date/time**
+
+Draft jobs have a warm amber-tinted header, just like on the Job Board.
+
+Below the header, each **item** gets its own card. On jobs with multiple items, **items that are ready for action float to the top automatically** — Complete items appear first (ready for customer pickup and payment), then Totaled items (awaiting customer contact), then everything else in their normal order. This means you always see what needs your attention first, without scrolling past items that are still being worked on.
+
+Each item card shows:
+
+- **Item reference number** and **status** (with a colored badge like "Checked In" in blue, "In Progress" in yellow, etc.) — each item shows its full reference in `YYYYMMDD-N-M` format (e.g., `20260403-1-2` means job 20260403-1, second item). Single-item jobs still show just the job number.
+- **Equipment Type** — what the item is
+- **Machine Type** and **Color** — if those fields are turned on in admin settings
+- **Reason(s) for Service** — shown as blue pill-shaped tags
+- **Description / Notes** from intake
+- **Assigned tech** — if a tech has grabbed the item, you'll see their name (e.g., "Assigned to Carlos")
+
+On iPad, each item card uses a **two-column layout**: the left side holds the photos, and the right side holds the equipment details, notes, and repair history. On iPhone everything stacks single-column in the same order.
+
+#### Collapsing and Expanding Items
+
+On jobs with multiple items, the detail view can get long. Each item card has a small **chevron** (▼/▲) at the right end of its header row. Tap the chevron to collapse that item down to just its header — you'll still see the status dot, item reference number, and status badge, but all the photos, details, and action buttons are hidden. Tap the chevron again to expand it back.
+
+This is handy when you're done reviewing one item and want to get to the next without scrolling past a wall of photos and notes.
+
+**Smart auto-collapse:** On jobs with 3 or more items, any items that are already **Closed** will automatically collapse when you open the job. Totaled and active items stay expanded so you can see and act on them immediately. You can always expand a closed item by tapping its chevron if you need to review it.
+
+**Collapse All / Expand All:** On jobs with 3+ items, you'll see a small **"Collapse All"** or **"Expand All"** link in accent color (yellow) above the item list. Tap it to collapse or expand everything at once — useful when you just want to scan the status of each item without the full detail.
+
+Collapse state resets every time you open a job, so you always start fresh.
+
+If photos have been taken for an item, the first photo is shown as a **square hero photo** — a large cropped preview sized to fill the available width so details are easy to see at a glance. On iPad this fills the left column; on iPhone it appears at the top of the card. Below the hero is a row of smaller thumbnails for any additional photos, followed by **Camera** and **Library** buttons to add more. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
+
+You can add more photos to any item at any time, regardless of its status. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom. If you snap a bad one, tap the **X** on its thumbnail to remove it — the photo is deleted immediately. Tap **Done** when you're finished. New photos upload immediately and appear in the strip.
+
+#### Deleting Photos (Admin)
+
+On an admin device (or while admin-elevated), you can delete any photo from an item that isn't Closed. **Press and hold** (long-press) on any photo thumbnail or the hero photo — a menu appears with **Delete Photo**. Tap it, then confirm in the dialog that follows. The photo, its markup, and all associated files are permanently removed. This cannot be undone.
+
+[screenshot: long-press context menu on a photo thumbnail showing "Delete Photo" in red]
+
+This is not available to Front Counter or Tech Station devices unless admin access is elevated. Closed items do not allow photo deletion at all.
+
+#### Marking Up Photos
+
+This is the feature that replaces Apple Notes markup. Tap any photo thumbnail to open it full-screen, then tap the **Markup** button (pencil icon) in the top-right corner. This opens the Apple PencilKit editor with the full native toolbar — pens, markers, pencils, erasers, ruler, and the complete color palette.
+
+Draw directly on the photo to circle damage, write prices, add arrows, or annotate anything worth calling out. When you're done, tap **Save**. The marked-up version becomes what everyone sees on the job — on cards, in the detail view, everywhere.
+
+**Your original photo is always preserved.** Markup is non-destructive. If you need to redo it (say the price changed), tap the photo again, tap Markup, and your previous strokes are still there — you can erase specific marks, add new ones, or start fresh with the trash button. If you want to remove all markup entirely, tap the **revert button** (curved arrow) in the toolbar and the photo goes back to the untouched original.
+
+Markup is available on every photo at every status — Front Counter intake photos, Tech Station repair photos, any of them. There are no restrictions on who can mark up or when.
+
+#### Notes
+
+Each item card has a **Notes** section where you can add timestamped notes at any point in the workflow — before repair, during, after, whenever.
+
+On iPad the **"Add a note..."** field sits in the right column below the equipment details. Type your note and tap the yellow send arrow. The note is saved immediately with your name and the exact time, and it appears in the Repair History timeline below.
+
+Notes are visible to both the front counter and the tech station. Maria can jot down customer instructions ("needs by Friday"), and Tony can document what he found during repair. Everyone sees the same history.
+
+#### Repair History
+
+On iPad, the right column of every item card shows a **Repair History** — a chronological timeline of everything that's happened to that item, in order. On iPhone it appears below the details, same info.
+
+Each event in the timeline shows a timestamp and looks like this:
+
+- **Grabbed by [tech name]** — when a tech claimed the item and started work
+- **[Author name]: [note content]** — any notes added by front counter or tech staff
+- **Round N: [repairs]** — the issue checklist items the tech checked off (e.g., "Seal, O-ring"). If the item went through multiple repair rounds after a failed test, each round appears separately in order.
+- **Passed / Failed — [tester name]** — every test attempt is shown, not just the most recent. So if an item failed its first test and passed its second, you'll see both entries with their times.
+- **Oil: Clean / Dirty — [performer]** — if an oil sample was taken
+- **Customer Contacted — [outcome]** — on Totaled items that were closed via the "Customer Contacted" flow, shows the contact outcome (e.g., "Left voicemail", "Customer coming in") and when it happened. Only appears on items that went through the Totaled path.
+
+If a cost has been recorded, a **cost summary** appears below the timeline showing the total. If parts and labor were entered separately, it shows a breakdown (Parts / Labor / Tax / Total). A green **"Approved"** badge or orange **"Pending Approval"** badge shows the manager approval status.
+
+The Repair History section only appears when there's something to show — if an item is brand new and nothing has happened yet, the section stays hidden.
+
+Below each item card, you may see **action buttons** depending on the item's status and your device role. On the Front Counter, you can close items that are ready for pickup. On the Tech Station, you'll see grab, done, tested, and cost entry buttons.
+
+Use the **back arrow** to return to the Job Board.
+
+### Hoses & Parts (Adding Materials to a Job)
+
+If a repair involves hoses, fittings, or adapters, you can add those as separate line items on the work order. These show up in the **Hoses & Parts** section on the job detail view, just below the consolidated cost summary card at the top.
+
+**To add materials:**
+
+1. Open the job from the Job Board
+2. Tap the green **[+]** button next to the "Hoses & Parts" header
+3. A sheet opens with three tabs at the top: **Hose Assembly**, **Fitting**, and **Adapter**
+
+**Hose Assembly** — for a complete hose build. Enter three costs: Fitting 1, Fitting 2, and Hose. This matches the shop's shorthand (e.g., 20/20/85 = two $20 fittings + $85 hose = $125 total). Optionally add a description (e.g., "Boom cylinder supply line"). Tap **Save**.
+
+**Fitting** or **Adapter** — for standalone parts. Enter a description and cost. Tap **Save**.
+
+All materials are always taxed when the shop's "Charge Tax on Parts" setting is turned on. If a customer is tax exempt, no tax is charged on anything (materials included).
+
+Each material shows up as a row in the Hoses & Parts section with a colored pill (Hose Assembly, Fitting, or Adapter) and the cost breakdown. The totals from materials roll into the cost summary card at the top of the job detail — so when it's time to enter amounts into Square, everything is in one place.
+
+**Who can add materials:** Anyone — front counter, techs, and admins — can add materials to a job at any time while it's open.
+
+### Editing a Draft Work Order
+
+If you tapped "Save as Draft" when creating a work order and need to come back to finish it, tap the draft card on the Job Board to open it.
+
+On a draft, you can **tap the customer section** in the header to assign or change the customer. If no customer has been assigned yet, you'll see "Tap to assign customer" with a small arrow. This opens a customer search sheet where you can look up an existing customer, add a new one, or remove the current customer. Tap **Save** to apply your changes.
+
+You can also **tap any item card** to edit it. This opens an edit sheet where you can change the equipment type, service reasons, description, and any other fields. Tap **Save** when you're done — the changes save to the server immediately.
+
+If an item is still missing required fields (like Equipment Type, Reason for Service, Photos, or any other field your admin has set to required), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap the item header row or the orange button to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
+
+#### Adding More Items to a Draft
+
+Below the item cards on a draft, you'll see an **"+ Add Item"** button. Tap it to add another item to the work order — same form as when you created the original items (equipment type, service reasons, description, photos). The new item appears in the list immediately after you tap **Add**.
+
+#### Removing an Item from a Draft
+
+Changed your mind about one of the items? On each item card in a draft, you'll see a small red **"Remove Item"** link (with a trash icon) at the bottom right of the card. Tap it and a confirmation will appear asking if you're sure — tap **Remove Item** to confirm.
+
+The item and all its photos are permanently deleted. This can't be undone.
+
+**If the draft only has one item**, you'll see a different message: "This is the only item on this draft. To remove it, delete the entire draft instead." Tap **Delete Draft** to delete the whole thing, or **Cancel** to go back.
+
+This only works on drafts — once a work order is finalized, you can't remove items from it.
+
+#### Deleting a Draft
+
+If a draft was created by mistake or is no longer needed, you can delete it entirely. Open the draft from the Job Board, then tap the **trash icon** in the top-left corner of the screen.
+
+A confirmation sheet will appear asking you to confirm — tap **Delete Draft** to proceed, or **Cancel** to go back. Once deleted, the draft and all its items and photos are permanently removed. This cannot be undone.
+
+Deletion requires an internet connection. If the app is offline, you'll see an error message — try again once you're back online.
+
+Only drafts can be deleted this way. Finalized work orders cannot be deleted (use the Close or Totaled workflow instead).
+
+### Editing a Checked-In Item
+
+After a work order is finalized (no longer a draft), you can still edit an item's intake information — equipment type, machine type, service reasons, and description — **as long as the item hasn't been grabbed by a tech yet**.
+
+While the item is in **Checked In** status, you'll see a small **pencil icon** on the item card. Tap the card to open the edit sheet, make your changes, and tap **Save**.
+
+Once a tech grabs the item (moves it to In Progress), the intake fields lock. The pencil icon disappears and tapping the card no longer opens the editor. This prevents accidental changes to information the tech is already working from.
+
+**Photos and notes are never locked.** You can add photos and notes to any item at any status, even after the intake fields are locked.
+
+**Admin override:** If an admin needs to correct intake fields on an item that's already In Progress or beyond, they can elevate admin access on the device (enter their PIN), and the edit option becomes available again regardless of status.
+
+### No Warranty Flag
+
+Some repairs don't come with a warranty — a cylinder the customer drilled into, equipment that's beyond normal wear limits, or any job where you and the customer have agreed that the work is best-effort only. The No Warranty flag lets you document that so there's no confusion later.
+
+The No Warranty control has moved — it now lives on the Tech Station side, after an item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section of this manual for how techs set and clear it.
+
+**What Front Counter sees:**
+- You no longer set No Warranty during the check-in form. The pill has been removed from the item intake flow because the decision almost always comes up mid-repair, not at drop-off.
+- If a tech has marked an item as No Warranty, you'll see an amber-orange **No Warranty on This Item** pill on the item card in the job detail view. It's read-only on the Front Counter side — you can't toggle it here, but you can see at a glance that the tech has flagged it.
+- Items that were completed via the **Mark Complete (No Warranty)** action (see below) show a brown **COMPLETE • NO WARRANTY** badge on the job board tile instead of the usual green **COMPLETE** badge, so the whole team can tell at a glance which items are going out the door without warranty.
+
+**Mark Complete (No Warranty):**
+This is a one-tap shortcut available to any role on an item that's In Progress, Tested, or already Complete (as long as it isn't already flagged No Warranty). It lives in the item action area as a brown button labeled **Mark Complete (No Warranty)**. Tapping it brings up a confirmation dialog — "This item will be marked complete and excluded from warranty. This cannot be undone." — and on confirm, the item jumps straight to Complete with the No Warranty flag set, skipping the normal tester selection, cost entry, and manager approval steps. Use this when the decision is already made and you just need to get the item out the door. The brown **COMPLETE • NO WARRANTY** banner on the card tile is the audit trail.
+
+**Where the flag shows up:**
+- Amber-orange **No Warranty on This Item** pill on the item detail card (both Front Counter and Tech Station)
+- Brown **COMPLETE • NO WARRANTY** badge on the job board / tech queue photo tile once the item reaches Complete
+- Small dark **NO WARRANTY** pill next to the item reference in the header (unchanged from before)
+
+### "On Fire" Priority Flag (🔥)
+
+When an item needs to jump the line — an angry customer, a piece of equipment that's holding up another shop, anything where "do this one next" is the right answer — you can mark it **On Fire**. The item will float to the top of both the Job Board and the Tech Station queue until you take the flag off.
+
+**Setting it at check-in (brand new job or adding an item to a draft):**
+As you're filling out a new work order — or when you tap **+ Add Item** on an existing draft — each item card has a 🔥 emoji in the top-right corner of the item section. It starts out **dimmed** (about 30% opacity) to show it's an optional affordance without shouting at you. Tap it and a confirmation sheet pops up asking **"Mark this item as On Fire?"** — tap **🔥 Yes, On Fire** to confirm. The emoji goes full-bright so you know it's set. If you change your mind before saving, tap it again and choose **Remove**. When you hit Create Work Order (or Save as Draft), the flag is saved with the item — the red border and 🔥 badge show on the card immediately.
+
+**Setting it on an existing item:**
+Open the job, scroll to the item you want to prioritize, and tap the **🔥 Mark as On Fire** button near the bottom of the item card (below the Complete Item Info banner if present, above Replace Tag if present). That's it — no confirmation, no picker. The button immediately flips to **🔥 On Fire** in a filled state so you can tell it's already set.
+
+[screenshot: NewJobView item card header showing dimmed 🔥 emoji top-right, and the confirmation dialog after tapping]
+
+**What it looks like:**
+- The item's photo tile on the Job Board and Tech Station gets a **red border** and a **🔥 badge in the bottom-left corner**. It's intentionally loud — you shouldn't miss it from across the room.
+- A small 🔥 pill also appears in the item header on the job detail view, right next to the status badge.
+
+**Where it sorts:**
+- **Job Board:** Any job with at least one on-fire item jumps to the top of the active board, immediately below any drafts. Within the on-fire group, the most recently updated job is first.
+- **Tech Station queue:** On-fire items jump to the absolute top of the queue, above Ready for Test. They're impossible to miss when the techs open the app.
+
+**Clearing it:**
+From the job detail view, **long-press the 🔥 pill** in the item header (hold for about half a second). A confirmation dialog asks "Remove the on fire flag from this item?" — tap **Remove Flag** and the item returns to its normal position in the sort.
+
+**Who can set and clear:**
+- **Front Counter** and **Admin** only. Techs see the flag but can't change it — if they need it on or off, they ask the counter.
+- An admin-elevated Front Counter device can also set and clear the flag.
+
+**Important:**
+- The flag persists permanently, even after the item closes. If it was on fire when you closed it, the 🔥 badge still shows on the card in job history so you have a record of what needed urgency.
+- Closed on-fire jobs do NOT float to the top of the Closed section — the badge shows but they stay sorted by close date like the rest of history.
+- The flag works offline. Mark it on fire even if the shop Wi-Fi is down and it will sync when you're back online.
+
+### Changing the Customer on a Job
+
+You can change the customer assigned to a work order — not just on drafts, but on finalized jobs too.
+
+**While all items are still Checked In:** Tap the customer name in the job header. You'll see a small **arrow** indicating it's tappable. This opens the customer search sheet where you can look up a different customer, add a new one, or remove the current customer. Tap **Save** to apply.
+
+**Once any item has been grabbed by a tech** (moved to In Progress), the customer section locks and is no longer tappable. This prevents accidental customer changes on jobs that are actively being worked on.
+
+**Admin override:** If an admin needs to reassign a customer on a job that's already in progress, they can elevate admin access (enter their PIN) and the customer section becomes tappable again regardless of item statuses.
+
+This works the same way as editing a draft — the customer picker sheet is identical. The only difference is when it's available.
+
+### Finalizing a Draft
+
+Once all required fields are filled in on a draft, the **Finalize** button in the top right corner becomes active. The same required field rules apply here as when creating a new job — if your admin has Photos, Description, or any other field set to required, those must be filled in on every item before you can finalize.
+
+Tap **Finalize** to convert the draft into a real work order. The app will:
+
+1. Generate a job number (e.g., 20260325-4)
+2. Show a brief **"Finalized!"** confirmation with the new job number
+3. Automatically return you to the Job Board
+
+The job now appears as a regular work order card (no more DRAFT badge) and is visible to the Tech Station.
+
+### Customer Check-In
+
+Coming soon.
+
+### Complete & Pickup
+
+When all items on a job have been priced and approved (all showing green/Complete), you're ready to close the job when the customer comes to pick up.
+
+#### Closing an Entire Job (Most Common)
+
+Open the job from the Job Board. Right below the customer info card, you'll see the **cost summary card** — this is the one place that shows everything Maria needs to type into Square:
+
+- **NON-TAXABLE** section — Labor total
+- **TAXABLE** section — Parts (if parts/labor split is on), Hose Assemblies, Fittings / Adapters
+- **Taxable Subtotal** — the sum of everything subject to sales tax
+- **Tax (X.XX%)** — the calculated tax, or an orange **TAX EXEMPT** pill if the customer is tax exempt
+- **Grand Total** — the big bold total at the bottom of the card
+
+This card shows up as soon as the job has any costed content — you don't have to wait for items to be marked Complete to see the totals. So even mid-job, you can glance at the card to see where things stand.
+
+When every item on the job is Complete (green), a green **"Close Job"** button (or **"Close All N Items"** if there are multiple items) appears inside that same card, right below the Grand Total. Tap it, confirm, and you're done — all items close at once and the app takes you back to the Job Board. The job moves to the Closed section at the bottom of the board.
+
+#### Partial Pickup (Customer Takes Some Items, Not All)
+
+Sometimes a customer picks up one or two items but leaves others in the shop. When this happens:
+
+1. Open the job detail view
+2. Scroll down to the item that's being picked up
+3. Tap the gray **"Close"** button below that item's card
+4. Confirm — "Customer has picked up and paid for this item"
+
+The closed item grays out and shows a **"Picked Up"** badge in the top-right corner. The job stays on the active board because other items are still being worked on.
+
+When the customer comes back for the rest, the cost summary card at the top will already be showing the remaining balance. Once all remaining items are Complete, the green **Close Job** button appears inside that same card and you can close everything in one tap.
+
+**Note:** The per-item Close button only appears during partial pickup situations — when some items are ready but others are still in the shop. When all items are Complete, use the Close Job button in the cost summary card at the top instead.
+
+#### After Closing
+
+Once the last item on a job is closed, the view automatically takes you back to the Job Board. The job moves from the active grid to the **Closed** section at the bottom (collapsed by default — tap the header to expand it).
+
+#### Totaled Items — "Customer Contacted"
+
+Totaled items follow a different close path than normal items. They don't go through Complete — instead, they sit on the board with a **TOTALED** banner until you contact the customer.
+
+When you open a job with a Totaled item, you'll see:
+
+- The item's cost (if the tech entered a diagnostic charge) displayed in the repair summary — reference this when speaking to the customer
+- A green **"Customer Contacted"** button below the item card
+
+**To close a Totaled item:**
+
+1. Call or contact the customer about the unfixable item
+2. Open the job and find the Totaled item
+3. Tap **Customer Contacted**
+4. If the customer has additional contacts on file, you'll see a **"Who did you reach?"** picker at the top — select the customer themselves or a specific contact. If there are no contacts, this picker is hidden and you go straight to the outcome.
+5. Select what happened from the list:
+   - "Left voicemail"
+   - "Customer coming in"
+   - "Scheduled pickup"
+   - "No answer — will try again"
+   - "Other"
+5. Optionally add a note with extra details
+6. Tap **Confirm**
+
+The item moves to Closed. A timestamp and your selected outcome are logged for the audit trail and appear in the item's **Repair History** timeline — so anyone reviewing the closed job later can see when the customer was contacted and what the outcome was.
+
+**Important:** "Customer Contacted" requires an internet connection. If the app is offline, you'll see an error — try again once you're back online.
+
+**Note:** The Close Job button inside the cost summary card only closes Complete items — Totaled items handle their own close through "Customer Contacted." A job is fully closed when ALL items are closed, whether they got there through the normal Complete → Close path or the Totaled → Customer Contacted → Close path.
+
+[screenshot: Customer Contacted sheet with outcome picker and note field]
+
+#### Marking Items as Totaled (Front Counter)
+
+You can mark items as Totaled directly from the Front Counter — you don't have to wait for a tech. This is useful when an item is visibly unfixable at intake (severely bent rod, cracked housing, etc.).
+
+1. Open the job detail
+2. Find the item you want to mark
+3. Tap the **Totaled** button (available on items that are Checked In, In Progress, or Tested)
+4. Confirm
+
+The item gets a black TOTALED banner on the job card and enters the "Awaiting Customer" state.
+
+#### Warranty Check-In
+
+If a customer comes back in because something failed that you repaired before, you can check it in as a **warranty job** directly from the Job Board — no need to create a brand new work order from scratch.
+
+**How to start a warranty check-in:**
+
+You have two ways to kick one off — use whichever is faster:
+
+**Option 1 — from the job card (fastest):**
+1. Find the original job in the Closed section at the bottom of the Job Board (tap the header to expand it)
+2. **Long-press the job card** — hold for about a second
+3. A confirmation sheet appears: "Check in for warranty work?"
+4. Tap **Check In for Warranty**
+
+**Option 2 — from inside the job detail:**
+1. Open the original closed job by tapping its card
+2. Scroll to the item that came back in — you'll see a red **"Check In for Warranty"** button below that item's card
+3. Tap it, confirm in the sheet that appears
+
+Both options do the same thing: ShopTracker creates a new work order for this customer, linked to the original job, with the cost locked at $0. It opens just like a normal job — you can see it on the board, and it'll go through the full repair flow (Checked In → In Progress → Tested → Complete → Close).
+
+**What a warranty job looks like:**
+
+Warranty jobs have a small **WARRANTY** badge on the gallery card so the whole team can see at a glance what came back in. Inside the job detail, there's a line in the header showing the original job number — tap it to jump to the original work order if you need to review what was done.
+
+The $0 cost is locked in from the start. When the job reaches completion, the cost entry shows $0 and skips the manager approval step.
+
+[screenshot: long-press confirmation sheet on a closed job card]
+
+#### Warranty Flag — No Prior Job in the System
+
+The warranty check-in flow above works great when the original job is already in ShopTracker. But sometimes it isn't — the repair was done before the app existed, it was handled on a paper form, or it was done at another location. In those cases you can't link to an original job, but you can still flag the new job as warranty work.
+
+Create the work order like normal, then open the job detail view. Near the top you'll see a card with a red **Warranty** pill (the same pill style as the item-level Warranty pill — shield icon, red fill + white text when on, red outlined when off). Tap it to turn it on. That's it — the job is now flagged as warranty work, cost is locked at $0 for all items, the **WARRANTY** badge appears on the gallery card, and the tech sees it as warranty work. No link to an original job, but all the same protections.
+
+If it's still a draft, the same Warranty pill shows up on the draft detail view. Flip it on there and it applies when you finalize.
+
+**Post-check-in toggling:** You can toggle the job-level Warranty pill any time after check-in as long as at least one item is still active. This is useful when the customer calls back after drop-off to confirm the job is under warranty, or when you discover the equipment's repair history during inspection. Once every item on the job is **Closed** or **Totaled**, the pill locks — this prevents accidentally flipping warranty on a wrapped-up job and skewing revenue reports. If you need to correct warranty status on a fully-closed job, an admin can still do it by elevating admin access.
+
+**What the tech station can't do:** Tech Station devices don't see the job-level Warranty pill — warranty is a Front Counter / Admin concern. Techs can still see the WARRANTY badge on the card and the "Warranty Job" line in the header, but they can't change the status.
+
+**Warranty check-in jobs are still locked:** Jobs that were created through the **Check In for Warranty** flow (where the new job is linked to an original parent job) can't have their warranty status toggled from this pill. That parent link is intentional and shouldn't be broken — if you need to correct one of those, talk to an admin.
+
+---
+
+## Customers
+
+The Customers view is a browsable list of all your customers with a detail screen showing their full job history. It's available on Front Counter and Admin devices via the sidebar.
+
+### Customer List
+
+Open the sidebar and tap **Customers** to see the customer list. Every customer in the system is listed alphabetically, showing their name, company (if any), phone number, and a badge with their total number of jobs.
+
+Customers marked as **Tax Exempt** have an orange badge next to their name.
+
+**Searching:** Type in the search bar at the top to filter by name, company, or phone number. The list filters as you type. Tap the **X** to clear the search.
+
+**Adding a new customer:** On Front Counter and Admin devices, a **+** button appears in the top-right corner. Tap it to open the new customer form — same form used during job creation (name, phone, company, email, tax exempt). The new customer appears at the top of the list as soon as you save. This is useful for pre-registering customers or adding walk-ins who aren't ready to check in yet.
+
+Pull down to refresh the list.
+
+### Customer Detail
+
+Tap any customer in the list to see their detail screen. At the top is a card with their contact info — phone number, company, email, and tax exempt status.
+
+If a customer is tax exempt and has a certificate on file, you'll see a blue **View Certificate** link next to the orange "Tax Exempt" badge. Tap it to open the certificate image.
+
+#### Contacts
+
+Below the customer info card is a **Contacts** section. This is where you manage additional contacts for a customer — the shop manager, the owner, a driver, whoever else you might need to reach.
+
+Each contact shows their name, role (if set), phone number (tappable — tap to call or text), and email (tappable — opens a new email). Primary contacts have a star next to their name.
+
+**Adding a contact:** Tap the **Add** button (+ icon) next to the "Contacts" heading. Fill in:
+- **Name** (required)
+- **Phone** or **Email** (at least one required)
+- **Role** — type freely or tap a quick-pick chip: Owner, Manager, Driver, Spouse, Accounts Payable, Other
+- **Notes** — optional context like "Call after 5pm"
+- **Primary Contact** toggle — marks this person as the main point of contact (star icon)
+
+If you toggle Primary on and there's already a primary contact, the app asks to confirm the switch.
+
+**Editing a contact:** Tap any contact row to open the edit form with the same fields.
+
+**Deleting a contact:** Swipe left on a contact row and tap **Delete**. You'll be asked to confirm.
+
+[screenshot: Customer detail with contacts section showing two contacts]
+
+Below the contacts section, you'll see all of that customer's jobs split into two sections:
+
+**Active Jobs** — any jobs that are still being worked on, shown as full cards with photos (same cards as the Job Board). If the customer has no active jobs, this section doesn't appear.
+
+**Past Jobs** — closed and totaled jobs shown as compact rows with the job number, equipment summary (e.g., "Cylinder × 2 · Pump × 1"), date range (when it was created and when it was closed), item count, and status dots.
+
+Tap any job — active or past — to open the full job detail view with all items, photos, notes, and history. Use the back arrow to return to the customer detail.
+
+This is especially useful for warranty lookups ("didn't we just fix this customer's cylinder last month?") and getting context on repeat customers.
+
+### Editing a Customer
+
+Tap the **...** button in the top-right corner of any customer's detail screen and choose **Edit** to open the edit form. You can update:
+
+- **Name** and **Company** — with the same smart swap button as the new customer form. At least one of Name or Company must be filled in — you can clear one as long as the other has a value.
+- **Phone** and **Email**
+- **Tax Exempt** toggle — turn on or off as needed
+- **Contacts** — the same contacts list appears here. Add, edit, or delete contacts without leaving the edit form.
+
+**Uploading a tax exemption certificate:** When Tax Exempt is toggled on, you'll see a certificate section. Tap **Upload Certificate** to choose a photo from your library. A preview appears once selected — tap the **×** to remove it if you picked the wrong one. The certificate uploads automatically when you tap **Save**. If a certificate is already on file, you'll see "Certificate on file" with a **Replace** option to swap it out.
+
+**Toggling off Tax Exempt** automatically removes the certificate link from the customer's record.
+
+Tap **Save** to apply your changes. Tap **Cancel** to discard them.
+
+**Quick edit from Job Detail:** You can also edit a customer directly from a job's detail view — tap the **pencil icon** next to the customer name in the header card. This opens the same edit form, including the contacts section. Handy when you need to add a contact without navigating to the Customers list.
+
+### Deleting a Customer
+
+On Admin devices (or while admin-elevated), the **...** menu on a customer's detail screen includes **Delete Customer** in red.
+
+Tap it and you'll see a confirmation dialog warning that this is permanent. Any jobs that were linked to this customer will keep their data (items, photos, notes) but lose the customer association. Contacts under this customer are deleted automatically.
+
+This cannot be undone.
+
+### Flagging a Customer
+
+If a customer has been causing problems — warranty fraud, bringing in different equipment and claiming it's the same piece, slow pay, or anything else the shop needs to be aware of — you can flag them. A flagged customer gets a visible warning banner that shows up everywhere their name appears, so nobody at the counter or in the back is caught off guard.
+
+**Setting a flag:** Open the customer's detail screen and tap the **Flag Customer** button (flag icon). You'll be asked to type a reason — be specific, because this is what everyone will see. Something like "Claims warranty on different cylinders" or "Owes balance on two previous jobs" is more useful than "Problem customer." Tap **Confirm** to set the flag.
+
+Any device role can set a flag — Front Counter, Tech Station, or Admin. If a tech in the back notices something sketchy, they can flag the customer right from their station.
+
+**What it looks like:** Once flagged, an amber warning banner appears at the top of the customer's detail screen showing the reason, who flagged them, and when. This same banner also shows up on every job detail view for that customer, on the Tech Station item detail, and during new job creation if someone selects that customer. On the Job Board, flagged customers' job cards show a small flag icon so Maria can spot them at a glance without opening the job.
+
+The flag is informational — it doesn't block anything. You can still create jobs, check in warranty work, and process pickups for a flagged customer. It just makes sure everyone knows the deal.
+
+**Removing a flag:** Only Admin devices can remove a flag. Open the customer's detail screen and tap **Remove Flag**, then confirm. The banner disappears from all views. The flag history is preserved in the system even after removal, so there's a record of what happened.
+
+[screenshot: Customer detail with amber flag banner at top]
+
+---
+
+## Companies
+
+The Companies view lets you browse and manage all companies in the system. It's available on Front Counter and Admin devices via the sidebar.
+
+### Company List
+
+Open the sidebar and tap **Companies** to see the company list. Every company is listed alphabetically, showing its name, phone number (if set), and a "Tax Exempt" badge if applicable.
+
+**Searching:** Type in the search bar at the top to filter by name. The list filters as you type.
+
+Pull down to refresh.
+
+### Company Detail
+
+Tap any company to see its detail screen:
+
+- **Company info** — phone, email, tax exempt status, and notes
+- **Customers** — all people linked to this company, shown as tappable rows. Tap a customer to see their full detail screen.
+- **Job History** — all jobs across all customers under this company, sorted newest first. Each row shows job number, customer name, date, item count, and cost. Tap any job to see the full detail view.
+
+**Editing a company:** Tap the **...** button in the top-right and choose **Edit** to update the company's name, phone, email, tax exempt status, or notes.
+
+**Deleting a company (Admin only):** The **...** menu also includes **Delete Company** in red on Admin devices (or while admin-elevated). A confirmation dialog warns that this is permanent — linked customers and jobs keep their data but lose the company association. This cannot be undone.
+
+### How Companies Work
+
+Companies are created automatically during check-in. When someone types a new company name during job creation, a company record is created behind the scenes. There's no separate "Create Company" step.
+
+Multiple customers (people) can belong to the same company. When a company is selected during check-in, the app shows suggestions for existing customers under that company — making repeat check-ins faster.
+
+**Tax exempt status** flows from the company to all customers under it. If "ABC Construction" is tax exempt, every job checked in under that company inherits the tax exempt status automatically.
+
+**Customer detail** screens show the company as a tappable link. Tap it to jump to the company detail view.
+
+[screenshot: Company detail showing customers list and job history]
+
+### Flagging a Company
+
+If a company has a pattern of issues — multiple customers from the same outfit pulling warranty stunts, slow-paying across the board, or anything else worth tracking — you can flag the whole company. This works exactly like customer flags but at the company level.
+
+**Setting a flag:** Open the company's detail screen and tap **Flag Company** (flag icon). Type a reason and confirm. Any device role can set a company flag.
+
+**How it propagates:** When a company is flagged, the amber warning banner shows up on the company detail screen AND on every job for every customer under that company. If "Shady LLC" is flagged and three different drivers from Shady LLC come in on different days, Maria will see the flag warning on each of their jobs. The customer doesn't need to be individually flagged — the company flag covers everyone under it.
+
+A customer can be flagged independently of their company. If both the customer AND their company are flagged, you'll see both banners (with their separate reasons) so nothing gets lost.
+
+**Removing a flag:** Admin only. Tap **Remove Flag** on the company detail screen and confirm.
+
+---
+
+## Tech Station
+
+The Tech Station iPad is the back shop's primary tool. It shows a queue of all items that need work — not grouped by job, but as individual items. Techs don't care that three cylinders came from the same customer; they care about the cylinder on the bench.
+
+### Repair Queue
+
+When you open the app on a Tech Station device, you see the **item queue** — a grid of cards showing all items that need work. The cards are sorted by status: In Progress items first, then items waiting for a tech to grab, then tested items that need a cost entered.
+
+Each card shows:
+
+- **Item photo** — the top half of every card is a large square photo of the equipment. The photo has a colored **status dot** in the top-right corner and an **equipment type label** in the bottom-right corner, same as the Front Counter cards. If no photo has been taken yet, you'll see a gray placeholder.
+- **Status label** — text below the photo showing the item's current stage (e.g., "Checked In", "In Progress", "Ready for Test")
+- **Equipment type** (e.g., Cylinder, Pump, Hose)
+- **Customer name**, **company name** (if applicable, shown below the customer name), **phone number** (tappable — tap to call or text), and **job number**
+- **Assigned tech's name** — if someone has grabbed it
+- **READY badge** — orange badge on items where repair is done and it's waiting on testing
+
+Photos load in the background, so cards appear instantly and photos fill in a moment later.
+
+Items with the READY badge also have a warm orange tint on the card so they stand out.
+
+**On Fire items** — if the front counter has marked an item urgent, you'll see a **red border** around its photo tile and a **🔥 badge in the bottom-left corner**. On-fire items jump to the absolute top of the queue, above Ready for Test. Techs can't set or clear this flag — if you think something's urgent and it's not marked, or if something's marked on fire that shouldn't be anymore, tell the front counter.
+
+Tap any card to open the item detail view with actions for whatever the item needs next.
+
+**Flagged customers:** If the item belongs to a flagged customer or company, you'll see an amber warning banner at the top of the item detail view with the flag reason. Techs can also flag customers directly from the item detail if they notice something off — tap **Flag Customer** and enter a reason. Only admins can remove flags. See [Flagging a Customer](#flagging-a-customer) for the full rundown.
+
+Pull down to refresh the queue. The grid adapts automatically when you rotate the iPad between landscape and portrait.
+
+### Searching and Filtering the Queue
+
+The Tech Station has the same **search bar** and **filter button** as the Front Counter. On iPad, they're in the toolbar. On iPhone, they appear just below the navigation bar.
+
+**Searching:** Tap the search bar and type to filter the queue in real time. You can search by:
+
+- Equipment type (e.g., "Cylinder")
+- Customer name, company name, or job number
+- Tech name (e.g., "Tony")
+- Machine type or item description
+- Service reason (e.g., "Seal")
+
+**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, In Progress, Tested), Machine Type (if enabled), and Reason for Service (multi-select).
+
+Active filters show as removable chips below the toolbar, same as the Front Counter. Tap **X** on a chip to remove it, or **Clear All** to reset everything.
+
+If nothing matches, you'll see "No Matching Items" instead of the grid.
+
+### Scanning a QR Tag (Tech Station)
+
+Tap the **scan icon** in the toolbar, point the camera at the sticker on your bench equipment, and the app jumps straight to that item's detail view. Full details — including what to do if a scan fails or a sticker needs reprinting — are in the **Equipment Tags** section near the end of this manual.
+
+### Adding Photos from the Tech Station
+
+When you open an item detail, you'll see a row of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting. Tapping **Camera** opens the continuous camera: tap the shutter as many times as you need, watch the thumbnails appear at the bottom of the screen, then tap **Done** when you're finished. No need to reopen the camera between shots.
+
+Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close. Photos with markup show a small blue pencil badge on their thumbnail.
+
+If you snap a bad photo while the camera is open, tap the **X** on its thumbnail in the camera strip to remove it right away. Once a photo is uploaded, only an admin can delete it (see "Deleting Photos" in the Front Counter section above).
+
+#### Marking Up Photos (Tech Station)
+
+Techs can mark up photos the same way the front counter does — tap a thumbnail to go full-screen, then tap **Markup** to open the Apple pencil editor. This is useful for writing the price on a photo, circling what was repaired, or noting anything the front counter should see.
+
+The full markup toolbar is available: pens, markers, pencils, erasers, ruler, and all colors. Tap **Save** when done. Previous markup strokes are preserved for re-editing. See "Marking Up Photos" in the Front Counter section above for the full details on how markup, revert, and re-editing work.
+
+### Adding Notes from the Tech Station
+
+When you open an item detail from the tech queue, you'll see a **Notes** card between the item info and the test history. This works the same as on the front counter — type a note, tap the send arrow, and it's saved with your name and timestamp.
+
+Use notes to document what you found during disassembly, anything unusual about the repair, or messages for the front counter ("customer needs to approve cost before we proceed"). Notes from both the front counter and the tech station show up in the same timeline, so everyone stays on the same page.
+
+### Working on Warranty Items
+
+When an item came back in because something failed from a previous repair, it shows up in your queue with a red **WARRANTY** badge in the item header. These are handled the same as any other item — grab it, repair it, test it — but there are a couple of things worth knowing.
+
+#### The Previous Repair Card
+
+When you open a warranty item, you'll see a red **"Previous Repair"** card near the top of the detail view, just below the header. This gives you context on what was done last time:
+
+- The **original job number** so you can look it up if needed
+- **Photos from the original repair** — the same photos the tech took when this item was first fixed. These load in a horizontal scroll strip so you can swipe through them.
+- **Issues found** — the repair checklist items the previous tech checked off (Seal, Wiper, etc.)
+- A **PASSED / FAILED** badge showing how the original test went
+
+This is there so you're not going in blind. If the original tech noted something unusual or took a photo of the damage, you can see it right here without having to hunt down the old job.
+
+#### Testing a Warranty Item
+
+When you tap **Tested** and mark it as passed, the app automatically closes out the cost at $0 (no cost entry step — it's already locked). You'll see a brief **"Warranty Complete!"** confirmation and then the app takes you back to the queue. There's nothing extra to do.
+
+If the warranty item *fails* the test, it goes back to In Progress for another repair round, same as any other item.
+
+**Admin override:** If an admin is logged in and needs to charge for the warranty work (unusual, but it happens), the normal **Enter Cost** button appears instead of the auto-complete. The admin can enter a cost and go through the standard approval flow.
+
+### No Warranty Flag (Tech Station)
+
+If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag it right from the tech detail view.
+
+Look for the amber-orange **No Warranty on This Item** pill on the item detail card. Tap it once to turn it on — it fills in solid amber with white text. Tap again to turn it off. The pill only appears on items that have been checked in — it's hidden during the intake stage, so you'll see it from **In Progress** onwards through **Tested** and **Complete**.
+
+When the flag is on, you'll also see a dark **NO WARRANTY** pill next to the item reference in the header, and the front counter will see the same amber pill read-only on their side. If a tech on another station set the flag first, you'll see the pill already on when you open the item.
+
+The flag is informational — it doesn't change the workflow or lock anything by itself. It's there so the front counter can communicate it to the customer at pickup ("this one has no warranty, as we discussed"). See also **Mark Complete (No Warranty)** below for the one-tap shortcut that combines "set no warranty + push to Complete" in a single action.
+
+### Mark Complete (No Warranty)
+
+Sometimes you already know an item is going out the door with no warranty and you don't want to go through the normal tester/cost/approval flow. The **Mark Complete (No Warranty)** button is a shortcut that does both at once.
+
+Look for the brown button labelled **Mark Complete (No Warranty)** in the item action area — it appears on items that are **In Progress**, **Tested**, or already at **Complete** (as long as they aren't already flagged no-warranty). Tap it and you'll see a confirmation dialog:
+
+> **Mark as Complete with No Warranty?**
+> This item will be marked complete and excluded from warranty. This cannot be undone.
+
+Confirming sets the item to **Complete** and flips on the No Warranty flag in one write. No tester picker, no cost entry, no manager approval. The item shows up on the job board with a brown **COMPLETE • NO WARRANTY** badge on its photo tile (instead of the usual green **COMPLETE** badge) so the front counter and anyone else on the team can see at a glance which items are going out without warranty.
+
+Any role can use this — it's a workflow shortcut, not a permission check. Use it when the decision is already made and you just need to get the item out the door.
+
+### Editing Item Info from the Tech Station
+
+When you open an item detail, you may see a small blue **Edit** link in the top-right corner of the item info card. This lets you change the intake fields — equipment type, machine type, service reasons, and description — without going back to the front counter.
+
+The Edit button only appears when the item is in **Checked In** status (before anyone grabs it). Once the item is In Progress, the intake fields lock and the Edit link disappears. An admin can still edit locked fields by elevating admin access.
+
+Photos and notes are always editable regardless of item status (see "Adding Photos" and "Adding Notes" sections).
+
+### Grabbing an Item
+
+When a new item shows up in "Waiting for Tech," any tech can grab it:
+
+1. Tap the item card to open it
+2. Tap the **Grab** button (yellow, big and easy to hit)
+3. A picker appears — tap your name from the list
+4. You'll see a quick **"Grabbed!"** confirmation, then the app automatically takes you back to the queue
+
+Whoever grabs it first gets it. If it needs to be reassigned later (tech goes home sick, owner decides someone else should take over), see "Reassigning a Tech" below.
+
+### Reassigning a Tech
+
+Sometimes a job needs to go to a different tech — maybe someone went home sick, or the owner wants a specific person on it. You can reassign any item that's currently In Progress:
+
+1. Open the item from the queue
+2. Tap the **Reassign** button (purple)
+3. A picker appears — tap the name of the tech who should take over
+4. You'll see a quick **"Reassigned!"** confirmation, then the app takes you back to the queue
+
+The new tech will see the item in their queue. The repair clock resets when you reassign — the new tech gets a fresh start time.
+
+Reassign is available on Tech Station and Admin devices. It doesn't matter what stage of repair the item is in — as long as it's In Progress, you can reassign it.
+
+### Repair Checklist
+
+When you open an In Progress item, you'll see a **Repair Checklist** section with green pill-shaped buttons for each type of repair work: Wiper, Seal, Buffer Seal, Wear Bands, U Seal, Epoxy, Welding, Rod Damage, Oil Sample, Dented, and Other.
+
+**Tap each pill to check off what you actually did.** Selected pills turn green; unselected ones stay outlined. You can tap a green pill again to uncheck it if you made a mistake.
+
+If you select **Other**, a text field appears where you can describe the work that doesn't fit the standard categories.
+
+**You must check at least one item on the repair checklist before you can tap Done.** If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
+
+Your selections save to the server immediately as you tap them — no need to hit a save button.
+
+After the item is marked Done or Tested, the checklist stays visible as a read-only record of what was done.
+
+If an item fails a test and comes back for another round, the checklist resets to empty for the new round. You'll see a red **Round 2** badge next to the "Repair Checklist" header so you know which round you're on. The previous round's checklist is preserved in the history card below (see "Previous Round Checklists").
+
+### Marking Repair as Done
+
+Once you've finished repairing an item and checked off what you did on the repair checklist:
+
+1. Open the item from the queue
+2. Make sure you've checked at least one item on the **Repair Checklist** (see above)
+3. Tap the **Done** button (green)
+4. You'll see a **"Marked Done!"** confirmation, then the app takes you back to the queue
+5. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
+
+The repair end time is logged automatically.
+
+### Testing an Item
+
+Items with the READY badge need to be tested before they can leave the shop:
+
+1. Open the item
+2. Tap the **Tested** button (orange)
+3. A picker appears — tap the name of whoever tested it (authorized testers only)
+4. A **Pass/Fail sheet** appears with two big buttons: **PASSED** and **FAILED**
+
+**If PASSED:**
+
+- **Regular items:** The item moves to **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after the inactivity timeout (see "Auto-Return to Queue" below).
+- **Warranty items:** The cost is already locked at $0, so there's no cost entry step. The app shows a brief **"Warranty Complete!"** confirmation and immediately returns to the queue. Done.
+
+**If FAILED:**
+
+The item goes back to **In Progress** and a new repair round begins. The same tech stays assigned — it's their job to fix whatever failed. No extra taps, no "are you sure?" — it just goes straight back. The app shows a brief "Sent Back — Round 2" confirmation and returns to the queue. The tech will see the item back in their queue with a red **Rd 2** badge, a fresh empty repair checklist, and the previous round's checklist preserved in the history card (see "Previous Round Checklists" below).
+
+An item can fail and loop back as many times as needed. Each round is tracked separately.
+
+If a different tech needs to take over after a failed test, use the **Reassign** button on the item (see "Reassigning a Tech" above).
+
+### Oil Sample
+
+You can record an oil sample on any item that's at the **Ready for Test** or **Tested** stage. This is optional — not every item needs one.
+
+1. Open the item
+2. Tap the **Oil Sample** button (blue)
+3. Pick the condition: **Clean** or **Dirty**
+4. Add any notes in the text field (optional)
+5. **Take photos (optional)** — below the notes field you'll see **Camera** and **Library** buttons, same as the photo buttons used during intake. Tap Camera to snap a picture of the oil sample, or Library to pick one from the device. You can add multiple photos — each one appears as a thumbnail with an **X** to remove it if you change your mind.
+6. Select who performed the sample
+7. Tap **Submit**
+
+Photos upload automatically when you submit. Oil samples (with any attached photos) show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
+
+### Repair History
+
+Below the Notes card on the item detail, there's a **Repair History** card — a chronological timeline of everything that's happened to the item, in order. This is the same timeline Maria sees on the Front Counter, so both sides of the shop are always looking at the same story.
+
+The timeline includes:
+
+- **Tech assignment** — who grabbed it and when
+- **Repair rounds** — each round's completed checklist items (Wiper, Seal, etc.). If the item failed a test and went back for another round, you'll see "Round 1: ..." and "Round 2: ..." entries separately, so the history of what was done in each round is always clear
+- **Test results** — PASSED or FAILED with who tested it and when
+- **Oil samples** — Clean or Dirty, who performed it, when, and any notes
+- **Customer Contacted** — on Totaled items, shows the contact outcome and timestamp after the "Customer Contacted" action was submitted
+- **Cost** — total price with parts/labor/tax breakdown if applicable, plus manager approval status
+
+This card only appears when there's something to show — brand-new items that haven't been touched yet won't have it.
+
+On the old system, Tony had to flip through paper to see what was done in a previous round. Now it's right there on the screen.
+
+### Entering Cost
+
+After testing, the item needs a cost before it can go back to the front counter:
+
+1. Open the tested item (or stay on it after testing)
+2. Tap **Enter Cost** (green)
+3. Enter the cost — how this looks depends on your shop settings:
+   - **Standard mode (default):** One field — type the total dollar amount
+   - **Parts + Labor mode:** Two fields — **Parts ($)** and **Labor ($)**. The total calculates automatically as you type.
+4. If the shop has **Sales Tax** enabled, you'll see a **"Taxable"** (or **"Taxable Parts"** in Parts + Labor mode) toggle. Turn it on if this item's parts are subject to sales tax. The sheet updates to show Subtotal, Tax, and Total so you can confirm the amount before submitting.
+5. Tap **Submit**
+6. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
+7. The item moves to **Complete** (green) and appears on the front counter for customer pickup
+
+For items with $0 cost, the manager approval step is skipped automatically.
+
+*(Parts + Labor mode and Sales Tax are turned on and off by an admin in Admin Settings → Shop Settings.)*
+
+### Totaling an Item
+
+If an item is unfixable:
+
+1. Open the item
+2. Tap the **Totaled** button (black in light mode, white in dark mode)
+3. Confirm — the item is now marked Totaled and shows a black TOTALED banner on the job card
+
+**Adding a diagnostic cost (optional):** After marking an item Totaled, you'll see an **"Add Cost"** button. Tap it to enter the diagnostic cost — the same cost entry form you use for normal items. If the cost is more than $0, you'll see the manager approval prompt. If there's no charge, you can skip this entirely — cost entry is not required.
+
+The item stays in Totaled status after cost entry (it does NOT move to Complete). The Front Counter handles closing Totaled items through the "Customer Contacted" flow.
+
+### About the Action Buttons
+
+All action buttons on the Tech Station (Grab, Done, Tested, Reassign, Enter Cost, Totaled, Close) are intentionally large. They're designed so techs can tap them quickly without fiddling around, even with dirty or gloved hands. On iPad, the buttons sit side by side in a row. On iPhone (used by admins), the buttons stack vertically and stretch full-width so they're still easy to tap on the smaller screen. After any "walk-away" action (anything where you're done with that item for now), the app shows a brief confirmation and automatically returns you to the repair queue.
+
+### Auto-Return to Queue
+
+If someone opens an item detail and walks away without doing anything for 2 minutes, the app automatically returns to the repair queue. This way the Tech Station iPad is always showing the queue when no one's actively using it — the next person who walks up sees the full list of items, not whatever the last tech was looking at.
+
+Any touch on the screen (scrolling, tapping, typing) resets the 2-minute timer. You don't need to do anything special — just use the app normally and the timer stays out of your way. It only kicks in when nobody's touching the iPad at all.
+
+The timeout is configurable by an admin (default is 2 minutes). Setting it to 0 disables it entirely.
+
+### Role Switcher (Debug Only)
+
+The role switcher is a developer tool for switching between Front Counter, Tech Station, and Admin views without resetting the device. It only appears in debug/test builds — it won't be in the final app.
+
+**Enabling it:** Open the sidebar, scroll to the **Developer** section at the bottom, and tap the **Role Switcher** toggle. You'll be prompted to enter an admin PIN. Once confirmed, a small purple ladybug button appears in the bottom-left corner of every screen.
+
+**Using it:** Tap the ladybug button to expand a menu showing the three device roles. Tap any role to switch to it instantly. A checkmark shows whichever role is currently active.
+
+**Disabling it:** Flip the toggle back off in the sidebar — no PIN required to turn it off.
+
+The toggle state persists across launches, so you don't have to re-enter your PIN every time you open the app. Only the initial enable requires a PIN.
+
+---
+
+## Admin
+
+*This section will be filled in as Admin features are built.*
+
+### Employee Management
+
+Employee management is where you add, edit, and deactivate the people who use ShopTracker.
+
+**Getting there:** Open Admin Settings and tap **Employees** under the "Shop" section.
+
+#### Viewing Employees
+
+You'll see a list of all active employees, each showing their name, role badge (Tech, Admin, or Tester), and an "Authorized Tester" badge if they're allowed to test items. Admin employees also show a PIN status badge — green **"PIN Set"** if they have a PIN configured, or gray **"No PIN"** if they still need to set one up. Inactive employees appear in a separate section at the bottom.
+
+Pull down to refresh the list.
+
+#### Adding an Employee
+
+1. Tap the **+** button in the top right corner
+2. Enter the employee's **name**
+3. Pick their **role** using the segmented control:
+   - **Tech** — can grab items, do repairs, and mark done
+   - **Admin** — full access to all views and settings (will need a PIN)
+   - **Tester** — dedicated tester role
+4. Toggle **Authorized Tester** on if this person should be able to test items, regardless of their role (e.g., a tech who also tests)
+5. Tap **Add**
+
+The new employee will immediately appear in all relevant pickers across the app (tech assignment, tester selection, etc.).
+
+#### Editing an Employee
+
+Tap any active employee in the list to open their edit form. You can change their name, role, or tester authorization. Tap **Save** when done.
+
+#### Resetting an Admin's PIN
+
+If an admin forgets their PIN, another admin can reset it:
+
+1. Swipe left on the admin employee's name in the list
+2. Tap the orange **Reset PIN** button
+3. Confirm in the popup
+
+This clears their PIN entirely. The next time that person needs admin access, they'll use the **"Don't have a PIN yet?"** option on the PIN entry screen to set up a new one. The resetting admin never sees or chooses the other person's PIN — it's always self-service.
+
+#### Deactivating an Employee
+
+If someone leaves the shop or no longer needs access:
+
+1. Swipe left on their name in the employee list
+2. Tap **Deactivate**
+3. Confirm in the popup
+
+The employee disappears from all pickers (they won't show up when assigning techs or testers) but their name still appears on any jobs, tests, or repairs they were involved in. Nothing is deleted — history stays intact.
+
+#### Reactivating an Employee
+
+If someone comes back or was deactivated by mistake, scroll down to the **Inactive** section and tap the **Reactivate** button next to their name. They'll immediately reappear in all pickers.
+
+### Shop Settings
+
+Shop Settings is where you control the optional fields and cost entry behavior for the whole shop. Changes take effect immediately — no save button.
+
+**Getting there:** Open Admin Settings and tap **Shop Settings** under the "Shop" section.
+
+#### Machine Type Field
+
+The **Show Machine Type Field** toggle adds a "Machine Type" field to the job intake form — what the equipment came off of (Forklift, Excavator, Skid Steer, etc.).
+
+- **Off by default.** Turn it on if your shop wants to track what machine the equipment belongs to.
+- The options in the Machine Type dropdown are managed under **Manage Lists** (see below).
+- When Machine Type is on, you can also make it **required** using the Required Fields toggles further down.
+
+#### Machine Brand Field
+
+The **Show Machine Brand Field** toggle adds a "Machine Brand" field to the job intake form — who made the machine the equipment came off of (Caterpillar, John Deere, Komatsu, etc.).
+
+- **Off by default.** Turn it on if your shop wants to record the machine manufacturer at intake.
+- The options in the Machine Brand dropdown are managed under **Manage Lists** (see below).
+- When Machine Brand is on, you can also make it **required** using the Required Fields toggles further down.
+
+#### Color Field
+
+The **Show Color Field** toggle adds a color field to the job intake form for visual identification.
+
+- **Off by default.** Turn it on if Maria needs to describe the equipment's color at intake.
+- When Color is on, a second toggle — **Color Required** — appears. This controls whether techs and Maria *must* fill it in or whether it's just optional.
+- If you turn Color off, Color Required turns off automatically.
+
+#### Cost Entry — Parts + Labor Split
+
+The **Parts + Labor Split** toggle changes how techs enter cost on completed items.
+
+- **Off (default):** Techs see one field — "Total Cost" — and enter a single dollar amount.
+- **On:** Techs see two separate fields — **Parts ($)** and **Labor ($)**. The sheet shows a running total as they type. Both get saved individually so you can pull them apart in reports later.
+
+This setting affects the cost entry sheet for all items in the shop immediately after you toggle it.
+
+#### Sales Tax
+
+The **Charge Tax on Parts** toggle enables sales tax collection for the shop. When this is on:
+
+- A **tax rate field** appears below the toggle. Type your local sales tax percentage (e.g., `7.5` for 7.5%). The rate saves automatically when you dismiss the keyboard.
+- When techs enter cost on an item, a **"Taxable" toggle** appears in the cost entry sheet. They turn it on if that item's parts are subject to sales tax.
+- The cost entry sheet shows a live breakdown: **Subtotal → Tax → Total** so the tech can see exactly what the customer will be charged before submitting.
+- In Parts + Labor mode, tax is calculated on the parts amount only (labor is not taxed).
+- In standard mode (single total), tax is calculated on the full cost amount.
+- The tax amount is saved on the item alongside the cost and can be pulled into reports later.
+
+**Off by default.** If your shop doesn't charge sales tax, leave this off and the taxable toggle won't appear anywhere in the cost entry flow.
+
+#### Required Fields
+
+Required fields block job creation until they're filled in. Toggle each field on or off:
+
+- **Customer** — on by default
+- **Equipment Type** — on by default
+- **Reason for Service** — off by default
+- **Description** — off by default
+- **Photos** — off by default
+- **Machine Type** — only visible when the Machine Type field is turned on
+- **Machine Brand** — only visible when the Machine Brand field is turned on
+- **Color** — only visible when the Color field is turned on
+
+If a required field is missing when Maria tries to create a job, the button stays on "Save as Draft" instead of "Create Work Order." The same enforcement applies when finalizing an existing draft — the Finalize button stays disabled until all required fields are filled in on every item. On drafts, items missing required fields are highlighted with an orange background and a "Complete Item Info" banner.
+
+### Manage Lists
+
+Manage Lists is where you control the dropdown options used throughout the app. Accessible from Admin Settings → **Manage Lists** under the "Shop" section.
+
+There are five lists you can manage:
+
+- **Equipment** — what the item IS (Cylinder, Pump, Hose, Other...)
+- **Mach Type** — what it came off of (Forklift, Excavator, Skid Steer...) — only shows up in job intake if Machine Type is turned on in Shop Settings
+- **Brand** — who made the machine (Caterpillar, John Deere, Komatsu...) — only shows up in job intake if Machine Brand is turned on in Shop Settings
+- **Service** — the Reason for Service pills on the intake form
+- **Issues** — the repair checklist items techs check off when marking work done
+
+Switch between lists using the tabs at the top of the screen.
+
+#### Adding an Option
+
+1. Tap **+** in the top right corner
+2. Type the option name and tap **Add**
+
+It appears at the bottom of the list immediately and is active by default.
+
+#### Renaming an Option
+
+Tap the **pencil icon** next to any option to rename it. The new name applies going forward — existing jobs keep the original name they were created with.
+
+#### Hiding an Option
+
+Each option has an active toggle on the right. Turn it off to hide the option from the intake form and checklists without deleting it.
+
+Hidden options don't show up for new jobs, but they still appear on any existing jobs that used them — your history stays intact.
+
+#### Reordering
+
+Tap the **Edit** button in the top right corner to enter reorder mode, then drag options into the order you want. The order is saved automatically as you drag.
+
+### Device Management
+
+Device Management is where you see every iPad and iPhone registered to this app, and where you can rename them, change their roles, or revoke access if a device is lost, stolen, or being retired.
+
+**Getting there:** Open Admin Settings and tap **Devices** under the "Shop" section.
+
+**Requires internet.** Device management won't work offline — if the connection is out, a banner will appear at the top of the list and changes will be disabled until you reconnect.
+
+#### Viewing Devices
+
+You'll see a list of all registered devices, each showing:
+
+- The **device name** (e.g., "Front Counter iPad")
+- A **role badge** — blue for Front Counter, teal for Tech Station, purple for Admin
+- **Last seen** — roughly when the device last opened the app ("2 hours ago", "3 days ago")
+- A **"this device"** label next to whichever device you're currently using
+
+Active devices appear at the top. Any revoked devices appear in a separate **Revoked** section at the bottom.
+
+Pull down to refresh the list.
+
+#### Renaming a Device or Changing Its Role
+
+Tap any device row to open its edit sheet.
+
+- **Name** — type whatever makes sense for your shop (e.g., "Maria's iPad", "Back Shop Tech", "Bec's iPhone")
+- **Role** — use the segmented picker to change the role: Front Counter, Tech Station, or Admin
+
+Tap **Save** when done.
+
+**Important:** Role changes on a device other than the one you're holding take effect the next time that device opens the app. You'll need to let whoever's on that device know to close and reopen it (or force-quit and relaunch). Role changes made to your *current* device take effect immediately.
+
+#### Revoking a Device
+
+Revoking removes a device's access until it goes through setup again. Use this if a device is lost, stolen, reassigned to someone new, or just needs a fresh start.
+
+**To revoke by swiping:** Swipe left on the device row and tap **Revoke**. Confirm in the popup.
+
+**To revoke from the detail sheet:** Tap the device row, scroll to the bottom, and tap **Revoke Device**.
+
+When a revoked device is opened again, it will show the Device Setup screen and need to be configured from scratch. The device keeps the same underlying identity (so it doesn't create a duplicate entry), but it'll need a new name, role, and admin PIN before it can be used.
+
+You **cannot revoke the device you're currently holding** — if you need to reassign your own device, do the reset from a different admin device, or use the **Reset Device** option in the Danger Zone at the bottom of Admin Settings.
+
+#### Reactivating a Revoked Device
+
+If a device was revoked by mistake, or it's back in service:
+
+1. Scroll to the **Revoked** section at the bottom of the device list
+2. Tap **Reactivate** next to the device name
+
+The device is immediately active again. If it hasn't gone through setup yet since being revoked, it'll still need to complete setup on next launch. If it already went through setup (i.e., it was re-enrolled), reactivating is a no-op — it's already active.
+
+### Managing Flags (Admin Only)
+
+Anyone in the shop can flag a customer, company, or piece of equipment — but **only admins can remove flags.** This is intentional. The person at the counter or in the back can raise a concern immediately, but clearing it requires someone with admin access to review the situation first.
+
+To remove a flag, navigate to the flagged customer's detail screen (or company detail, or equipment detail) and tap **Remove Flag**. You'll see a confirmation dialog. Once removed, the amber warning banner disappears from all views. The flag history is preserved — there's a record of when the flag was set, why, and when it was removed — so you always have a paper trail.
+
+If you're reviewing flag history, the information is stored in the system even after flags are removed. This is useful if the same customer or company gets flagged again down the line.
+
+### Editing Cost on a Complete Item
+
+Once a tech submits a cost and the item reaches **Complete** status, the cost is normally locked — the front counter just reads it at pickup. But sometimes a price needs to change after the fact (a part came in cheaper, the customer negotiated, a mistake was caught). Admins can re-edit the cost directly from the job detail view.
+
+**How to edit a cost:**
+
+1. Open the job from the Job Board
+2. Make sure admin access is active (admin-role device, or elevate with your PIN)
+3. On the Complete item's card, you'll see an orange **Edit Cost** button in the action area
+4. Tap it — the cost entry sheet opens pre-filled with the existing values
+5. Change whatever needs changing (total cost, parts/labor split, taxable toggle)
+6. Tap **Submit** → confirm manager approval
+7. The item stays at Complete status — only the cost values update
+
+This goes through the same manager approval prompt as the original cost entry. The updated cost appears immediately on the job detail and in the Close Job card total.
+
+### Reports
+
+**Getting there:** Tap **Reports** in the sidebar, or open Admin Settings and tap **Reports** under the "Shop" section.
+
+Reports are admin-only. They pull live data from Supabase every time you open them — there's no offline mode for reports.
+
+#### Picking a Date Range
+
+At the top of the screen, pick a time period for the report:
+
+- **Today** — midnight to now
+- **This Week** — Monday to now
+- **This Month** — first of the month to now
+- **Month** — pick any month/year from a date picker (full calendar month)
+- **Custom** — set a From and To date manually
+
+All dates use Eastern Time. Changing the date range automatically refreshes the current report.
+
+#### Choosing a Report
+
+Below the date range, tap the **Report** dropdown to switch between:
+
+1. **Revenue Summary** — Grand total, warranty item count, taxable vs non-taxable breakdown, tax collected, and parts vs labor split (if that setting is enabled in Shop Settings). Also shows total job and item counts for the period.
+2. **Jobs Completed** — Every job where all items were closed in the selected period. Shows job number, customer name, date closed, item count, and total cost. Most recent first.
+3. **Jobs Per Tech** — How many items each tech worked on and how many distinct jobs they touched. Based on when repair started, not when it finished.
+4. **Repair Time Per Tech** — Average and total repair time for each tech. Only counts items where the tech started AND finished the repair. Displayed as hours and minutes.
+5. **Parts vs. Labor** — Total parts cost, total labor cost, and grand total. Only available if the parts/labor split is turned on in Shop Settings — otherwise you'll see a message telling you to enable it.
+6. **Warranty Summary** — Count of warranty jobs and items vs non-warranty jobs in the same period. Warranty work is always $0 but the volume is tracked.
+7. **Repeat Customers** — Customers who've had more than one job, with at least one completed in the selected period. Shows lifetime job count, jobs in the selected range, and total lifetime spend. Sorted by most jobs first.
+8. **Revenue by Company** — Revenue totals grouped by company. Shows each company's total revenue, job count, and item count for the selected period. "Walk-in / No Company" groups all jobs without a company. Sorted by highest revenue first.
+9. **Jobs by Company** — Job history grouped by company. Shows every closed job under each company with job number, customer name, date, item count, and cost. Sorted by most jobs first.
+
+#### Exporting to CSV
+
+Each report has an **Export CSV** button at the bottom. Tap it to open the standard iOS share sheet — from there you can AirDrop the file, save it to Files, email it, or send it anywhere else iOS lets you share.
+
+The file is named descriptively (e.g., `revenue-summary-2026-03-06-to-2026-04-06.csv`) and opens in Excel, Google Sheets, Numbers, or any spreadsheet app.
+
+[screenshot: Reports screen showing Revenue Summary with date range selector and export button]
+
+### Resetting a Device
+
+If a device needs to be reassigned (different role, different name, or just starting fresh):
+
+1. Open the Admin view on an admin-role device (or elevate admin access on the target device)
+2. Tap **Reset Device**
+3. The device will forget its identity and show the setup screen again on next launch
+4. Go through the setup process to assign a new name and role
+
+---
+
+### Bug Reports (Admin)
+
+**Getting there:** Open Admin Settings and tap **Bug Reports** under the "Diagnostics" section.
+
+Admins can view all submitted reports in a newest-first list. Each row shows:
+
+- **Manual** (blue) or **Auto** (amber) badge — Manual means someone tapped the ladybug button. Auto means the app detected a problem on its own.
+- The trigger or short description
+- Which device it came from
+- How long ago it was submitted
+
+Tap any report to see the full detail, which includes:
+
+- **Screenshot** — The app automatically captures a picture of whatever was on screen at the moment the report was filed. Tap the screenshot to view it full-size with pinch-to-zoom.
+- **Navigation Trail** — A breadcrumb trail showing the last screens the user visited before the report. This helps Bec figure out what path led to the problem (e.g., "Job Board → Job Detail → Item Detail → Ladybug Report").
+- **Details** — Device info, trigger type, timestamps.
+- **Description** — What the user typed (if anything).
+- **Error Log** — Recent technical errors logged by the app.
+- **App State** — A snapshot of what the app was doing at the time (sync status, which screen was open, etc.).
+
+#### Auto-Reporting
+
+The app monitors itself in the background. If it detects a serious problem — like changes that repeatedly fail to sync, a photo that won't upload, or the connection dropping unexpectedly — it files a report automatically without anyone having to do anything. Bec gets an email and a push notification on her iPhone and iPad.
+
+Auto-reports appear in the Bug Reports list with an **Auto** badge. They fire at most once per problem type every 10 minutes, so you won't get flooded.
+
+#### Notification Banners
+
+When an auto-report fires, a brief amber banner appears at the top of the screen on admin devices. It shows a one-line summary of what happened. Tap it to go straight to Bug Reports, or wait 8 seconds and it dismisses on its own. If multiple alerts come in at once, they queue up and show one at a time.
+
+The **Bug Reports** link in Admin Settings shows a badge count of unread notifications. It clears when you open the Bug Reports view.
+
+---
+
+## Reporting a Problem
+
+If something looks wrong or the app does something unexpected, you can report it directly from any screen without having to explain it to Bec later.
+
+### The Ladybug Button
+
+There's a small ladybug icon (🐞) in the top-right corner of every screen, on every device. Tap it whenever something seems off.
+
+A sheet slides up with:
+
+- **Description** — Optional. Write a quick note about what you were doing when the problem happened. The more detail, the better, but it's not required.
+- **Recent Errors** — A collapsible section showing the last few technical errors the app logged. You don't need to understand this — it's there automatically to help Bec diagnose the issue.
+- **Device Info** — Your device name, role, and app version. Attached automatically.
+
+Tap **Submit** and you're done. The report goes straight to Bec. You'll get a confirmation and the sheet closes.
+
+When you submit, the app also automatically captures a screenshot of whatever was on screen and records which screens you visited recently. This gives Bec a visual snapshot and a breadcrumb trail to help figure out what happened — you don't need to explain where you were or try to recreate the problem.
+
+**You don't need to be sure something is wrong to submit a report.** If something felt weird or slow, report it. Bec would rather get a false alarm than miss a real issue.
+
+---
+
+## Equipment Tags
+
+ShopTracker supports QR sticker tags that permanently identify a physical piece of equipment. Once a sticker is on a cylinder or pump and linked in the app, anyone in the shop can scan it to jump straight to that item's current job — no searching, no scrolling.
+
+Tags are stickers with a unique QR code printed on them. They don't mean anything until they're assigned to a piece of equipment in the app for the first time. After that, the sticker stays on the equipment forever, and the app always knows what it is.
+
+---
+
+### Getting Sticker Sheets
+
+Sticker sheets are printed ahead of time and kept at the front counter, ready to use when equipment comes in.
+
+To print a batch:
+
+1. Open the **QR Sticker Sheet** file (ask Bec for the link — it opens in any browser).
+2. Set the count if you want more or fewer than the default (42 per sheet).
+3. Click **Print** → set scale to 100% with no margins.
+4. Cut out the stickers along the dashed lines.
+
+Each sticker has a unique code on it (looks like **SR-A3KX7N**). The codes are meaningless until assigned. You can print as many sheets as you want — unused stickers don't need to be tracked anywhere.
+
+**Tip on placement:** Stick the tag somewhere that won't be removed or covered during repair. The barrel of a cylinder works well. Avoid end caps, fittings, or anywhere that gets disassembled. The tag needs to survive the job and still be readable when the customer brings the equipment back years later.
+
+---
+
+### Assigning a Tag at Check-In (Front Counter)
+
+When a customer brings in equipment that doesn't already have a tag:
+
+1. Peel a sticker off the sheet and stick it on the equipment.
+2. Create the new work order as normal. In the item form, tap **Scan Tag**.
+3. The camera opens with a yellow scan frame — point it at the sticker.
+4. The app reads the code and shows **"Tag Assigned ✓"** in green. The sticker is now permanently linked to that piece of equipment.
+5. Finish filling in the rest of the item details and create the work order.
+
+The link is saved when you create the work order. If you save as a draft, the tag assignment is saved with the draft too.
+
+**Equipment you've seen before:** If the equipment already has a sticker from a previous visit, scan it during check-in the same way. The app recognizes it, links the new job to the same equipment record, and may pre-fill the equipment type if that field is still empty. A returning cylinder with a tag is faster to check in than one without.
+
+---
+
+### Scanning from the Job Board (Front Counter)
+
+You can scan a sticker at any time — not just during check-in — to jump to an item's current job.
+
+Tap the **scan icon** (QR viewfinder icon) in the toolbar on the Job Board. The camera opens. Scan the sticker.
+
+- **Active job exists** — the app navigates straight to the item detail for that job. Useful when a customer calls and you want to pull it up quickly, or when a completed item is on the shelf and you need to check its status.
+- **No active job** (item was closed or picked up) — the app asks **"Create a new job for this item?"** and shows the customer name and equipment type. Tap **Create Job** to open a new work order with the customer and equipment type already filled in and the tag already linked. This is the fastest way to check in a repeat customer — scan the sticker, confirm, and you're already halfway through intake.
+- **Retired tag** — you'll see which item it used to be linked to.
+
+---
+
+### Scanning from the Work Queue (Tech Station)
+
+Tap the **scan icon** in the toolbar on the Tech Station queue screen. The camera opens with a yellow scan frame — point it at the sticker on the equipment sitting on the bench. The app looks up the item and navigates directly to its detail view with all your normal action buttons ready.
+
+No more hunting through the queue for the right item. Scan the cylinder, start working.
+
+**If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below. If the tag was retired, the app will tell you — see "Scanning Old / Retired Tags" below. If the equipment has no active job (closed or totaled), you'll see "No active item found" — creating new jobs is a Front Counter task. If you accidentally scan a shipping label or other non-shop QR code, you'll see **"Not an SR-80 tag"** — the app knows it's not one of ours because shop tags always start with "SR-".
+
+---
+
+### The QR Icon — What It Means
+
+Every item has a QR button that tells you at a glance whether a tag is assigned. Where to find it:
+
+- **Front Counter** — top-right corner of the item card header, next to the status badge.
+- **Tech Station** — right side of the equipment name row (e.g., next to "Cylinder"), in the item detail view. Look for **⊡ Add Tag** in gray.
+
+What the button looks like:
+
+- **Gray "⊡ Add Tag"** — no tag assigned yet. Tap it to open the camera and scan a sticker onto this item right now.
+- **Green QR icon** — a tag is assigned to this item. Tap it to see the full-size QR code for printing or sharing.
+
+You can assign a tag at any point in the workflow — Checked In, In Progress, Tested, even Closed. You don't have to start the job over or ask an admin.
+
+---
+
+### Viewing and Reprinting a Tag
+
+Tap the **green QR icon** on any item that already has a tag assigned. A large, clean QR code appears.
+
+From that screen, tap the **Share** button to:
+- AirDrop it to a Mac and print from Preview
+- Save it as an image to Photos
+- Send it via Messages or email
+
+This is useful for reprinting a tag if a sticker gets damaged or falls off.
+
+---
+
+### Assigning a Tag After Check-In
+
+If a tag wasn't scanned at check-in — or if the job was created before your shop started using stickers — you can assign one at any time without touching the original work order.
+
+**From the Front Counter:**
+
+1. Open the job and find the item card.
+2. Look for the **gray viewfinder icon** in the top-right corner of the item card. That means no tag is assigned yet.
+3. Tap it. The camera opens.
+4. Point the camera at the sticker on the equipment.
+5. The app links the tag and shows a **"Tag Assigned" confirmation** with a green checkmark and the QR code.
+
+Next time you open that item, the icon will be **green** — tag is assigned.
+
+**From the Tech Station:**
+
+1. Open the item from the queue.
+2. Look for **⊡ Add Tag** in gray, on the right side of the equipment name row (e.g., next to "Cylinder" or "Pump").
+3. Tap it. The camera opens.
+4. Scan the sticker on the equipment sitting on your bench.
+5. The app saves the assignment and shows a **"Tag Assigned" confirmation** with a green checkmark and the QR code.
+
+From that point on, the icon is green, and anyone can scan that sticker to navigate straight to this item.
+
+**If the sticker is already used:** If you scan a sticker that's already assigned to another piece of equipment, the app will block the assignment and tell you which equipment and customer it belongs to. You'll need to scan a different sticker. To free up a used sticker, go to the item it's currently assigned to and use **Replace Tag** (see below).
+
+---
+
+### Replacing a Tag
+
+If a sticker gets damaged, lost, or you need to move a sticker to a different piece of equipment, you can replace the tag on any item that already has one assigned.
+
+1. Open the item (from the Job Board or Tech Station queue).
+2. Scroll to the bottom of the item card. You'll see a small **🔄 Replace Tag** link in gray text.
+3. Tap it. The camera opens.
+4. Scan the **new** sticker you want to assign.
+5. A confirmation dialog appears: **"Replace this item's tag?"** — explaining that the current tag will be deactivated.
+6. Tap **Replace Tag** to confirm.
+
+The old sticker is now retired. The new sticker is active. If anyone scans the old sticker later, they'll see a message that it was retired and which item it used to be linked to.
+
+**What can go wrong:**
+
+- **New sticker is already assigned to something else** — the app blocks it and tells you what it's assigned to. Scan a different sticker.
+- **You accidentally scan the same sticker** — the app tells you it's already the tag on this item. No changes made.
+
+**Replace Tag** is available to all roles (Front Counter, Tech Station, Admin) and at any item status.
+
+[screenshot: Replace Tag button at bottom of item card]
+
+---
+
+### Scanning Old / Retired Tags
+
+If you scan a sticker that was replaced (retired), the app shows a popup:
+
+> **"This tag has been retired."**
+> It was previously linked to Item [item number].
+> [View Item] [Dismiss]
+
+Tap **View Item** to navigate to the item it used to be on — useful for tracking down equipment history.
+
+---
+
+### Scanning Tags on Closed or Totaled Items
+
+If you scan a sticker and the linked item has been closed (picked up) or totaled, the app offers to create a new job for that equipment — see "Scanning from the Job Board" above. The customer and equipment type are pre-filled so you can get straight to intake.
+
+---
+
+### When There's No Tag
+
+The app works completely normally without a tag — tags are a convenience, not a requirement. Jobs with no tag assigned show the **gray viewfinder icon** on their item cards as a reminder, but everything else (photos, notes, status flow, cost entry) works exactly the same.
+
+---
+
+### Flagging Equipment
+
+If a specific piece of equipment has a history of suspicious warranty claims or other issues, you can flag it. This requires the equipment to have a tag — you can only flag equipment that has a QR sticker record in the system.
+
+**Setting a flag:** From an item detail view where equipment info is displayed (near the QR tag section), tap **Flag Equipment**. Type a reason (e.g., "3rd warranty claim — customer keeps swapping cylinders") and confirm. Any role can set equipment flags.
+
+**What it looks like:** A flagged piece of equipment shows the amber warning banner on any item detail view where that equipment appears. If this cylinder comes back in six months under a new job, the banner will be there waiting.
+
+**Removing a flag:** Admin only — tap **Remove Flag** and confirm. The flag history is preserved even after removal.
+
+---
+
+## Reference & Troubleshooting
+
+### Troubleshooting
+
+#### "Incorrect PIN"
+
+Double-check that you're entering your personal admin PIN (4-8 digits). PINs are per-person, not per-device. If you've forgotten your PIN, another admin will need to help you reset it. *(PIN reset feature coming in a future update.)*
+
+#### The app shows "Connecting..." on launch
+
+ShopTracker needs an internet connection on first launch to download your jobs and settings. After that, it caches everything locally so you can keep working even if Wi-Fi drops (see "Working Offline" below). If you're stuck on "Connecting..." with a good Wi-Fi signal, the issue may be on the server side — let Bec know.
+
+---
+
+### Working Offline
+
+ShopTracker is designed to keep working when the shop Wi-Fi drops. Here's what you need to know:
+
+#### What still works without internet
+
+As long as you've opened the app at least once with a connection (so it can download your data), you can still:
+
+- Browse the job board and see all your jobs, items, and customer info
+- View photos that have been loaded before (they're saved on the iPad)
+- Grab items, mark repairs done, move items through the status flow
+- Add notes and check issue checklists
+- Enter costs and close items
+
+All of those changes are saved on the iPad and will automatically sync to the server as soon as the connection comes back. You don't have to do anything — the app handles it.
+
+#### What doesn't work without internet
+
+- Creating brand new jobs (the server generates the job number)
+- Uploading new photos
+- Looking up customers you haven't seen before
+- Any changes other people make on their devices won't show up until you're back online
+
+#### When the connection comes back
+
+The app detects when Wi-Fi returns and automatically sends any changes you made while offline. This usually takes a few seconds.
+
+If someone else made changes to the same item on a different device while you were offline, the app figures it out automatically. It compares what you changed against what the other device changed — if you edited different fields (e.g., you marked it Done while Maria added a note), both changes go through. If you both changed the same thing, the most recent change wins. You don't need to do anything — it just works.
+
+If something goes wrong during sync (rare), Bec can see it in **Admin Settings → Sync Status**. The dashboard shows which changes are pending, which failed, and why. From there you can retry failed items, force a sync, or clear the queue entirely if needed.
+
+#### Tips
+
+- Don't worry about saving — everything saves automatically, online or off
+- If you're not sure whether you're online, look for the **offline banner** at the top of the Job Board or Work Queue. It appears automatically when the iPad loses its connection and disappears when you're back online. If you've made changes while offline, the banner will tell you how many are queued (e.g., "Offline — 3 changes will sync when back online"). The data on screen is still usable — it's just a snapshot from the last time you had a connection.
+
+#### A device is showing the wrong role
+
+An admin will need to reset the device and set it up again with the correct role. See "Resetting a Device" above.
+
+---
+
+### Multiple Devices
+
+#### Live Updates
+
+When two people are looking at the same job at the same time on different iPads, their screens stay in sync automatically. You don't need to pull down to refresh or tap anything — status changes, new notes, and new photos appear on their own, usually within a second.
+
+This works from any view where it matters:
+
+- **Job Board (Front Counter)** — if Tony moves an item to Tested in the back, Maria's board updates automatically. The status dot changes color, and if all items are now Complete, the job card reflects that.
+- **Job Detail** — if you have a job open and a tech updates an item's status or adds a note on their device, your view updates live. You don't need to close and reopen the job.
+- **Tech Station Queue** — when an item becomes Ready for Test (tech marks repair done on another iPad), it floats to the top of the queue immediately. When a tech grabs an item, it updates on every device — so two techs can't accidentally grab the same one.
+- **Item Detail (Tech Station)** — if you're looking at a specific item and it gets updated on another device, the status badge, repair history, notes, photos, and checklist all update in place.
+
+#### If a sheet was open during an update
+
+Occasionally, if you have a cost entry, test result, or similar action sheet open and someone else changes that item's status on a different device, ShopTracker will close your sheet automatically and show a brief message: **"This item was updated on another device."**
+
+This just means the item moved to a different status while you had it open. Tap the appropriate action button again to continue from the current state.
+
+#### Editing the same item at the same time
+
+If two people are filling in the same item's details simultaneously (e.g., both editing equipment info), the last save wins on a field-by-field basis — not the whole record. So if Maria is typing in the Description field and Tony changes the Equipment Type on his device, Tony's Equipment Type change comes through without touching Maria's Description. Whatever Maria saves last is what sticks for the Description field.
+
+---
+
+*More sections will be added as features are built. This manual is a living document.*
