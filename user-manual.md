@@ -1747,8 +1747,12 @@ ShopTracker is designed to keep working when the shop Wi-Fi drops. Here's what y
 
 As long as you've opened the app at least once with a connection (so it can download your data), you can still:
 
-- Browse the job board and see all your jobs, items, and customer info
+- Browse the job board, work queue, customer list, and company list
 - View photos that have been loaded before (they're saved on the iPad)
+- **Create a brand new work order** — the job will save as a draft automatically and finalize when you're back online
+- **Add a new customer** as part of a walk-in (even if you've never seen them before)
+- **Add items and service reasons** to a new or existing draft job
+- **Capture photos** — they save to the iPad and upload when the connection returns
 - Grab items, mark repairs done, move items through the status flow
 - Add notes and check issue checklists
 - Enter costs and close items
@@ -1757,14 +1761,20 @@ All of those changes are saved on the iPad and will automatically sync to the se
 
 #### What doesn't work without internet
 
-- Creating brand new jobs (the server generates the job number)
-- Uploading new photos
-- Looking up customers you haven't seen before
+- **Finalizing a new work order** — offline intake always saves as a draft. When you reconnect, open the draft and tap Finalize to assign a real job number.
+- **Warranty check-in** — warranty jobs are never drafts, so this path is disabled while you're offline. Wait until you're reconnected.
+- Deleting a draft job (the photos are stored in the cloud)
 - Any changes other people make on their devices won't show up until you're back online
 
 #### When the connection comes back
 
-The app detects when Wi-Fi returns and automatically sends any changes you made while offline. This usually takes a few seconds.
+The app detects when Wi-Fi returns and automatically sends any changes you made while offline. This usually takes a few seconds. On a bigger sync (new job + new customer + several photos), it may take up to a minute.
+
+A few things happen automatically in the background on reconnect:
+
+- **Drafts created offline** stay as drafts until you tap Finalize — that's when the job number gets assigned. Photos you took during intake sync on their own; you'll see them appear on the job card within seconds.
+- **New customers** created offline get merged with any existing record automatically if the phone number already exists — the app figures it out and rewires the new job to the real customer without you lifting a finger.
+- **Live updates** from other devices come back online — the job board, work queue, and any open detail view refetch fresh data a few seconds after reconnect to catch anything that happened during the outage. You don't need to pull to refresh.
 
 If someone else made changes to the same item on a different device while you were offline, the app figures it out automatically. It compares what you changed against what the other device changed — if you edited different fields (e.g., you marked it Done while Maria added a note), both changes go through. If you both changed the same thing, the most recent change wins. You don't need to do anything — it just works.
 
@@ -1772,8 +1782,10 @@ If something goes wrong during sync (rare), Bec can see it in **Admin Settings �
 
 #### Tips
 
-- Don't worry about saving — everything saves automatically, online or off
-- If you're not sure whether you're online, look for the **offline banner** at the top of the Job Board or Work Queue. It appears automatically when the iPad loses its connection and disappears when you're back online. If you've made changes while offline, the banner will tell you how many are queued (e.g., "Offline — 3 changes will sync when back online"). The data on screen is still usable — it's just a snapshot from the last time you had a connection.
+- Don't worry about saving — everything saves automatically, online or off.
+- If you're not sure whether you're online, look for the **offline banner** at the top of any view. It appears automatically when the iPad loses its connection and disappears when you're back online. On list views (Job Board, Work Queue), it also shows a count of pending changes — e.g., "Offline — 3 changes will sync when back online". The data on screen is still usable — it's just a snapshot from the last time you had a connection.
+- When creating a new work order offline, the save button will read "Save as Draft" even if you've filled in every field. That's by design — the server assigns the real job number on reconnect.
+- Photos you capture offline show up immediately in the job detail view with a slight delay badge. They'll replace themselves with the real cloud-hosted version automatically once the upload finishes.
 
 #### A device is showing the wrong role
 
