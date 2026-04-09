@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-09 (warranty pill refactor: item-level is_warranty, shared WarrantyPill/NoWarrantyPill components, Mark Complete (No Warranty) bypass, FC post-check-in job-level warranty toggle)
+**Last Updated:** 2026-04-09 (Front Counter No Warranty admin toggle: new Shop Settings → Front Counter section with "Front Counter: No Warranty" switch that grants FC the same No Warranty pill rules as Tech Station when turned on)
 
 ---
 
@@ -545,12 +545,16 @@ Once a tech grabs the item (moves it to In Progress), the intake fields lock. Th
 
 Some repairs don't come with a warranty — a cylinder the customer drilled into, equipment that's beyond normal wear limits, or any job where you and the customer have agreed that the work is best-effort only. The No Warranty flag lets you document that so there's no confusion later.
 
-The No Warranty control has moved — it now lives on the Tech Station side, after an item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section of this manual for how techs set and clear it.
+By default, the No Warranty control lives on the Tech Station side, after an item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section of this manual for how techs set and clear it. Admins can opt the Front Counter in via a Shop Settings toggle — see "Front Counter: No Warranty" under Admin → Shop Settings for details.
 
-**What Front Counter sees:**
-- You no longer set No Warranty during the check-in form. The pill has been removed from the item intake flow because the decision almost always comes up mid-repair, not at drop-off.
-- If a tech has marked an item as No Warranty, you'll see an amber-orange **No Warranty on This Item** pill on the item card in the job detail view. It's read-only on the Front Counter side — you can't toggle it here, but you can see at a glance that the tech has flagged it.
-- Items that were completed via the **Mark Complete (No Warranty)** action (see below) show a brown **COMPLETE • NO WARRANTY** badge on the job board tile instead of the usual green **COMPLETE** badge, so the whole team can tell at a glance which items are going out the door without warranty.
+**What Front Counter sees (default — toggle off):**
+- You don't see the No Warranty pill at all during check-in or on existing items — not even on items the tech has already flagged. The whole control is hidden on Front Counter devices so there's no risk of Maria toggling something she shouldn't.
+- Items that were completed via the **Mark Complete (No Warranty)** action (see below) still show a brown **COMPLETE • NO WARRANTY** badge on the job board tile instead of the usual green **COMPLETE** badge, so the whole team can tell at a glance which items are going out the door without warranty.
+
+**What Front Counter sees when the admin has enabled it:**
+- An amber-orange **No Warranty on This Item** pill appears on the item card in the job detail view for items that are In Progress, Tested, or Complete.
+- The pill is tappable — Front Counter can set or clear it with the exact same rules as Tech Station.
+- This is useful in shops where Maria is the one having the conversation with the customer about warranty terms at drop-off or pickup. If it's not useful for your shop, leave the setting off and the pill stays out of the way.
 
 **Mark Complete (No Warranty):**
 This is a one-tap shortcut available to any role on an item that's In Progress, Tested, or already Complete (as long as it isn't already flagged No Warranty). It lives in the item action area as a brown button labeled **Mark Complete (No Warranty)**. Tapping it brings up a confirmation dialog — "This item will be marked complete and excluded from warranty. This cannot be undone." — and on confirm, the item jumps straight to Complete with the No Warranty flag set, skipping the normal tester selection, cost entry, and manager approval steps. Use this when the decision is already made and you just need to get the item out the door. The brown **COMPLETE • NO WARRANTY** banner on the card tile is the audit trail.
@@ -1285,6 +1289,17 @@ The **Charge Tax on Parts** toggle enables sales tax collection for the shop. Wh
 - The tax amount is saved on the item alongside the cost and can be pulled into reports later.
 
 **Off by default.** If your shop doesn't charge sales tax, leave this off and the taxable toggle won't appear anywhere in the cost entry flow.
+
+#### Front Counter: No Warranty
+
+The **Front Counter: No Warranty** toggle controls who can mark items as No Warranty.
+
+- **Off (default):** Only Tech Station and Admin devices can see and use the **No Warranty on This Item** pill. The pill is completely hidden on Front Counter devices — even on items a tech has already flagged. This is the safer default: the call about whether a repair carries a warranty usually happens during the actual repair work, not at drop-off, so Tech Station is the natural place for it.
+- **On:** Front Counter gets the same rules as Tech Station. Maria will see the amber-orange **No Warranty on This Item** pill on any item that's In Progress, Tested, or Complete, and she can tap it to set or clear the flag herself.
+
+Flip this on if Maria is the one having the warranty conversation with the customer at check-in or pickup and needs to flag the item without waiting on a tech. Flip it back off if the shop wants to keep the decision tech-side.
+
+This toggle only affects who can *set* the flag. The brown **COMPLETE • NO WARRANTY** badge on completed job tiles is visible to everyone no matter how this setting is configured.
 
 #### Required Fields
 
