@@ -70,6 +70,7 @@
   - [Editing Cost on a Complete Item](#editing-cost-on-a-complete-item)
   - [Reports](#reports)
   - [Resetting a Device](#resetting-a-device)
+  - [Training Mode & Local Test Mode](#training-mode--local-test-mode)
   - [Bug Reports (Admin)](#bug-reports-admin)
 - [Reporting a Problem](#reporting-a-problem)
   - [The Ladybug Button](#the-ladybug-button)
@@ -289,27 +290,11 @@ This is useful for looking up past work — warranty questions, repeat customers
 
 ### Creating a New Work Order
 
-Tap the new job button from the Job Board to start a new work order (bottom-right on iPhone, top-right toolbar on iPad). The form has three main sections: **Company**, **Customer**, and **Items**.
-
-#### Company (Optional)
-
-The first field on the form is **Company**. Start typing a company name and matching companies will appear as suggestions below the field. Tap a suggestion to select that company.
-
-If you type a company name that doesn't match any existing company, that's fine — a new company record will be created automatically when you save the work order. You don't need to do anything special.
-
-**What happens when you select a company:**
-- A row of customer name chips appears below the Customer field (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
-- If the company is **tax exempt**, you'll see a green indicator: "Tax exempt (via ABC Construction)" below the customer section. The tax status comes from the company automatically.
-
-**Customer fills in the company automatically:** If you select a customer who's already linked to a company (or create a new customer with a company name), the Company field on the main form will auto-fill. You don't need to type it twice — the app connects the dots for you.
-
-**Walk-ins:** If the customer is an individual (not from a company), just skip the Company field entirely. It's optional — leaving it blank works exactly like before.
-
-**Company-only jobs:** If you know the company but don't have an individual contact name, that's fine — just fill in the Company field and skip the Customer field. The work order will be linked to the company without requiring a customer contact. You can always add a customer later by editing the job.
+Tap the new job button from the Job Board to start a new work order (bottom-right on iPhone, top-right toolbar on iPad). The form has two main sections: **Customer / Company** (one card with both fields) and **Items**.
 
 #### Finding or Adding a Customer
 
-Below the Company field, start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
+At the top of the form, the **Customer** field comes first. Start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
 
 If the customer isn't in the system yet, tap **+ Add New Customer** to create one. The new customer form includes:
 
@@ -319,6 +304,20 @@ If the customer isn't in the system yet, tap **+ Add New Customer** to create on
 - **Email** (optional)
 - **Tax Exempt** toggle
 - **Add a Contact** (optional) — tap to expand and add a contact person (name, phone, email, role). Useful for commercial accounts where someone other than the customer will be the point of contact. You can add more contacts later from the customer detail screen.
+
+#### Company (Optional)
+
+Below the Customer field, in the same card, is the **Company** field. Start typing a company name and matching companies will appear as suggestions. Tap a suggestion to select that company, or type a brand new name — a new company record will be created automatically when you save the work order.
+
+**What happens when you select a company:**
+- A row of customer name chips appears between the Customer and Company fields (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
+- If the company is **tax exempt**, you'll see a green indicator: "Tax exempt (via ABC Construction)" in the footer below the card. The tax status comes from the company automatically.
+
+**Customer fills in the company automatically:** If you select a customer who's already linked to a company (or create a new customer with a company name), the Company field will auto-fill. You don't need to type it twice — the app connects the dots for you.
+
+**Walk-ins:** If the customer is an individual (not from a company), just skip the Company field entirely. It's optional — leaving it blank works exactly like before.
+
+**Company-only jobs:** If you know the company but don't have an individual contact name, that's fine — just fill in the Company field and skip the Customer field. The work order will be linked to the company without requiring a customer contact. You can always add a customer later by editing the job.
 
 #### Adding Items
 
@@ -1486,6 +1485,74 @@ If a device needs to be reassigned (different role, different name, or just star
 2. Tap **Reset Device**
 3. The device will forget its identity and show the setup screen again on next launch
 4. Go through the setup process to assign a new name and role
+
+---
+
+### Training Mode & Local Test Mode
+
+**Getting there:** Open Admin Settings. The **Testing & Training** section sits right under Device at the top of the screen.
+
+Two toggles let you create fake test work orders without messing up the real job board. Pick whichever fits what you're doing:
+
+#### Training Mode (shop-wide)
+
+**Use this when:** Teaching the shop how to use the app — running a demo for Maria, walking a new tech through the queue, showing Lee a feature on his iPad while you have it open on yours.
+
+When you flip **Training Mode** on:
+
+- Every new work order created on **any device** is marked as a test job
+- Test jobs show up on **every device's** Job Board and Work Queue, just like real ones
+- Job numbers get a `TEST-` prefix (e.g., `TEST-20260409-1`) so they're obvious at a glance
+- Every item tile gets a purple **TRAINING** badge in the top-left corner
+- A small purple **Training Mode** capsule floats at the top of every screen so nobody forgets they're in training
+
+When you turn it back off, the test jobs **instantly disappear from every device** — they're not deleted, just hidden. If you turn Training Mode back on later, they reappear.
+
+> Training Mode broadcasts across the whole shop. If you flip it on while Maria is using the Front Counter iPad, her board will start showing test jobs too. That's the point — but give her a heads-up first.
+
+#### Local Test Mode (just this iPad)
+
+**Use this when:** You want to poke at the app yourself — try out a new feature, test a workflow, see what a job card looks like with three items — without anyone else seeing your test jobs.
+
+When you flip **Local Test Mode** on:
+
+- Every new work order created on **this iPad** is marked as a test job AND scoped to this device only
+- Other iPads (Front Counter, Tech Station, other admin iPads) **never see** these test jobs — not on the board, not in the queue, not anywhere
+- Job numbers get the same `TEST-` prefix
+- Tiles get the same purple **TRAINING** badge
+- The same purple capsule appears at the top — but it says **Local Test Mode** so you know it's just you
+- **Existing training jobs stay visible** on this iPad — so if you were just demoing in Training Mode and now want to keep poking solo, you can pick up right where you left off without recreating anything. Only your own brand-new jobs (the ones you create after switching) are scoped to this device.
+
+The setting is per-device, so it sticks across app restarts but doesn't follow you to a different iPad.
+
+#### One at a time
+
+Training Mode and Local Test Mode are mutually exclusive — you can have one on, the other on, or neither, but never both. If you try to turn one on while the other is already active, the app asks you to confirm the switch and then flips them for you.
+
+#### Convert a Test Job to a Real Job
+
+If a test job turns out to be something you actually want to keep — say you were demoing intake to Maria and she happened to be entering a real customer at the same time — you can promote it without recreating it from scratch.
+
+1. Open the test job (any device, but you have to be in Admin or admin-elevated)
+2. Tap the **Convert to Real Job** button (curved arrow icon) in the top-right toolbar
+3. Confirm the dialog
+4. The job gets a fresh real job number, drops the `TEST-` prefix, loses its TRAINING badge, and appears on every device's board as a normal live job
+
+The original test job number is replaced — there's no way to undo the conversion, but the job's items, photos, notes, and customer all carry over untouched.
+
+#### Clear All Test Jobs
+
+When you're done with a training session or you've accumulated a pile of test jobs from poking at things, tap **Clear All Test Jobs** at the bottom of the Testing & Training section. The button shows a live count of how many test jobs currently exist (across all devices).
+
+The confirmation dialog tells you exactly how many will be deleted ("Delete 7 test jobs?"). Confirming removes every test job along with its items, photos, notes, and history. **This cannot be undone.** Real jobs are completely untouched.
+
+> The cleanup only deletes jobs flagged `is_test_job = true`. If you're nervous, you can spot-check the count against the test jobs you can see on the board before tapping Delete.
+
+[screenshot: Admin Settings → Testing & Training section with both toggles, footer text, and Clear All Test Jobs button]
+
+[screenshot: Job board with a TEST-prefixed card and the purple TRAINING badge on its photo tiles]
+
+[screenshot: Purple "Training Mode" capsule centered at the top of the screen]
 
 ---
 
