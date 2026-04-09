@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-07 (customer/company/equipment flags)
+**Last Updated:** 2026-04-09 (No Warranty cost entry: tapping the No Warranty pill now opens a cost sheet and moves the item to Complete in one go; long-press to edit the cost later; the same "Was that cost approved by a manager?" popup from the normal flow appears whenever a non-zero cost is entered)
 
 ---
 
@@ -24,6 +24,7 @@
   - [Editing a Draft Work Order](#editing-a-draft-work-order)
   - [Editing a Checked-In Item](#editing-a-checked-in-item)
   - [No Warranty Flag](#no-warranty-flag)
+  - ["On Fire" Priority Flag (🔥)](#on-fire-priority-flag-)
   - [Changing the Customer on a Job](#changing-the-customer-on-a-job)
   - [Finalizing a Draft](#finalizing-a-draft)
   - [Customer Check-In](#customer-check-in)
@@ -46,6 +47,7 @@
   - [Adding Notes from the Tech Station](#adding-notes-from-the-tech-station)
   - [Working on Warranty Items](#working-on-warranty-items)
   - [No Warranty Flag (Tech Station)](#no-warranty-flag-tech-station)
+  - [Mark Complete (No Warranty)](#mark-complete-no-warranty)
   - [Editing Item Info from the Tech Station](#editing-item-info-from-the-tech-station)
   - [Grabbing an Item](#grabbing-an-item)
   - [Reassigning a Tech](#reassigning-a-tech)
@@ -234,6 +236,8 @@ Each item shows its own status on its photo tile. When an item has been priced a
 
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
+**On Fire jobs** — any job with at least one item marked on fire jumps to the very top of the active board (right below any drafts), ahead of everything else. On-fire items have a **red border** around their photo tile and a **🔥 badge in the bottom-left corner** so they're impossible to miss. See [On Fire Priority Flag](#on-fire-priority-flag) below for how to set and clear them.
+
 The Job Board updates automatically when jobs are created or changed on any device — you don't need to do anything to see new work orders appear. If you ever want to force an immediate refresh, pull down on the board.
 
 Tap the **new job button** (document with a plus badge, in CAT yellow) to create a new work order. On iPad, it's in the top right corner of the toolbar. On iPhone, it's at the bottom right of the screen (like the compose button in Apple Notes).
@@ -322,19 +326,34 @@ Each work order needs at least one item. For each item, fill in:
 
 - **Equipment Type** — what the item is (Cylinder, Pump, Hose, or Other)
 - **Reason(s) for Service** — tap the pill-shaped buttons to select why the customer brought it in (Leaking, Barrel Damage, Bushings, etc.). You can select multiple reasons.
-- **No Warranty** toggle — if this item carries no warranty coverage (e.g., a repack on a customer-damaged cylinder), switch this on before saving. It's off by default. See "No Warranty Flag" below for more detail.
+- **Warranty pill** — a red pill with a shield icon labelled **Warranty**, just below Reason(s) for Service. Tap it once to mark this specific item as a warranty repair. It fills in solid red with white text when it's on, and reads as a red-outlined shield when it's off. Each item on a job has its own Warranty pill — you can mix warranty and non-warranty items on the same work order. See "Marking an Item as Warranty at Creation" below. The old "No Warranty on This Item" toggle has moved — it now lives on the Tech Station side once the item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section.
 - **Scan Tag** — if the equipment has a QR sticker on it, tap this to scan it and link the tag to this item. See "Equipment Tags (QR Codes)" below.
 - **Description / Notes** — any additional details about the item (at the bottom of the item card, below photos and reasons)
 
-#### Marking a Job as Warranty at Creation
+#### Marking an Item as Warranty at Creation
 
-Just above the item fields, there's a **Warranty job** toggle. If the customer is bringing something back in for warranty work but the original job isn't in ShopTracker (it was done on paper, before the app existed, or at another location), flip this on.
+Inside each item card, there's a red pill labelled **Warranty** with a shield icon, sitting just below Reason(s) for Service. Tap it once to flag that item as a warranty repair — it fills in solid red when it's selected. Tap it again to unselect. Each item has its own pill, so you can have a mix of warranty and non-warranty items on the same work order (e.g., one cylinder under warranty from a previous repair, two others paid).
 
-When it's on, a note appears below: *"Cost will be locked at $0."* — just a reminder of what that means before you save.
+The item-level Warranty pill is a labeling flag — it tells the shop that this particular item is warranty work. It does NOT by itself set the job-wide warranty lock or force the cost to $0 on the tech side. For that, you use the job-level **Warranty** control described in "Marking the Whole Job as Warranty" below, which is typically how you'd handle a job where everything is warranty work.
 
-Warranty jobs go straight to Create Work Order — they can't be saved as drafts.
+**When you'd use the item-level pill:**
+- A repeat customer drops off three cylinders, and only one of them is warranty from a previous job
+- You want a visual record on the item that it came back under warranty, even though the rest of the job is being paid normally
 
-Once created, the job works the same as any other warranty job: it gets a **WARRANTY** badge on the board, and cost is automatically locked at $0 when the tech completes it. See "Warranty Check-In" below for what that looks like once it's in the shop.
+**When you'd use the job-level Warranty toggle instead:**
+- The whole job is warranty work (see "Marking the Whole Job as Warranty")
+- You want the cost automatically locked at $0
+
+If you got to the form through the **Check In for Warranty** button on an existing closed job, the item-level Warranty pill is already selected on every pre-filled item.
+
+#### Marking the Whole Job as Warranty
+
+If the entire job is warranty work — the customer brought something back in for a repair that's still under warranty — you have two paths depending on whether the original job is in ShopTracker:
+
+- **The original job IS in ShopTracker** → use the **Warranty Check-In** flow from the Job Board. See "Warranty Check-In" below.
+- **The original job is NOT in ShopTracker** (done on paper, before the app existed, at another location) → create the work order like normal, then open the job detail view and tap the red **Warranty** pill in the warranty card near the top of the screen. It uses the exact same pill styling as the item-level pill so you know it's the same concept, just applied to the whole job. Toggling it on locks the cost at $0 for all items and shows the **WARRANTY** badge on the gallery card.
+
+You can toggle the job-level Warranty pill any time after check-in too, as long as at least one item is still active (not Closed or Totaled). This is useful when the customer calls back after drop-off and confirms something was under warranty, or when you discover the equipment's repair history during inspection. Once every item on the job is Closed or Totaled, the toggle locks to prevent retroactively flipping warranty on a wrapped-up job.
 
 Tap **+ Add Item** to add more items to the same work order (e.g., a customer drops off 3 cylinders at once).
 
@@ -524,22 +543,58 @@ Once a tech grabs the item (moves it to In Progress), the intake fields lock. Th
 
 ### No Warranty Flag
 
-Some repairs don't come with a warranty — a cylinder the customer drilled into, equipment that's beyond normal wear limits, or any job where you and the customer have agreed that the work is best-effort only. The No Warranty flag lets you document that upfront so there's no confusion later.
+Some repairs don't come with a warranty — a cylinder the customer drilled into, equipment that's beyond normal wear limits, or any job where you and the customer have agreed that the work is best-effort only. The No Warranty flag lets you document that so there's no confusion later.
 
-**Setting it at intake:**
-When filling in the item form, there's a **No Warranty** toggle below the description field. Switch it on before saving the work order. It's off by default.
+By default, the No Warranty control lives on the Tech Station side, after an item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section of this manual for how techs set and clear it. Admins can opt the Front Counter in via a Shop Settings toggle — see "Front Counter: No Warranty" under Admin → Shop Settings for details.
 
-**Setting it later:**
-If the warranty status changes after the work order is already in the system, you can still toggle it from the item card on the job detail view. As long as the item is still in **Checked In** status, you can flip the toggle there. Once a tech grabs the item, this moves to the Tech Station.
+**What Front Counter sees (default — toggle off):**
+- You don't see the No Warranty pill at all during check-in or on existing items — not even on items the tech has already flagged. The whole control is hidden on Front Counter devices so there's no risk of Maria toggling something she shouldn't.
+- Items that were completed via the **Mark Complete (No Warranty)** action (see below) still show a brown **COMPLETE • NO WARRANTY** badge on the job board tile instead of the usual green **COMPLETE** badge, so the whole team can tell at a glance which items are going out the door without warranty.
+
+**What Front Counter sees when the admin has enabled it:**
+- An amber-orange **No Warranty on This Item** pill appears on the item card in the job detail view for items that are In Progress, Tested, or Complete.
+- The pill is tappable — Front Counter can set it with the exact same rules as Tech Station. Tapping opens a cost sheet, confirming moves the item to Complete with the No Warranty flag on, and non-zero costs route through the same **"Was that cost approved by a manager?"** popup as the normal flow. Long-press on an already-set pill lets you edit the cost later.
+- This is useful in shops where Maria is the one having the conversation with the customer about warranty terms at drop-off or pickup. If it's not useful for your shop, leave the setting off and the pill stays out of the way.
+
+**Mark Complete (No Warranty):**
+This is the other way in — available to any role on an item that's In Progress, Tested, or already Complete (as long as it isn't already flagged No Warranty). It lives in the item action area as a brown button labeled **Mark Complete (No Warranty)**. Tapping it opens the same **Mark as No Warranty** cost sheet the pill does. Optionally enter a cost, tap **Confirm**, and if the cost is non-zero you'll get the manager approval popup. On confirm the item jumps to Complete, the No Warranty flag turns on, any cost you entered is recorded, and the board tile gets the brown **COMPLETE • NO WARRANTY** banner as the audit trail. Use whichever entry point — the pill or the button — is closer to your thumb.
+
+**Where the flag shows up:**
+- Amber-orange **No Warranty on This Item** pill on the item detail card (both Front Counter and Tech Station)
+- Brown **COMPLETE • NO WARRANTY** badge on the job board / tech queue photo tile once the item reaches Complete
+- Small dark **NO WARRANTY** pill next to the item reference in the header (unchanged from before)
+
+### "On Fire" Priority Flag (🔥)
+
+When an item needs to jump the line — an angry customer, a piece of equipment that's holding up another shop, anything where "do this one next" is the right answer — you can mark it **On Fire**. The item will float to the top of both the Job Board and the Tech Station queue until you take the flag off.
+
+**Setting it at check-in (brand new job or adding an item to a draft):**
+As you're filling out a new work order — or when you tap **+ Add Item** on an existing draft — each item card has a 🔥 emoji in the top-right corner of the item section. It starts out **dimmed** (about 30% opacity) to show it's an optional affordance without shouting at you. Tap it and a confirmation sheet pops up asking **"Mark this item as On Fire?"** — tap **🔥 Yes, On Fire** to confirm. The emoji goes full-bright so you know it's set. If you change your mind before saving, tap it again and choose **Remove**. When you hit Create Work Order (or Save as Draft), the flag is saved with the item — the red border and 🔥 badge show on the card immediately.
+
+**Setting it on an existing item:**
+Open the job, scroll to the item you want to prioritize, and tap the **🔥 Mark as On Fire** button near the bottom of the item card (below the Complete Item Info banner if present, above Replace Tag if present). That's it — no confirmation, no picker. The button immediately flips to **🔥 On Fire** in a filled state so you can tell it's already set.
+
+[screenshot: NewJobView item card header showing dimmed 🔥 emoji top-right, and the confirmation dialog after tapping]
 
 **What it looks like:**
-When No Warranty is on, a small dark **NO WARRANTY** badge appears in the item header — both on the job detail view and on the job board gallery card. It's intentionally low-key (charcoal, not red) so it reads as informational rather than alarming.
+- The item's photo tile on the Job Board and Tech Station gets a **red border** and a **🔥 badge in the bottom-left corner**. It's intentionally loud — you shouldn't miss it from across the room.
+- A small 🔥 pill also appears in the item header on the job detail view, right next to the status badge.
 
-**Who can change it:**
-- **Front Counter** — can set it while the item is Checked In
-- **Tech Station** — can set it while the item is In Progress or Tested
-- **Admin** — can set it at any point (elevate admin access from the gear icon if needed)
-- Once a job is Closed or Totaled, the flag is locked
+**Where it sorts:**
+- **Job Board:** Any job with at least one on-fire item jumps to the top of the active board, immediately below any drafts. Within the on-fire group, the most recently updated job is first.
+- **Tech Station queue:** On-fire items jump to the absolute top of the queue, above Ready for Test. They're impossible to miss when the techs open the app.
+
+**Clearing it:**
+From the job detail view, **long-press the 🔥 pill** in the item header (hold for about half a second). A confirmation dialog asks "Remove the on fire flag from this item?" — tap **Remove Flag** and the item returns to its normal position in the sort.
+
+**Who can set and clear:**
+- **Front Counter** and **Admin** only. Techs see the flag but can't change it — if they need it on or off, they ask the counter.
+- An admin-elevated Front Counter device can also set and clear the flag.
+
+**Important:**
+- The flag persists permanently, even after the item closes. If it was on fire when you closed it, the 🔥 badge still shows on the card in job history so you have a record of what needed urgency.
+- Closed on-fire jobs do NOT float to the top of the Closed section — the badge shows but they stay sorted by close date like the rest of history.
+- The flag works offline. Mark it on fire even if the shop Wi-Fi is down and it will sync when you're back online.
 
 ### Changing the Customer on a Job
 
@@ -682,11 +737,15 @@ The $0 cost is locked in from the start. When the job reaches completion, the co
 
 The warranty check-in flow above works great when the original job is already in ShopTracker. But sometimes it isn't — the repair was done before the app existed, it was handled on a paper form, or it was done at another location. In those cases you can't link to an original job, but you can still flag the new job as warranty work.
 
-When creating the work order, flip the **Warranty job** toggle on (it's just above the item fields). That's it — the job gets created as a warranty job with $0 cost locked, the WARRANTY badge appears on the board, and the tech sees it as warranty work. No link to an original job, but all the same protections.
+Create the work order like normal, then open the job detail view. Near the top you'll see a card with a red **Warranty** pill (the same pill style as the item-level Warranty pill — shield icon, red fill + white text when on, red outlined when off). Tap it to turn it on. That's it — the job is now flagged as warranty work, cost is locked at $0 for all items, the **WARRANTY** badge appears on the gallery card, and the tech sees it as warranty work. No link to an original job, but all the same protections.
 
-If you forgot to toggle it when you created the job and it's still a draft, open the draft and you'll see the same toggle in the job header. Flip it on there and it applies when you finalize.
+If it's still a draft, the same Warranty pill shows up on the draft detail view. Flip it on there and it applies when you finalize.
 
-**Admin note:** Admins can toggle the warranty flag on any job at any status, in case it needs to be corrected after the fact. This doesn't apply to jobs created through the warranty check-in flow — those are already linked to an original and shouldn't be changed.
+**Post-check-in toggling:** You can toggle the job-level Warranty pill any time after check-in as long as at least one item is still active. This is useful when the customer calls back after drop-off to confirm the job is under warranty, or when you discover the equipment's repair history during inspection. Once every item on the job is **Closed** or **Totaled**, the pill locks — this prevents accidentally flipping warranty on a wrapped-up job and skewing revenue reports. If you need to correct warranty status on a fully-closed job, an admin can still do it by elevating admin access.
+
+**What the tech station can't do:** Tech Station devices don't see the job-level Warranty pill — warranty is a Front Counter / Admin concern. Techs can still see the WARRANTY badge on the card and the "Warranty Job" line in the header, but they can't change the status.
+
+**Warranty check-in jobs are still locked:** Jobs that were created through the **Check In for Warranty** flow (where the new job is linked to an original parent job) can't have their warranty status toggled from this pill. That parent link is intentional and shouldn't be broken — if you need to correct one of those, talk to an admin.
 
 ---
 
@@ -857,6 +916,8 @@ Photos load in the background, so cards appear instantly and photos fill in a mo
 
 Items with the READY badge also have a warm orange tint on the card so they stand out.
 
+**On Fire items** — if the front counter has marked an item urgent, you'll see a **red border** around its photo tile and a **🔥 badge in the bottom-left corner**. On-fire items jump to the absolute top of the queue, above Ready for Test. Techs can't set or clear this flag — if you think something's urgent and it's not marked, or if something's marked on fire that shouldn't be anymore, tell the front counter.
+
 Tap any card to open the item detail view with actions for whatever the item needs next.
 
 **Flagged customers:** If the item belongs to a flagged customer or company, you'll see an amber warning banner at the top of the item detail view with the flag reason. Techs can also flag customers directly from the item detail if they notice something off — tap **Flag Customer** and enter a reason. Only admins can remove flags. See [Flagging a Customer](#flagging-a-customer) for the full rundown.
@@ -930,11 +991,36 @@ If the warranty item *fails* the test, it goes back to In Progress for another r
 
 ### No Warranty Flag (Tech Station)
 
-If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag it right from the tech detail view.
+If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag it right from the tech detail view. Tapping the flag also moves the item to **Complete** in one shot, so you don't have to click through the tester / cost / approval steps separately. It's the fast lane for "this is done, no warranty on it, ship it to the front counter."
 
-Look for the **No Warranty** toggle on the item detail card. When it's on, you'll see a dark **NO WARRANTY** badge in the item header. Techs can set this while the item is **In Progress** or **Tested**. If the front counter already set it at intake, the toggle will already be on when you open the item.
+Look for the amber-orange **No Warranty on This Item** pill on the item detail card. The pill only appears on items that have been checked in — it's hidden during the intake stage, so you'll see it from **In Progress** onwards through **Tested** and **Complete**.
 
-The flag is purely informational — it doesn't change the workflow or lock anything. It's there so the front counter can communicate it to the customer at pickup ("this one has no warranty, as we discussed").
+**Setting the flag (first time):**
+
+1. Tap the amber-orange **No Warranty on This Item** pill.
+2. A **Mark as No Warranty** sheet slides up with a cost field (or Parts + Labor fields if parts/labor split is enabled in admin settings). Underneath the title you'll see "Optionally enter a cost before sending to Front Counter." — the cost field is optional, you can leave it blank if you don't know the price yet.
+3. Tap **Confirm**. If you entered a cost, you'll see the same **"Was that cost approved by a manager?"** popup that shows up on normal priced jobs. Tap **Yes** to finish, or **No — I'll confirm first** to back out without saving anything. If you left the cost blank (or entered $0), the popup is skipped entirely.
+4. The item moves to **Complete** with the No Warranty flag on, and you'll see the amber pill fill in solid with white text.
+
+**Editing the cost later (long-press):**
+
+Change your mind on the price? Long-press (press and hold for about half a second) the amber pill on an item that's already flagged No Warranty. The **Edit No Warranty Cost** sheet opens with the current values pre-filled. Update them, tap **Save**, and you'll get the manager approval popup again if the new cost is non-zero. The item's status is **not** changed by this flow — it stays wherever it was, so this is safe to use even after an item has been closed.
+
+**What the team sees:**
+
+When the flag is on, you'll also see a dark **NO WARRANTY** pill next to the item reference in the header, and the front counter will see the same amber pill read-only on their side (unless an admin has turned on the Front Counter No Warranty setting — see the Admin section). The board tile shows a brown **COMPLETE • NO WARRANTY** badge instead of the usual green **COMPLETE** badge so everyone on the team can tell at a glance which items are going out without warranty.
+
+If a tech on another station flagged the item first, you'll see the pill already on when you open the item. Long-press will still let you edit the cost.
+
+### Mark Complete (No Warranty)
+
+This is the other way to mark an item as No Warranty — same end result as tapping the pill, just in a different spot so you can find it from the main action button row.
+
+Look for the brown button labelled **Mark Complete (No Warranty)** in the item action area — it appears on items that are **In Progress**, **Tested**, or already at **Complete** (as long as they aren't already flagged no-warranty). Tapping it opens the same **Mark as No Warranty** cost sheet the pill does. Optionally enter a cost, tap **Confirm**, and if the cost is non-zero you'll see the **"Was that cost approved by a manager?"** popup.
+
+The net effect is identical to tapping the pill: the item flips to **Complete**, the No Warranty flag turns on, the cost (if any) is recorded, and the board tile gets the brown **COMPLETE • NO WARRANTY** badge. Use whichever entry point is closer to your thumb.
+
+Any role can use this — it's a workflow shortcut, not a permission check.
 
 ### Editing Item Info from the Tech Station
 
@@ -1213,6 +1299,17 @@ The **Charge Tax on Parts** toggle enables sales tax collection for the shop. Wh
 - The tax amount is saved on the item alongside the cost and can be pulled into reports later.
 
 **Off by default.** If your shop doesn't charge sales tax, leave this off and the taxable toggle won't appear anywhere in the cost entry flow.
+
+#### Front Counter: No Warranty
+
+The **Front Counter: No Warranty** toggle controls who can mark items as No Warranty.
+
+- **Off (default):** Only Tech Station and Admin devices can see and use the **No Warranty on This Item** pill. The pill is completely hidden on Front Counter devices — even on items a tech has already flagged. This is the safer default: the call about whether a repair carries a warranty usually happens during the actual repair work, not at drop-off, so Tech Station is the natural place for it.
+- **On:** Front Counter gets the same rules as Tech Station. Maria will see the amber-orange **No Warranty on This Item** pill on any item that's In Progress, Tested, or Complete, and she can tap it to set or clear the flag herself.
+
+Flip this on if Maria is the one having the warranty conversation with the customer at check-in or pickup and needs to flag the item without waiting on a tech. Flip it back off if the shop wants to keep the decision tech-side.
+
+This toggle only affects who can *set* the flag. The brown **COMPLETE • NO WARRANTY** badge on completed job tiles is visible to everyone no matter how this setting is configured.
 
 #### Required Fields
 
