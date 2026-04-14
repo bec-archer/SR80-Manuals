@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-09 (No Warranty cost entry: tapping the No Warranty pill now opens a cost sheet and moves the item to Complete in one go; long-press to edit the cost later; the same "Was that cost approved by a manager?" popup from the normal flow appears whenever a non-zero cost is entered)
+**Last Updated:** 2026-04-14 (In-app help Phase 1 content complete — all screens now have real screenshots and plain-English captions; Closed Job help topic added for warranty check-in)
 
 ---
 
@@ -14,6 +14,7 @@
   - [Admin Access on Non-Admin Devices](#admin-access-on-non-admin-devices)
   - [Sidebar Navigation](#sidebar-navigation)
   - [Display Size Settings](#display-size-settings)
+  - [Getting Help In-App](#getting-help-in-app)
 - [Front Counter](#front-counter)
   - [Job Board](#job-board)
   - [Searching and Filtering Jobs](#searching-and-filtering-jobs)
@@ -210,6 +211,32 @@ New devices start at **Extra Large** text with **Bold Text** turned on — these
 **Bold Text** — toggle this on to make all text heavier/darker throughout the app. Works independently from the size setting — you can have bold text at any size.
 
 Changes take effect immediately and are saved to this device only. The front counter iPad, back shop station, and admin device each remember their own settings.
+
+---
+
+### Getting Help In-App
+
+If you forget how something works, the app has built-in help that shows you what each screen does without needing to pull up this manual. There are two ways to get to it, and they lead to the same place — use whichever one is faster in the moment.
+
+**1. The `(?)` button in the toolbar**
+
+Every major screen has a small `(?)` button in its top toolbar (next to the search bar on Jobs and Tech Station, next to the Save button on New Work Order, and in the top-right corner on Job Detail and Admin Settings). Tap it to open a quick walkthrough of *the screen you're currently on*.
+
+The walkthrough opens as a sheet with a few pages you can swipe through — each page shows a screenshot and a short description of what that part of the screen does. Page dots at the bottom tell you how many pages are left. When you're done, tap **Got it** at the top to dismiss.
+
+Use this when you're stuck on a specific screen and just want to know "what does this button do?"
+
+**2. The Help entry in the sidebar**
+
+If you don't know *which* screen you need — you just know you're trying to do something and can't remember where it lives — open the sidebar (swipe from the left or tap the back arrow in the top-left toolbar), scroll down to **This Device**, and tap **Help**.
+
+This opens a full list of every help topic in the app: Jobs Gallery, New Work Order, Job Detail, Tech Station, Close Out, Closed Job, Admin Settings, and any others that get added over time. Tap a topic to open the same walkthrough you'd get from that screen's `(?)` button.
+
+Use this when you're not sure where to go next, or when you want to refresh on a part of the app you haven't used in a while.
+
+**Both paths show the same content.** The only difference is where you start from. The `(?)` button is faster if you already know which screen you're asking about; the sidebar browser is better if you need to browse.
+
+The help content is bundled into the app, so it works even when the shop's internet is down.
 
 ---
 
@@ -599,13 +626,22 @@ From the job detail view, **long-press the 🔥 pill** in the item header (hold 
 
 You can change the customer assigned to a work order — not just on drafts, but on finalized jobs too.
 
-**While all items are still Checked In:** Tap the customer name in the job header. You'll see a small **arrow** indicating it's tappable. This opens the customer search sheet where you can look up a different customer, add a new one, or remove the current customer. Tap **Save** to apply.
+In the job header, next to the customer's name, you'll see two small buttons:
 
-**Once any item has been grabbed by a tech** (moved to In Progress), the customer section locks and is no longer tappable. This prevents accidental customer changes on jobs that are actively being worked on.
+- **Pencil icon** — opens the customer's info for editing (name, phone, company, contacts, tax exempt, etc.). Use this when the right customer is already assigned but their info needs a fix.
+- **"Change" capsule** (accent-colored pill with a swap arrow) — opens the customer search sheet so you can pick a **different** customer entirely. Use this when the wrong customer got assigned during intake and you need to replace them.
 
-**Admin override:** If an admin needs to reassign a customer on a job that's already in progress, they can elevate admin access (enter their PIN) and the customer section becomes tappable again regardless of item statuses.
+Tap **Change** → search for the correct customer → tap them in the results → tap **Save**. The customer on the work order updates immediately, and so does the company field (if the new customer has no company, the company on the job clears automatically — it won't leave the old company name behind).
 
-This works the same way as editing a draft — the customer picker sheet is identical. The only difference is when it's available.
+[screenshot: Job Detail header showing the pencil and accent-colored Change button next to the customer name]
+
+**While all items are still Checked In:** The Change button is available to anyone (front counter, tech station, admin).
+
+**Once any item has been grabbed by a tech** (moved to In Progress), the Change button disappears for regular users. This prevents accidental customer changes on jobs that are actively being worked on.
+
+**Admin override:** If an admin needs to reassign a customer on a job that's already in progress, they can elevate admin access (enter their PIN) and the Change button comes back regardless of item statuses.
+
+**One guardrail on live jobs:** On any non-draft (finalized) job, the Change sheet will NOT let you remove the customer entirely — you can only swap them for a different one. The "Remove Customer" option is hidden and Save is disabled if you haven't picked a replacement. Drafts are different: you can leave a draft customer-less while you're still assembling the order (the Finalize button will still require a customer to be assigned before you can turn the draft into a real work order).
 
 ### Finalizing a Draft
 
@@ -1092,7 +1128,7 @@ Items with the READY badge need to be tested before they can leave the shop:
 
 **If PASSED:**
 
-- **Regular items:** The item moves to **Tested** status and the detail screen stays open so the tester can enter cost right away (see next section). If the tester walks away without entering cost, the app will automatically return to the queue after the inactivity timeout (see "Auto-Return to Queue" below).
+- **Regular items:** The item moves to **Tested** status and the **Enter Cost** sheet opens automatically — no extra tap needed. Just type the cost and submit. If the tester dismisses the cost sheet or walks away without entering cost, the app will automatically return to the queue after the inactivity timeout (see "Auto-Return to Queue" below). The **Enter Cost** button stays visible on the item if they need to come back to it.
 - **Warranty items:** The cost is already locked at $0, so there's no cost entry step. The app shows a brief **"Warranty Complete!"** confirmation and immediately returns to the queue. Done.
 
 **If FAILED:**
@@ -1136,9 +1172,9 @@ On the old system, Tony had to flip through paper to see what was done in a prev
 
 ### Entering Cost
 
-After testing, the item needs a cost before it can go back to the front counter:
+After testing, the item needs a cost before it can go back to the front counter. The cost entry sheet opens automatically right after a test passes — you don't need to tap anything extra. If you dismissed it or came back later:
 
-1. Open the tested item (or stay on it after testing)
+1. Open the tested item
 2. Tap **Enter Cost** (green)
 3. Enter the cost — how this looks depends on your shop settings:
    - **Standard mode (default):** One field — type the total dollar amount
