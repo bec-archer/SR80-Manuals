@@ -511,9 +511,17 @@ If a repair involves hoses, fittings, or adapters, you can add those as separate
 2. Tap the green **[+]** button next to the "Hoses & Parts" header
 3. A sheet opens with three tabs at the top: **Hose Assembly**, **Fitting**, and **Adapter**
 
-**Hose Assembly** — for a complete hose build. Enter three costs: Fitting 1, Fitting 2, and Hose. This matches the shop's shorthand (e.g., 20/20/85 = two $20 fittings + $85 hose = $125 total). Optionally add a description (e.g., "Boom cylinder supply line"). Tap **Save**.
+**Hose Assembly** — for a complete hose build. Each row has four currency fields on a single line: **Fitting 1**, **Fitting 2**, **Hose**, and **Total**.
 
-**Fitting** or **Adapter** — for standalone parts. Enter a description and cost. Tap **Save**.
+- If you have the full breakdown, enter Fitting 1, Fitting 2, and Hose (e.g., 20/20/85). The Total field auto-fills with the sum and locks — you don't need to touch it.
+- If you only have the total (from a manual invoice or memory), leave the three breakdown fields empty and just type the total directly into the **Total** field.
+- Add a description if you want (e.g., "Boom cylinder supply line").
+
+Either way works, and the app saves whichever fields you used. Itemized assemblies display the breakdown on the job (`$20 + $20 + $85 = $125`); total-only assemblies just show their total.
+
+**Fitting** or **Adapter** — for standalone parts. Enter quantity, unit price, and optional description.
+
+**Adding multiple at once:** The sheet opens with **three empty rows** on every tab. Fill in whichever rows you need and tap Save — they all get added at once. Need more than three? Tap **+ Add Another** at the bottom for a fourth, fifth, etc. Need fewer? Just leave unused rows blank (they're ignored), or tap **Remove** on a row to delete it. Less clicks, more shipping.
 
 All materials are always taxed when the shop's "Charge Tax on Parts" setting is turned on. If a customer is tax exempt, no tax is charged on anything (materials included).
 
