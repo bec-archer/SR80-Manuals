@@ -1361,6 +1361,14 @@ Required fields block job creation until they're filled in. Toggle each field on
 
 If a required field is missing when Maria tries to create a job, the button stays on "Save as Draft" instead of "Create Work Order." The same enforcement applies when finalizing an existing draft — the Finalize button stays disabled until all required fields are filled in on every item. On drafts, items missing required fields are highlighted with an orange background and a "Complete Item Info" banner.
 
+#### Category Labels
+
+The app uses two billing categories throughout: one for labor (repairs that come out of the back), and one for parts (hoses, fittings, and adapters that come out of the front). Both of those labels are configurable here, because — it turns out — what things are *called* is apparently a deeply personal decision that is subject to change at any time and without notice.
+
+Whatever you type into these fields will show up everywhere: job cards, cost breakdowns, reports, all of it. The underlying data doesn't change (a hose assembly is still a hose assembly, regardless of what we're calling it this week), so your reports will always be accurate even if the labels aren't.
+
+To update a label, just type the new value and save. It takes effect immediately. No developers were harmed in the making of this feature (this time).
+
 ### Manage Lists
 
 Manage Lists is where you control the dropdown options used throughout the app. Accessible from Admin Settings → **Manage Lists** under the "Shop" section.
