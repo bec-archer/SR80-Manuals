@@ -65,6 +65,7 @@
 - [Admin](#admin)
   - [Employee Management](#employee-management)
   - [Shop Settings](#shop-settings)
+    - [Category Labels](#category-labels)
   - [Manage Lists](#manage-lists)
   - [Device Management](#device-management)
   - [Managing Flags (Admin Only)](#managing-flags-admin-only)
@@ -309,11 +310,15 @@ Your search and filters work across both active and closed jobs. If you search f
 
 This is useful for looking up past work — warranty questions, repeat customers, or just checking what was done on an old job. Tap any closed job card to see the full detail view with all items, photos, and notes.
 
-**Read-only for Front Counter:** Closed jobs are read-only from the Front Counter. You can view everything — photos, notes, repair history, cost — but intake fields are locked and no action buttons appear on closed items.
+**Read-only for Front Counter:** Closed jobs are read-only from the Front Counter. You can view everything — photos, notes, repair history, cost — but intake fields are locked, the customer edit pencil is hidden, and no action buttons appear on closed items.
+
+**Closure info:** At the top of a closed job's detail view, a **CLOSED** banner shows when the job was closed and who closed it — e.g., *"Closed Apr 14, 2026 at 3:05 PM · by Tony."* If you reopen and close it again, the banner updates to reflect the most recent close. On the individual item cards, a full-width gray **CLOSED** banner (same style as the COMPLETE and TOTALED banners) makes it immediately obvious which items are done — it's hard to miss.
 
 **Admin editing on closed jobs:** On an admin device (or a non-admin device with admin elevation active), closed items behave differently. The pencil icon reappears on closed item cards, so you can tap to edit intake fields if something needs correcting after the fact. A **Reopen Item** button is also visible on each closed item card — on non-admin devices it's grayed out with a lock icon as a visual reminder that it exists, but only an admin can use it.
 
 **Reopening an item:** If a closed item needs to come back through the shop (a customer returns, something wasn't right), an admin can tap **Reopen Item** on that item's card. After confirming, the item moves back to **Complete** status and becomes actionable again — the front counter will see it in the active board and can close it again once the customer's situation is resolved.
+
+**Reopening an entire work order:** If a whole job was closed by mistake, an admin can long-press the job card (from the Closed section on the Job Board, or from the customer's job history in the Customers view) and tap **Reopen Work Order**. An optional reason field appears — fill it in or leave it blank, then confirm. Every item on the job moves back to Complete status, the job reappears on the active board on all devices, and the reason (if entered) is logged in the audit trail. The original closure date and who closed it are preserved — reopening doesn't erase history, it just picks up where things left off.
 
 ### Creating a New Work Order
 
