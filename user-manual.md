@@ -21,7 +21,7 @@
   - [Closed Jobs (Job History)](#closed-jobs-job-history)
   - [Creating a New Work Order](#creating-a-new-work-order)
   - [Viewing a Job (Job Detail)](#viewing-a-job-job-detail)
-  - [Hoses & Parts (Adding Materials to a Job)](#hoses--parts-adding-materials-to-a-job)
+  - [Adding Materials (Hoses, Fittings, Adapters, Seals)](#adding-materials-hoses-fittings-adapters-seals)
   - [Editing a Draft Work Order](#editing-a-draft-work-order)
   - [Editing a Checked-In Item](#editing-a-checked-in-item)
   - [No Warranty Flag](#no-warranty-flag)
@@ -506,15 +506,15 @@ Below each item card, you may see **action buttons** depending on the item's sta
 
 Use the **back arrow** to return to the Job Board.
 
-### Hoses & Parts (Adding Materials to a Job)
+### Adding Materials (Hoses, Fittings, Adapters, Seals)
 
-If a repair involves hoses, fittings, or adapters, you can add those as separate line items on the work order. These show up in the **Hoses & Parts** section on the job detail view, just below the consolidated cost summary card at the top.
+If a repair involves hoses, fittings, adapters, or seals, you can add those as separate line items on the work order. These show up in the **Hose** section on the job detail view, just below the consolidated cost summary card at the top. (The section header actually uses whatever you've named the hose category in Admin Settings → Category Labels — "Hose" is the default.)
 
 **To add materials:**
 
 1. Open the job from the Job Board
-2. Tap the green **[+]** button next to the "Hoses & Parts" header
-3. A sheet opens with three tabs at the top: **Hose Assembly**, **Fitting**, and **Adapter**
+2. Tap the green **[+]** button next to the Hose section header
+3. A sheet opens with four tabs at the top: **Hose Assembly**, **Fitting**, **Adapter**, and **Seal**
 
 **Hose Assembly** — for a complete hose build. Each row has four currency fields on a single line: **Fitting 1**, **Fitting 2**, **Hose**, and **Total**.
 
@@ -524,15 +524,19 @@ If a repair involves hoses, fittings, or adapters, you can add those as separate
 
 Either way works, and the app saves whichever fields you used. Itemized assemblies display the breakdown on the job (`$20 + $20 + $85 = $125`); total-only assemblies just show their total.
 
-**Fitting** or **Adapter** — for standalone parts. Enter quantity, unit price, and optional description.
+**Fitting**, **Adapter**, or **Seal** — for standalone items. Enter quantity, unit price, and an optional description.
 
-**Adding multiple at once:** The sheet opens with **three empty rows** on every tab. Fill in whichever rows you need and tap Save — they all get added at once. Need more than three? Tap **+ Add Another** at the bottom for a fourth, fifth, etc. Need fewer? Just leave unused rows blank (they're ignored), or tap **Remove** on a row to delete it. Less clicks, more shipping.
+**Adding multiple at once:** Each tab opens with **three empty rows**. Fill in whichever rows you need and tap Save — they all get added at once. Need more than three? Tap **+ Add Another** at the bottom for a fourth, fifth, etc. Need fewer? Just leave unused rows blank (they're ignored), or tap **Remove** on a row to delete it. Less clicks, more shipping.
 
-All materials are always taxed when the shop's "Charge Tax on Parts" setting is turned on. If a customer is tax exempt, no tax is charged on anything (materials included).
+**Mix categories freely:** You can add hose assemblies on the Hose Assembly tab, flip over to Fittings and add a few there, drop a Seal on the Seal tab, and then tap Save — everything from every tab saves at once. Switching tabs never drops your entered data, and the **Total** at the bottom of the sheet shows the combined grand total across all four tabs in real time, so you always know what you're about to save.
 
-Each material shows up as a row in the Hoses & Parts section with a colored pill (Hose Assembly, Fitting, or Adapter) and the cost breakdown. The totals from materials roll into the cost summary card at the top of the job detail — so when it's time to enter amounts into Square, everything is in one place.
+All materials are taxed when sales tax is turned on shop-wide. If a customer is tax exempt, no tax is charged on anything (materials included).
+
+Each item shows up as a row in the Hose section with a colored pill (blue Hose Assembly, orange Fitting, purple Adapter, pink Seal) and the cost breakdown. The totals roll into the cost summary card at the top of the job detail — so when it's time to enter amounts into Square, everything is in one place.
 
 **Who can add materials:** Anyone — front counter, techs, and admins — can add materials to a job at any time while it's open.
+
+**Deleting a material:** Admins and Front Counter can remove a mis-added hose, fitting, adapter, or seal. **Press and hold** (long-press) on the row in the Hose section — a context menu appears with a red **Delete** option labeled with the item's type. Tap it, confirm in the dialog (which shows the item's description if there is one), and the row is gone. Tech Station devices don't see this menu; if a tech needs to delete something, admin elevation unlocks the same long-press. Once a job is closed, the delete option is hidden for everyone — closed jobs stay closed.
 
 ### Editing a Draft Work Order
 
@@ -680,11 +684,12 @@ When all items on a job have been priced and approved (all showing green/Complet
 
 Open the job from the Job Board. Right below the customer info card, you'll see the **cost summary card** — this is the one place that shows everything Maria needs to type into Square:
 
-- **NON-TAXABLE** section — Labor total
-- **TAXABLE** section — Parts (if parts/labor split is on), Hose Assemblies, Fittings / Adapters
-- **Taxable Subtotal** — the sum of everything subject to sales tax
-- **Tax (X.XX%)** — the calculated tax, or an orange **TAX EXEMPT** pill if the customer is tax exempt
-- **Grand Total** — the big bold total at the bottom of the card
+- **Labor lines** — one row per item with a labor cost. If there's only one, it's just "Labor $X". If there's more than one, they're numbered (**Labor #1**, **Labor #2**, …) and a bold **Labor Subtotal** row appears underneath.
+- **Hose lines** — one row per hose-side entry (the item's hose-bucket cost when split is on, each hose assembly, each fitting/adapter/seal). Same rule: single entry just says "Hose $X"; multiple get numbered (**Hose #1**, **Hose #2**, …) with a bold **Hose Subtotal** row underneath.
+- **Tax (X.XX%)** — the calculated tax, shown below the Hose Subtotal when sales tax is on. Tax-exempt customers don't see this row at all — the whole tax block is hidden so there's no confusion about what's owed.
+- **Grand Total** — the big bold total at the bottom of the card, below a thick divider.
+
+(The "Labor" and "Hose" labels match whatever you've named the billing categories in Admin Settings → Category Labels. Defaults are Labor and Hose.)
 
 This card shows up as soon as the job has any costed content — you don't have to wait for items to be marked Complete to see the totals. So even mid-job, you can glance at the card to see where things stand.
 
@@ -1272,6 +1277,16 @@ The new employee will immediately appear in all relevant pickers across the app 
 
 Tap any active employee in the list to open their edit form. You can change their name, role, or tester authorization. Tap **Save** when done.
 
+#### Setting Up an Admin's PIN
+
+If a new admin hasn't set up their PIN yet (they'll have a gray **No PIN** badge), another admin can kick off the setup for them:
+
+1. Long-press the gray **No PIN** badge next to the admin's name
+2. Enter your own admin PIN to authorize
+3. Create and confirm a PIN for the new admin (4-8 digits)
+
+The new admin can change their PIN later through the same process, or by having their PIN reset first (see below).
+
 #### Resetting an Admin's PIN
 
 If an admin forgets their PIN, another admin can reset it:
@@ -1280,7 +1295,7 @@ If an admin forgets their PIN, another admin can reset it:
 2. Tap the orange **Reset PIN** button
 3. Confirm in the popup
 
-This clears their PIN entirely. The next time that person needs admin access, they'll use the **"Don't have a PIN yet?"** option on the PIN entry screen to set up a new one. The resetting admin never sees or chooses the other person's PIN — it's always self-service.
+This clears their PIN entirely. The next time that person needs admin access, they'll use the **"Don't have a PIN yet?"** option on the PIN entry screen to set up a new one, or another admin can set it up for them by long-pressing the gray **No PIN** badge (see above). The resetting admin never sees or chooses the other person's PIN — it's always self-service.
 
 #### Deactivating an Employee
 
@@ -1376,11 +1391,11 @@ If a required field is missing when Maria tries to create a job, the button stay
 
 #### Category Labels
 
-The app uses two billing categories throughout: one for labor (repairs that come out of the back), and one for parts (hoses, fittings, and adapters that come out of the front). Both of those labels are configurable here, because — it turns out — what things are *called* is apparently a deeply personal decision that is subject to change at any time and without notice.
+The app uses two billing categories throughout: one for labor (repairs that come out of the back), and one for the hose side of the shop (hoses, fittings, adapters, seals — the stuff that comes out of the front). Both of those labels are configurable here, because — it turns out — what things are *called* is apparently a deeply personal decision that is subject to change at any time and without notice.
 
-Whatever you type into these fields will show up everywhere: job cards, cost breakdowns, reports, all of it. The underlying data doesn't change (a hose assembly is still a hose assembly, regardless of what we're calling it this week), so your reports will always be accurate even if the labels aren't.
+Whatever you type into these fields shows up everywhere on the operator side: job cards, cost breakdowns, intake sheets, help text, settings footers, all of it. **Reports are the one exception** — those keep fixed "Labor" and "Hose" terminology no matter what you rename things to, so Jamie's bookkeeping doesn't break every time somebody decides they prefer "Service" or "Parts Counter" this quarter. The underlying data doesn't change either (a hose assembly is still a hose assembly, regardless of what we're calling it this week), so reports stay accurate in both label *and* content.
 
-To update a label, just type the new value and save. It takes effect immediately. No developers were harmed in the making of this feature (this time).
+To update a label, just type the new value and save (tap away from the field, or hit return). It takes effect immediately. No developers were harmed in the making of this feature (this time).
 
 ### Manage Lists
 
@@ -1855,7 +1870,7 @@ If a specific piece of equipment has a history of suspicious warranty claims or 
 
 #### "Incorrect PIN"
 
-Double-check that you're entering your personal admin PIN (4-8 digits). PINs are per-person, not per-device. If you've forgotten your PIN, another admin will need to help you reset it. *(PIN reset feature coming in a future update.)*
+Double-check that you're entering your personal admin PIN (4-8 digits). PINs are per-person, not per-device. If you've forgotten your PIN, another admin can reset your PIN from Admin Settings → Employees — swipe left on your name and tap Reset PIN.
 
 #### The app shows "Connecting..." on launch
 
