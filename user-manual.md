@@ -1230,9 +1230,9 @@ Any touch on the screen (scrolling, tapping, typing) resets the 2-minute timer. 
 
 The timeout is configurable by an admin (default is 2 minutes). Setting it to 0 disables it entirely.
 
-### Role Switcher (Debug Only)
+### Role Switcher (Debug / TestFlight)
 
-The role switcher is a developer tool for switching between Front Counter, Tech Station, and Admin views without resetting the device. It only appears in debug/test builds — it won't be in the final app.
+The role switcher is a developer tool for switching between Front Counter, Tech Station, and Admin views without resetting the device. It only appears in debug and TestFlight builds — it won't be in the App Store version.
 
 **Enabling it:** Open the sidebar, scroll to the **Developer** section at the bottom, and tap the **Role Switcher** toggle. You'll be prompted to enter an admin PIN. Once confirmed, a small purple ladybug button appears in the bottom-left corner of every screen.
 
