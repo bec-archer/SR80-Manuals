@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-21 (Added "Adding Another Tech to an Item" section; updated Reassigning a Tech with timeline event info)
+**Last Updated:** 2026-04-21 (Multi-select grab + Manage Techs replaces separate Add Tech / Reassign sections)
 
 ---
 
@@ -51,8 +51,7 @@
   - [Mark Complete (No Warranty)](#mark-complete-no-warranty)
   - [Editing Item Info from the Tech Station](#editing-item-info-from-the-tech-station)
   - [Grabbing an Item](#grabbing-an-item)
-  - [Adding Another Tech to an Item](#adding-another-tech-to-an-item)
-  - [Reassigning a Tech](#reassigning-a-tech)
+  - [Managing Techs on an Item](#managing-techs-on-an-item)
   - [Repair Checklist](#repair-checklist)
   - [Marking Repair as Done](#marking-repair-as-done)
   - [Testing an Item](#testing-an-item)
@@ -1088,40 +1087,33 @@ Photos and notes are always editable regardless of item status (see "Adding Phot
 
 ### Grabbing an Item
 
-When a new item shows up in "Waiting for Tech," any tech can grab it:
+When a new item shows up in "Waiting for Tech," any tech can grab it — and multiple techs can grab it together:
 
 1. Tap the item card to open it
 2. Tap the **Grab** button (yellow, big and easy to hit)
-3. A picker appears — tap your name from the list
-4. You'll see a quick **"Grabbed!"** confirmation, then the app automatically takes you back to the queue
+3. A picker appears showing all available techs — tap one or more names to select them (checkmarks appear next to selected names)
+4. A **"Grab"** (or **"Grab with 2 techs"**) button appears at the bottom — tap it to confirm
+5. You'll see a quick **"Grabbed!"** confirmation, then the app automatically takes you back to the queue
 
-Whoever grabs it first gets it. If it needs to be reassigned later (tech goes home sick, owner decides someone else should take over), see "Reassigning a Tech" below.
+**The first tech you tap becomes the lead tech.** If you're grabbing solo, just tap your name and hit Grab. If two techs are working together, tap both names — the order you tap them matters (first tapped = lead).
 
-### Adding Another Tech to an Item
+When multiple techs grab an item together, the item detail shows "Assigned to Carlos and Nate" and the Repair History shows a single "Grabbed by Carlos and Nate" event.
 
-Sometimes two (or more) techs need to work on the same item — maybe one person is doing the welding while another handles the seals. You can add additional techs to any item that's currently In Progress:
+Whoever grabs it first gets it. If techs need to change later, see "Managing Techs" below.
 
-1. Open the item from the queue
-2. Tap the **Add Tech** button (indigo/purple, with a person+ icon)
-3. A picker appears showing available techs — anyone already on the item is filtered out
-4. Tap the tech's name to add them
+### Managing Techs on an Item
 
-The original tech who grabbed the item stays as the "lead" tech. Additional techs show up in the Repair History timeline as "[Name] added" and in an "Also: [names]" line on the item detail.
-
-Add Tech is available on Tech Station and Admin devices, on any In Progress item.
-
-### Reassigning a Tech
-
-Sometimes a job needs to go to a different tech — maybe someone went home sick, or the owner wants a specific person on it. You can reassign any item that's currently In Progress:
+Once an item is In Progress, you can add or remove techs at any time using the **Manage Techs** button (purple, with a people icon). This replaces the old separate "Reassign" and "Add Tech" buttons — everything is in one place now.
 
 1. Open the item from the queue
-2. Tap the **Reassign** button (purple)
-3. A picker appears — tap the name of the tech who should take over
-4. You'll see a quick **"Reassigned!"** confirmation, then the app takes you back to the queue
+2. Tap **Manage Techs**
+3. A picker appears with all available techs — techs currently on the item are already checked
+4. Tap names to add (check) or remove (uncheck) techs
+5. The **"Update"** button at the bottom activates when you've made changes — tap it to confirm
 
-The new tech will see the item in their queue. The repair clock resets when you reassign — the new tech gets a fresh start time. The reassignment shows up in the Repair History timeline as "Reassigned to [Name]."
+All changes show up in the Repair History timeline — added techs show "[Name] added" and removed techs show "[Name] removed." If you remove the lead tech, the first remaining tech is automatically promoted.
 
-Reassign is available on Tech Station and Admin devices. It doesn't matter what stage of repair the item is in — as long as it's In Progress, you can reassign it.
+Manage Techs is available on Tech Station and Admin devices, on any In Progress item.
 
 ### Repair Checklist
 
@@ -1171,7 +1163,7 @@ The item goes back to **In Progress** and a new repair round begins. The same te
 
 An item can fail and loop back as many times as needed. Each round is tracked separately.
 
-If a different tech needs to take over after a failed test, use the **Reassign** button on the item (see "Reassigning a Tech" above).
+If a different tech needs to take over after a failed test, use the **Manage Techs** button on the item to swap out who's assigned (see "Managing Techs on an Item" above).
 
 ### Oil Sample
 
