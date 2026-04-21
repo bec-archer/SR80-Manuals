@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-14 (In-app help Phase 1 content complete — all screens now have real screenshots and plain-English captions; Closed Job help topic added for warranty check-in)
+**Last Updated:** 2026-04-21 (Added "Adding Another Tech to an Item" section; updated Reassigning a Tech with timeline event info)
 
 ---
 
@@ -51,6 +51,7 @@
   - [Mark Complete (No Warranty)](#mark-complete-no-warranty)
   - [Editing Item Info from the Tech Station](#editing-item-info-from-the-tech-station)
   - [Grabbing an Item](#grabbing-an-item)
+  - [Adding Another Tech to an Item](#adding-another-tech-to-an-item)
   - [Reassigning a Tech](#reassigning-a-tech)
   - [Repair Checklist](#repair-checklist)
   - [Marking Repair as Done](#marking-repair-as-done)
@@ -259,11 +260,11 @@ Photos load in the background — you'll see the cards appear right away with pl
 
 **Draft work orders** appear at the top with an orange "DRAFT" badge and a warm-tinted background so they stand out as unfinished.
 
-Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. Similarly, if an item has been marked as **Totaled** (unfixable), a dark **TOTALED** badge appears in the same spot, replacing the status dot. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Warranty items show a red **WARRANTY** badge below the status badge — you might see COMPLETE + WARRANTY or TOTALED + WARRANTY stacked together. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
+Each item shows its own status on its photo tile. When an item has been priced and approved (Complete status), a green **COMPLETE** badge appears in the top-left of that item's tile and the status dot disappears. Similarly, if an item has been marked as **Totaled** (unfixable), a dark **TOTALED** badge appears in the same spot, replacing the status dot. When an item's repair is done and it's waiting to be tested, an orange **READY FOR TESTING** badge appears — this tells you the tech is finished and the item just needs its final test before pricing. A job with two items can show one COMPLETE tile and one still-in-progress tile at the same time. Warranty items show a red **WARRANTY** badge below the status badge — you might see COMPLETE + WARRANTY or TOTALED + WARRANTY stacked together. Use the **COMPLETE filter** (see below) to quickly see all jobs where every item is ready for pickup.
 
 **Flagged customers:** If a customer (or their company) has been flagged, you'll see a small amber **flag icon** on their job cards. This is a heads-up that there's something to be aware of — tap into the job to see the full flag banner with the reason. See [Flagging a Customer](#flagging-a-customer) for details.
 
-Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
+Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then items ready for testing (repair done, waiting on a tester), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
 **On Fire jobs** — any job with at least one item marked on fire jumps to the very top of the active board (right below any drafts), ahead of everything else. On-fire items have a **red border** around their photo tile and a **🔥 badge in the bottom-left corner** so they're impossible to miss. See [On Fire Priority Flag](#on-fire-priority-flag) below for how to set and clear them.
 
@@ -312,7 +313,7 @@ This is useful for looking up past work — warranty questions, repeat customers
 
 **Read-only for Front Counter:** Closed jobs are read-only from the Front Counter. You can view everything — photos, notes, repair history, cost — but intake fields are locked, the customer edit pencil is hidden, and no action buttons appear on closed items.
 
-**Closure info:** At the top of a closed job's detail view, a **CLOSED** banner shows when the job was closed and who closed it — e.g., *"Closed Apr 14, 2026 at 3:05 PM · by Tony."* If you reopen and close it again, the banner updates to reflect the most recent close. On the individual item cards, a full-width gray **CLOSED** banner (same style as the COMPLETE and TOTALED banners) makes it immediately obvious which items are done — it's hard to miss.
+**Closure info:** At the top of a closed job's detail view, a **CLOSED** banner shows when the job was closed and who closed it — e.g., *"Closed Apr 14, 2026 at 3:05 PM · by Tony."* If you reopen and close it again, the banner updates to reflect the most recent close. On the individual item cards, a full-width gray **CLOSED** banner makes it immediately obvious which items are done — it's hard to miss. Similarly, items that are waiting for testing show a full-width orange **READY FOR TESTING** banner at the top of the item card so you can tell at a glance that the tech is finished and the item just needs its final test.
 
 **Admin editing on closed jobs:** On an admin device (or a non-admin device with admin elevation active), closed items behave differently. The pencil icon reappears on closed item cards, so you can tap to edit intake fields if something needs correcting after the fact. A **Reopen Item** button is also visible on each closed item card — on non-admin devices it's grayed out with a lock icon as a visual reminder that it exists, but only an admin can use it.
 
@@ -679,6 +680,8 @@ Coming soon.
 ### Complete & Pickup
 
 When all items on a job have been priced and approved (all showing green/Complete), you're ready to close the job when the customer comes to pick up.
+
+**Finding the item:** Look for the zone badge on the job card — **Z1 (Front)** in blue means it's in the front counter area, **Z2 (Back)** in purple means it's in the back shop area. You'll also see the zone badge on the item detail header if you open the job.
 
 #### Closing an Entire Job (Most Common)
 
@@ -1094,6 +1097,19 @@ When a new item shows up in "Waiting for Tech," any tech can grab it:
 
 Whoever grabs it first gets it. If it needs to be reassigned later (tech goes home sick, owner decides someone else should take over), see "Reassigning a Tech" below.
 
+### Adding Another Tech to an Item
+
+Sometimes two (or more) techs need to work on the same item — maybe one person is doing the welding while another handles the seals. You can add additional techs to any item that's currently In Progress:
+
+1. Open the item from the queue
+2. Tap the **Add Tech** button (indigo/purple, with a person+ icon)
+3. A picker appears showing available techs — anyone already on the item is filtered out
+4. Tap the tech's name to add them
+
+The original tech who grabbed the item stays as the "lead" tech. Additional techs show up in the Repair History timeline as "[Name] added" and in an "Also: [names]" line on the item detail.
+
+Add Tech is available on Tech Station and Admin devices, on any In Progress item.
+
 ### Reassigning a Tech
 
 Sometimes a job needs to go to a different tech — maybe someone went home sick, or the owner wants a specific person on it. You can reassign any item that's currently In Progress:
@@ -1103,7 +1119,7 @@ Sometimes a job needs to go to a different tech — maybe someone went home sick
 3. A picker appears — tap the name of the tech who should take over
 4. You'll see a quick **"Reassigned!"** confirmation, then the app takes you back to the queue
 
-The new tech will see the item in their queue. The repair clock resets when you reassign — the new tech gets a fresh start time.
+The new tech will see the item in their queue. The repair clock resets when you reassign — the new tech gets a fresh start time. The reassignment shows up in the Repair History timeline as "Reassigned to [Name]."
 
 Reassign is available on Tech Station and Admin devices. It doesn't matter what stage of repair the item is in — as long as it's In Progress, you can reassign it.
 
@@ -1200,9 +1216,18 @@ After testing, the item needs a cost before it can go back to the front counter.
 4. If the shop has **Sales Tax** enabled, you'll see a **"Taxable"** (or **"Taxable Parts"** in Parts + Labor mode) toggle. Turn it on if this item's parts are subject to sales tax. The sheet updates to show Subtotal, Tax, and Total so you can confirm the amount before submitting.
 5. Tap **Submit**
 6. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
-7. The item moves to **Complete** (green) and appears on the front counter for customer pickup
+7. A **Zone Assignment** modal appears — tap **Zone 1 (Front)** or **Zone 2 (Back)** to record where the physical item has been placed
+8. You'll see a quick confirmation and the app takes you back to the queue
 
-For items with $0 cost, the manager approval step is skipped automatically.
+The zone tells the front counter exactly where to find the item when the customer comes to pick up. This step is required — you can't skip it.
+
+For items with $0 cost, the manager approval step is skipped automatically, but zone assignment still fires.
+
+**Where the zone shows up:**
+- A small **Z1 (Front)** (blue) or **Z2 (Back)** (purple) badge appears on the item header in the detail view and on the job card in the Front Counter board
+- The repair timeline shows "Zone 1 (Front) · assigned by [name]" with a timestamp
+
+**Reassigning a zone (Admin only):** If an item gets moved after the fact, an admin can tap the zone badge on the item detail view to open the zone picker and reassign it.
 
 *(Parts + Labor mode and Sales Tax are turned on and off by an admin in Admin Settings → Shop Settings.)*
 
@@ -1226,7 +1251,7 @@ All action buttons on the Tech Station (Grab, Done, Tested, Reassign, Enter Cost
 
 If someone opens an item detail and walks away without doing anything for 2 minutes, the app automatically returns to the repair queue. This way the Tech Station iPad is always showing the queue when no one's actively using it — the next person who walks up sees the full list of items, not whatever the last tech was looking at.
 
-Any touch on the screen (scrolling, tapping, typing) resets the 2-minute timer. You don't need to do anything special — just use the app normally and the timer stays out of your way. It only kicks in when nobody's touching the iPad at all.
+The timer starts when you open an item. If you're actively working on the item (tapping Grab, checking repair items, entering cost), those actions either dismiss the view automatically or keep you engaged well within the timeout window. The timer is just a safety net for when someone walks away mid-screen.
 
 The timeout is configurable by an admin (default is 2 minutes). Setting it to 0 disables it entirely.
 
@@ -1744,6 +1769,8 @@ Tap the **scan icon** in the toolbar on the Tech Station queue screen. The camer
 No more hunting through the queue for the right item. Scan the cylinder, start working.
 
 **If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below. If the tag was retired, the app will tell you — see "Scanning Old / Retired Tags" below. If the equipment has no active job (closed or totaled), you'll see "No active item found" — creating new jobs is a Front Counter task. If you accidentally scan a shipping label or other non-shop QR code, you'll see **"Not an SR-80 tag"** — the app knows it's not one of ours because shop tags always start with "SR-".
+
+**If the sticker is too damaged to scan:** Tap **"Enter code manually"** below the viewfinder frame to type the code directly. The code is printed on the sticker label below the QR pattern. If the device has no camera or camera access is denied, manual entry is offered as the primary option.
 
 ---
 
