@@ -197,6 +197,35 @@
         }
         .no-results.visible { display: block; }
 
+        /* Full-text search context snippets */
+        .toc-snippet {
+            display: block;
+            font-size: 0.78rem;
+            line-height: 1.4;
+            color: var(--text-faint);
+            padding: 0.15rem 0.75rem 0.35rem 1.75rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .toc-snippet .toc-highlight {
+            font-weight: 600;
+        }
+        .toc-group-header .toc-snippet-inline {
+            display: block;
+            font-size: 0.76rem;
+            font-weight: 400;
+            color: var(--text-faint);
+            line-height: 1.35;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            margin-top: 1px;
+        }
+        .toc-group-header .toc-snippet-inline .toc-highlight {
+            font-weight: 600;
+        }
+
         /* When filtering, hide non-matching items */
         .toc.filtering .toc-group:not(.has-match) { display: none; }
         .toc.filtering .toc-sub li:not(.match) { display: none; }
@@ -533,6 +562,9 @@
                 // Build sidebar TOC from the rendered headers
                 buildSidebarTOC(content);
 
+                // Build full-text search index from section content
+                buildSectionIndex(content);
+
                 // Wire up interactions
                 setupScrollSpy(content);
                 setupSearch();
@@ -730,6 +762,43 @@
             }
         }
 
+        // ---------- Full-text section index ----------
+        // Maps each heading ID to the text content of its section body
+        const sectionIndex = {};
+
+        function buildSectionIndex(root) {
+            const allHeaders = Array.from(root.querySelectorAll('h2, h3'));
+            allHeaders.forEach((header, i) => {
+                const id = header.id;
+                const nextHeader = allHeaders[i + 1];
+                const texts = [];
+                let cursor = header.nextElementSibling;
+                while (cursor && cursor !== nextHeader) {
+                    // Skip other headers (h4, h5, etc.) and just grab body text
+                    if (!/^H[1-6]$/.test(cursor.tagName)) {
+                        const t = (cursor.textContent || '').trim();
+                        if (t) texts.push(t);
+                    }
+                    cursor = cursor.nextElementSibling;
+                }
+                sectionIndex[id] = texts.join(' ');
+            });
+        }
+
+        function findSnippet(text, query, radius) {
+            radius = radius || 40;
+            const lower = text.toLowerCase();
+            const idx = lower.indexOf(query.toLowerCase());
+            if (idx === -1) return null;
+            const start = Math.max(0, idx - radius);
+            const end = Math.min(text.length, idx + query.length + radius);
+            let snippet = '';
+            if (start > 0) snippet += '…';
+            snippet += text.slice(start, end);
+            if (end < text.length) snippet += '…';
+            return snippet;
+        }
+
         // ---------- Search / filter ----------
         function escapeHTML(s) {
             return s.replace(/[&<>"']/g, c => ({
@@ -757,6 +826,10 @@
             const toc = document.getElementById('toc');
             const noResults = document.getElementById('noResults');
             const query = (rawQuery || '').trim().toLowerCase();
+
+            // Clear any previous snippets
+            toc.querySelectorAll('.toc-snippet').forEach(el => el.remove());
+            toc.querySelectorAll('.toc-snippet-inline').forEach(el => el.remove());
 
             if (!query) {
                 toc.classList.remove('filtering');
@@ -786,16 +859,41 @@
             toc.querySelectorAll('.toc-group').forEach(group => {
                 const headerLabel = group.querySelector('.toc-group-label');
                 const groupText = (headerLabel.dataset.label || headerLabel.textContent);
-                const groupMatches = groupText.toLowerCase().includes(query);
+                const groupId = group.dataset.targetId;
+                const groupHeadingMatches = groupText.toLowerCase().includes(query);
+                // Check body text for this H2 section
+                const groupBodyText = sectionIndex[groupId] || '';
+                const groupBodyMatches = groupBodyText.toLowerCase().includes(query);
+                const groupMatches = groupHeadingMatches || groupBodyMatches;
 
                 let subMatchCount = 0;
                 group.querySelectorAll('.toc-sub li').forEach(li => {
                     const a = li.querySelector('a');
                     const label = a.dataset.label || a.textContent;
-                    const matches = label.toLowerCase().includes(query);
-                    if (matches) {
+                    const href = a.getAttribute('href');
+                    const subId = href ? href.slice(1) : '';
+                    const headingMatches = label.toLowerCase().includes(query);
+                    // Check body text for this H3 section
+                    const bodyText = sectionIndex[subId] || '';
+                    const bodyMatches = bodyText.toLowerCase().includes(query);
+
+                    if (headingMatches || bodyMatches) {
                         li.classList.add('match');
-                        a.innerHTML = highlightMatch(label, query);
+                        if (headingMatches) {
+                            a.innerHTML = highlightMatch(label, query);
+                        } else {
+                            a.textContent = label;
+                        }
+                        // Show context snippet if match is in body (not heading)
+                        if (bodyMatches) {
+                            const snippet = findSnippet(bodyText, query);
+                            if (snippet) {
+                                const snippetEl = document.createElement('span');
+                                snippetEl.className = 'toc-snippet';
+                                snippetEl.innerHTML = highlightMatch(snippet, query);
+                                li.appendChild(snippetEl);
+                            }
+                        }
                         subMatchCount++;
                     } else {
                         li.classList.remove('match');
@@ -806,10 +904,20 @@
                 if (groupMatches || subMatchCount > 0) {
                     group.classList.add('has-match', 'expanded');
                     anyMatch = true;
-                    if (groupMatches) {
+                    if (groupHeadingMatches) {
                         headerLabel.innerHTML = highlightMatch(groupText, query);
                     } else {
                         headerLabel.textContent = groupText;
+                    }
+                    // Show snippet on the H2 header if body matched but heading didn't
+                    if (groupBodyMatches && !groupHeadingMatches && subMatchCount === 0) {
+                        const snippet = findSnippet(groupBodyText, query);
+                        if (snippet) {
+                            const snippetEl = document.createElement('span');
+                            snippetEl.className = 'toc-snippet-inline';
+                            snippetEl.innerHTML = highlightMatch(snippet, query);
+                            headerLabel.parentElement.appendChild(snippetEl);
+                        }
                     }
                 } else {
                     group.classList.remove('has-match');
