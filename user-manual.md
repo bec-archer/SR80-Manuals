@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.0 (in development)
-**Last Updated:** 2026-04-21 (Multi-select grab + Manage Techs replaces separate Add Tech / Reassign sections)
+**Last Updated:** 2026-04-21 (Per-item "Waiting" flag — indigo badge, reason picker, sort-to-bottom, filter)
 
 ---
 
@@ -26,6 +26,7 @@
   - [Editing a Checked-In Item](#editing-a-checked-in-item)
   - [No Warranty Flag](#no-warranty-flag)
   - ["On Fire" Priority Flag (🔥)](#on-fire-priority-flag-)
+  - ["Waiting" Flag (⏳)](#waiting-flag-)
   - [Changing the Customer on a Job](#changing-the-customer-on-a-job)
   - [Finalizing a Draft](#finalizing-a-draft)
   - [Customer Check-In](#customer-check-in)
@@ -49,6 +50,7 @@
   - [Working on Warranty Items](#working-on-warranty-items)
   - [No Warranty Flag (Tech Station)](#no-warranty-flag-tech-station)
   - [Mark Complete (No Warranty)](#mark-complete-no-warranty)
+  - ["Waiting" Flag (⏳) — Tech Station](#waiting-flag--tech-station)
   - [Editing Item Info from the Tech Station](#editing-item-info-from-the-tech-station)
   - [Grabbing an Item](#grabbing-an-item)
   - [Managing Techs on an Item](#managing-techs-on-an-item)
@@ -78,6 +80,7 @@
   - [The Ladybug Button](#the-ladybug-button)
 - [Equipment Tags](#equipment-tags)
   - [Getting Sticker Sheets](#getting-sticker-sheets)
+  - [Viewing Batch History](#viewing-batch-history)
   - [Assigning a Tag at Check-In (Front Counter)](#assigning-a-tag-at-check-in-front-counter)
   - [Scanning from the Job Board (Front Counter)](#scanning-from-the-job-board-front-counter)
   - [Scanning from the Work Queue (Tech Station)](#scanning-from-the-work-queue-tech-station)
@@ -266,6 +269,8 @@ Each item shows its own status on its photo tile. When an item has been priced a
 Jobs are sorted by urgency: green (ready for pickup) first, then orange (tested), then items ready for testing (repair done, waiting on a tester), then yellow (in progress), then blue (just checked in). Within each group, the oldest jobs appear first. This way the items closest to being done — the ones a customer might be waiting on — are always at the top.
 
 **On Fire jobs** — any job with at least one item marked on fire jumps to the very top of the active board (right below any drafts), ahead of everything else. On-fire items have a **red border** around their photo tile and a **🔥 badge in the bottom-left corner** so they're impossible to miss. See [On Fire Priority Flag](#on-fire-priority-flag) below for how to set and clear them.
+
+**Waiting items** — items blocked on parts, seals, or approval show an **indigo border** and **⏳ badge** on their photo tile, plus an **indigo WAITING banner** on the item detail card with the reason and notes. Front Counter can see the flag but can't set or clear it — that's a tech/admin action. See ["Waiting" Flag](#waiting-flag-) below.
 
 The Job Board updates automatically when jobs are created or changed on any device — you don't need to do anything to see new work orders appear. If you ever want to force an immediate refresh, pull down on the board.
 
@@ -639,6 +644,19 @@ From the job detail view, **long-press the 🔥 pill** in the item header (hold 
 - Closed on-fire jobs do NOT float to the top of the Closed section — the badge shows but they stay sorted by close date like the rest of history.
 - The flag works offline. Mark it on fire even if the shop Wi-Fi is down and it will sync when you're back online.
 
+### "Waiting" Flag (⏳)
+
+Sometimes work on an item has to stop — you're waiting on parts, seals, customer approval, or an outside service. The **Waiting** flag marks that hold visually so everyone can see at a glance which items are blocked without changing the item's actual status.
+
+**What it looks like on the Front Counter:**
+- The item's photo tile on the Job Board gets an **indigo border** and an **⏳ badge in the bottom-left corner** — similar to the On Fire treatment but in indigo instead of red.
+- An **indigo WAITING banner** appears on the item detail card inside the job, showing the reason (e.g., "Waiting on Parts") and any notes the tech added (e.g., "ETA Friday, ordered from Parker").
+- Waiting items sort to the **bottom** of the Tech Station queue — the opposite of On Fire, which sorts to the top.
+
+**Front Counter cannot set or clear the Waiting flag.** This is a repair-workflow action — only techs and admins can mark an item as waiting or resume work. If you see a waiting item and think the hold should be cleared, tell the tech.
+
+**Filtering:** Tap the filter button on either the Job Board or Tech Station. There's a **"Show Waiting Items Only"** toggle in the Waiting section — flip it on to see only blocked items. A "Waiting Only" chip appears below the toolbar; tap X to remove it.
+
 ### Changing the Customer on a Job
 
 You can change the customer assigned to a work order — not just on drafts, but on finalized jobs too.
@@ -973,6 +991,8 @@ Items with the READY badge also have a warm orange tint on the card so they stan
 
 **On Fire items** — if the front counter has marked an item urgent, you'll see a **red border** around its photo tile and a **🔥 badge in the bottom-left corner**. On-fire items jump to the absolute top of the queue, above Ready for Test. Techs can't set or clear this flag — if you think something's urgent and it's not marked, or if something's marked on fire that shouldn't be anymore, tell the front counter.
 
+**Waiting items** — items blocked on parts, seals, or approval have an **indigo border** and **⏳ badge**. They sink to the **bottom** of the queue so active work stays front and center. See ["Waiting" Flag (⏳) — Tech Station](#waiting-flag--tech-station) below for how to set and clear them.
+
 Tap any card to open the item detail view with actions for whatever the item needs next.
 
 **Flagged customers:** If the item belongs to a flagged customer or company, you'll see an amber warning banner at the top of the item detail view with the flag reason. Techs can also flag customers directly from the item detail if they notice something off — tap **Flag Customer** and enter a reason. Only admins can remove flags. See [Flagging a Customer](#flagging-a-customer) for the full rundown.
@@ -991,7 +1011,9 @@ The Tech Station has the same **search bar** and **filter button** as the Front 
 - Machine type or item description
 - Service reason (e.g., "Seal")
 
-**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, In Progress, Tested), Machine Type (if enabled), and Reason for Service (multi-select).
+**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, In Progress, Tested), Assigned Tech, Machine Type (if enabled), and Reason for Service (multi-select).
+
+The **Assigned Tech** picker shows every tech who currently has items in the queue, sorted alphabetically, plus an "Unassigned" option that filters to items no one has grabbed yet. This is handy when a supervisor wants to check a specific tech's workload, or when someone is covering for a colleague and wants to see just that person's items. The Assigned Tech filter is only available on the Tech Station — it does not appear on the Front Counter's filter sheet.
 
 Active filters show as removable chips below the toolbar, same as the Front Counter. Tap **X** on a chip to remove it, or **Clear All** to reset everything.
 
@@ -1076,6 +1098,42 @@ Look for the brown button labelled **Mark Complete (No Warranty)** in the item a
 The net effect is identical to tapping the pill: the item flips to **Complete**, the No Warranty flag turns on, the cost (if any) is recorded, and the board tile gets the brown **COMPLETE • NO WARRANTY** badge. Use whichever entry point is closer to your thumb.
 
 Any role can use this — it's a workflow shortcut, not a permission check.
+
+### "Waiting" Flag (⏳) — Tech Station
+
+When work on an item is blocked — you're waiting on parts, seals, customer approval, or an outside service — you can mark it **Waiting**. The item stays In Progress (it's not a new status), but gets an indigo visual treatment and sinks to the bottom of the queue so it's out of the way of active work.
+
+**Marking an item as Waiting:**
+
+1. Open the item detail view from the queue.
+2. Tap the **Waiting** button (indigo, hourglass icon) in the action buttons area. It appears on any In Progress item that isn't already waiting.
+3. A sheet pops up asking for a **reason** (dropdown — Waiting on Parts, Waiting on Seals, Waiting on Customer Approval, Waiting on Outside Service) and optional **notes** (free text, e.g., "ETA Friday, ordered from Parker").
+4. Pick a reason, optionally add notes, and tap **Confirm**.
+
+The item immediately gets:
+- An **indigo border** around the photo tile and an **⏳ badge in the bottom-left corner** on the queue card
+- An **⏳ WAITING** capsule in the card header row
+- An **indigo info card** at the top of the item detail showing the reason and notes
+- The **Done button is disabled** — you can't mark repair as done while the item is waiting
+
+**Where it sorts:** Waiting items drop to the **bottom** of the queue, below intake items and tested items. If an item is both On Fire and Waiting (rare, but possible), On Fire wins — it stays at the top.
+
+**Resuming work (clearing the flag):**
+
+When the parts arrive or the hold is resolved:
+
+1. Open the item detail view.
+2. Tap the **Resume Work** button (green, play icon). It replaces the Waiting button when the flag is set.
+3. A confirmation alert shows the reason text ("This will clear the Waiting flag (Waiting on Parts) and return the item to active repair.").
+4. Tap **Resume**. The item returns to its normal position in the queue and the Done button re-enables.
+
+**Filtering:** The filter sheet has a **"Show Waiting Items Only"** toggle. Flip it on to see just the blocked items. A "Waiting Only" chip appears below the toolbar.
+
+**Who can set and clear:** Tech Station and Admin only. Front Counter sees the flag and its reason but can't change it.
+
+**Important:**
+- The waiting flag works offline — set it even if the Wi-Fi is down and it'll sync when you're back.
+- Admin can also manage the list of waiting reasons via **Admin Settings → Manage Lists → Waiting**.
 
 ### Editing Item Info from the Tech Station
 
@@ -1418,13 +1476,14 @@ To update a label, just type the new value and save (tap away from the field, or
 
 Manage Lists is where you control the dropdown options used throughout the app. Accessible from Admin Settings → **Manage Lists** under the "Shop" section.
 
-There are five lists you can manage:
+There are six lists you can manage:
 
 - **Equipment** — what the item IS (Cylinder, Pump, Hose, Other...)
 - **Mach Type** — what it came off of (Forklift, Excavator, Skid Steer...) — only shows up in job intake if Machine Type is turned on in Shop Settings
 - **Brand** — who made the machine (Caterpillar, John Deere, Komatsu...) — only shows up in job intake if Machine Brand is turned on in Shop Settings
 - **Service** — the Reason for Service pills on the intake form
 - **Issues** — the repair checklist items techs check off when marking work done
+- **Waiting** — the reasons shown in the Waiting flag picker on Tech Station (e.g., "Waiting on Parts", "Waiting on Seals"). Comes pre-seeded with 4 defaults
 
 Switch between lists using the tabs at the top of the screen.
 
@@ -1711,18 +1770,53 @@ Tags are stickers with a unique QR code printed on them. They don't mean anythin
 
 ### Getting Sticker Sheets
 
-Sticker sheets are printed ahead of time and kept at the front counter, ready to use when equipment comes in.
+Sticker sheets are printed ahead of time and kept at the front counter, ready to use when equipment comes in. You generate and print them directly from the app — no browser or external files needed.
 
 To print a batch:
 
-1. Open the **QR Sticker Sheet** file (ask Bec for the link — it opens in any browser).
-2. Set the count if you want more or fewer than the default (42 per sheet).
-3. Click **Print** → set scale to 100% with no margins.
-4. Cut out the stickers along the dashed lines.
+1. Go to **Admin Settings** → **QR Stickers** → **Generate Stickers**.
+2. Pick a **layout** from the dropdown (this controls sticker size, spacing, and how many fit on a page).
+3. Set the **count** — it defaults to one full page based on your layout. Adjust up or down with the stepper.
+4. Optionally add a **note** (e.g., "For front counter stock") to help identify this batch later.
+5. Tap the yellow **Generate Batch** button.
+6. You'll see a preview grid of all the stickers. Scroll through to verify they look right.
+7. Tap **Export PDF** → the standard share sheet appears. Choose **Print**, **Save to Files**, or **AirDrop** — whatever works for your setup.
+8. Cut out the stickers and you're good to go.
 
-Each sticker has a unique code on it (looks like **SR-A3KX7N**). The codes are meaningless until assigned. You can print as many sheets as you want — unused stickers don't need to be tracked anywhere.
+Each sticker has a unique code on it (looks like **SR-A3KX7N**). The codes are meaningless until assigned — you can generate as many sheets as you want and unused stickers don't need to be tracked.
+
+If you don't like the codes that were generated, tap **Regenerate Codes** below the Export button to get a fresh set. The old batch stays in the system's history for record-keeping.
+
+**If you're offline:** The app will still generate stickers and export the PDF. You'll see a small banner saying "Generated offline — collision check skipped." This just means the app couldn't verify the codes are unique against the database — with 729 million possible codes, duplicates are extremely unlikely.
+
+**Managing layouts:** Go to **Admin Settings** → **QR Stickers** → **Sticker Layouts** to create, edit, or set a default layout. The default layout is pre-selected when you open the generator.
 
 **Tip on placement:** Stick the tag somewhere that won't be removed or covered during repair. The barrel of a cylinder works well. Avoid end caps, fittings, or anywhere that gets disassembled. The tag needs to survive the job and still be readable when the customer brings the equipment back years later.
+
+---
+
+### Viewing Batch History
+
+Every batch of stickers you generate is logged for record-keeping. To view past batches:
+
+1. Go to **Admin Settings** → **QR Stickers** → **Sticker History**.
+2. You'll see a list of all generated batches, newest first.
+
+Each row shows:
+- **Date and time** the batch was generated
+- **Number of codes** and the grid size (e.g., "42 codes · 6×7")
+- **Layout name** (e.g., "1″ Plain Paper")
+- **Who generated it**
+- **Notes**, if any were added during generation
+- **Export status** — batches that have been exported to PDF show a green "Exported" badge. Batches that were generated but never exported appear dimmed.
+
+**Viewing batch details:** Tap any row to see the full list of codes in that batch, along with all the summary info.
+
+**Re-exporting a batch:** From the detail screen, tap **Re-Export PDF** to generate a fresh PDF with the same codes and layout. The standard share sheet appears so you can print, save, or AirDrop. If the batch hadn't been exported before, it's now marked as exported.
+
+**Pull to refresh:** Pull down on the list to reload from the server.
+
+**Offline:** If you're offline, the app shows cached batch data from the last time it connected. You can still view details and re-export PDFs (PDF generation is local).
 
 ---
 
