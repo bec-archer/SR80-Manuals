@@ -516,6 +516,18 @@ If a cost has been recorded, a **cost summary** appears below the timeline showi
 
 The Repair History section only appears when there's something to show — if an item is brand new and nothing has happened yet, the section stays hidden.
 
+#### Test & Sample History (Detail Sheet)
+
+Below the Repair History, you'll see a **Test & Sample History** link if the item has any test attempts or oil samples recorded. It shows the total count (e.g., "Test & Sample History (3)").
+
+Tap it to open a full-screen sheet with the complete history — every test attempt and oil sample in chronological order, with:
+
+- **Test results** — PASSED or FAILED, who tested, and when
+- **Oil samples** — Clean or Dirty, who performed it, when, and any notes shown in italics below the entry
+- **Photos** — oil samples that had photos show thumbnail previews (48×48) right in the timeline
+
+This gives you more detail than the Repair History timeline, which only shows a one-liner per entry. The sheet is read-only — tap **Done** in the top-right corner to close it.
+
 Below each item card, you may see **action buttons** depending on the item's status and your device role. On the Front Counter, you can close items that are ready for pickup. On the Tech Station, you'll see grab, done, tested, and cost entry buttons.
 
 Use the **back arrow** to return to the Job Board.
@@ -1307,6 +1319,17 @@ The timeline includes:
 This card only appears when there's something to show — brand-new items that haven't been touched yet won't have it.
 
 On the old system, Tony had to flip through paper to see what was done in a previous round. Now it's right there on the screen.
+
+#### Test & Sample History (Detail Sheet)
+
+Below the Repair History card (or below the timeline in the right column on iPad), you'll see a **Test & Sample History** row if the item has any test attempts or oil samples. It shows the total count in a badge.
+
+Tap it to open a sheet with the full detail — every test and oil sample in order, including:
+
+- Test results with pass/fail, tester name, and timestamp
+- Oil samples with condition (Clean/Dirty), performer, notes in italics, and photo thumbnails
+
+This is handy when you need to see the full picture — the Repair History timeline only shows a quick summary per entry. Tap **Done** to close the sheet.
 
 ### Entering Cost
 
