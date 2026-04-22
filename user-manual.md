@@ -464,13 +464,22 @@ If photos have been taken for an item, the first photo is shown as a **square he
 
 You can add more photos to any item at any time, regardless of its status. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom. If you snap a bad one, tap the **X** on its thumbnail to remove it — the photo is deleted immediately. Tap **Done** when you're finished. New photos upload immediately and appear in the strip.
 
-#### Deleting Photos (Admin)
+#### Deleting Photos
 
-On an admin device (or while admin-elevated), you can delete any photo from an item that isn't Closed. **Press and hold** (long-press) on any photo thumbnail or the hero photo — a menu appears with **Delete Photo**. Tap it, then confirm in the dialog that follows. The photo, its markup, and all associated files are permanently removed. This cannot be undone.
+You can delete any photo from an item that isn't Closed, from **any device** — Front Counter, Tech Station, or Admin. **Press and hold** (long-press) on any photo thumbnail or the hero photo — a menu appears with **Delete Photo**. Tap it, then confirm in the dialog that follows.
 
-[screenshot: long-press context menu on a photo thumbnail showing "Delete Photo" in red]
+- **Admin devices** (or admin-elevated devices): the photo is deleted immediately after you confirm.
+- **Front Counter and Tech Station devices**: after you confirm, an **admin PIN entry** screen appears. Enter a valid admin PIN and the photo is deleted. Tap Cancel to back out — nothing is deleted. This is a one-time check; entering the PIN does not unlock admin features on your device.
 
-This is not available to Front Counter or Tech Station devices unless admin access is elevated. Closed items do not allow photo deletion at all.
+The photo, its markup, and all associated files are permanently removed. This cannot be undone. Closed items do not allow photo deletion at all.
+
+#### Reordering Photos (Make Hero Image)
+
+The first photo on an item is the **hero image** — the large square photo that appears at the top of the item card and on the job board. If you want a different photo to be the hero, you can promote it with a long-press.
+
+**Press and hold** on any thumbnail in the strip below the hero photo. A menu appears with **Make Hero Image** (and Delete Photo below it). Tap **Make Hero Image** and the selected photo immediately becomes the new hero — the big square at the top. The previous hero moves down into the thumbnail strip.
+
+This works on both Front Counter and Tech Station, on any item with two or more photos. There's no confirmation dialog — it happens instantly and you can always switch it back by long-pressing the old hero in the thumbnail strip.
 
 #### Marking Up Photos
 
@@ -974,7 +983,7 @@ The Tech Station iPad is the back shop's primary tool. It shows a queue of all i
 
 ### Repair Queue
 
-When you open the app on a Tech Station device, you see the **item queue** — a grid of cards showing all items that need work. The cards are sorted by status: In Progress items first, then items waiting for a tech to grab, then tested items that need a cost entered.
+When you open the app on a Tech Station device, you see the **item queue** — a grid of cards showing all items that need work. The cards are sorted by priority: Disassembly items first (they need attention next), then In Progress items, then items waiting for a tech to grab, then tested items that need a cost entered.
 
 Each card shows:
 
@@ -1011,7 +1020,7 @@ The Tech Station has the same **search bar** and **filter button** as the Front 
 - Machine type or item description
 - Service reason (e.g., "Seal")
 
-**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, In Progress, Tested), Assigned Tech, Machine Type (if enabled), and Reason for Service (multi-select).
+**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, Disassembly, In Progress, Tested), Assigned Tech, Machine Type (if enabled), and Reason for Service (multi-select).
 
 The **Assigned Tech** picker shows every tech who currently has items in the queue, sorted alphabetically, plus an "Unassigned" option that filters to items no one has grabbed yet. This is handy when a supervisor wants to check a specific tech's workload, or when someone is covering for a colleague and wants to see just that person's items. The Assigned Tech filter is only available on the Tech Station — it does not appear on the Front Counter's filter sheet.
 
@@ -1030,6 +1039,8 @@ When you open an item detail, you'll see a row of photo thumbnails at the top of
 Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close. Photos with markup show a small blue pencil badge on their thumbnail.
 
 If you snap a bad photo while the camera is open, tap the **X** on its thumbnail in the camera strip to remove it right away. Once a photo is uploaded, only an admin can delete it (see "Deleting Photos" in the Front Counter section above).
+
+To change which photo is the hero (the big square at the top), **press and hold** on any thumbnail and tap **Make Hero Image**. See "Reordering Photos (Make Hero Image)" in the Front Counter section above for full details.
 
 #### Marking Up Photos (Tech Station)
 
@@ -1101,12 +1112,12 @@ Any role can use this — it's a workflow shortcut, not a permission check.
 
 ### "Waiting" Flag (⏳) — Tech Station
 
-When work on an item is blocked — you're waiting on parts, seals, customer approval, or an outside service — you can mark it **Waiting**. The item stays In Progress (it's not a new status), but gets an indigo visual treatment and sinks to the bottom of the queue so it's out of the way of active work.
+When work on an item is blocked — you're waiting on parts, seals, customer approval, or an outside service — you can mark it **Waiting**. The item stays at its current status (Disassembly or In Progress), but gets an indigo visual treatment and sinks to the bottom of the queue so it's out of the way of active work.
 
 **Marking an item as Waiting:**
 
 1. Open the item detail view from the queue.
-2. Tap the **Waiting** button (indigo, hourglass icon) in the action buttons area. It appears on any In Progress item that isn't already waiting.
+2. Tap the **Waiting** button (indigo, hourglass icon) in the action buttons area. It appears on any Disassembly or In Progress item that isn't already waiting.
 3. A sheet pops up asking for a **reason** (dropdown — Waiting on Parts, Waiting on Seals, Waiting on Customer Approval, Waiting on Outside Service) and optional **notes** (free text, e.g., "ETA Friday, ordered from Parker").
 4. Pick a reason, optionally add notes, and tap **Confirm**.
 
@@ -1139,7 +1150,7 @@ When the parts arrive or the hold is resolved:
 
 When you open an item detail, you may see a small blue **Edit** link in the top-right corner of the item info card. This lets you change the intake fields — equipment type, machine type, service reasons, and description — without going back to the front counter.
 
-The Edit button only appears when the item is in **Checked In** status (before anyone grabs it). Once the item is In Progress, the intake fields lock and the Edit link disappears. An admin can still edit locked fields by elevating admin access.
+The Edit button only appears when the item is in **Checked In** status (before anyone grabs it). Once the item is grabbed (Disassembly or In Progress), the intake fields lock and the Edit link disappears. An admin can still edit locked fields by elevating admin access.
 
 Photos and notes are always editable regardless of item status (see "Adding Photos" and "Adding Notes" sections).
 
@@ -1159,6 +1170,36 @@ When multiple techs grab an item together, the item detail shows "Assigned to Ca
 
 Whoever grabs it first gets it. If techs need to change later, see "Managing Techs" below.
 
+**After grabbing, the item enters Disassembly status** — not In Progress. You need to complete the disassembly checklist before you can start the actual repair. See "Disassembly" below.
+
+### Disassembly
+
+After you grab an item, it goes into **Disassembly** status. The card tile shows an orange/yellow gradient **DISASSEMBLY** badge. When you open the item, instead of the normal repair checklist, you'll see a large orange **Disassembly** button.
+
+Tap the button to open the **Disassembly Sheet**. It has two sections:
+
+**Oil Sample:**
+- Pick the oil condition: **Clean** or **Dirty** (segmented control)
+- Optional notes (e.g., "metallic particles visible")
+- Take photos of the oil sample — at least one photo is required when the section is not skipped
+- Select who performed the sample from the employee list
+
+**Disassembly Photos:**
+- Take photos of the disassembled equipment before you start repairs
+- Use the camera or pick from the photo library
+
+**Skipping sections:** If the admin hasn't required a section (see Admin Settings → Shop Settings → Disassembly Step), you'll see a **Skip** button in the section header. Tap it to collapse the section to a "Skipped" row with an **Undo** button in case you change your mind.
+
+**Submitting:** Once all required sections are filled in, the **Submit** button in the top-right enables. Tap it to:
+1. Save the oil sample (if not skipped)
+2. Upload the disassembly photos (if not skipped)
+3. Move the item to **In Progress**
+4. Pop you back to the Tech Station queue
+
+The item is now In Progress and the normal repair checklist is visible. You can start checking off work.
+
+**Canceling:** Tap **Cancel** at any time to close the sheet without saving. The item stays in Disassembly — nothing is lost.
+
 ### Managing Techs on an Item
 
 Once an item is In Progress, you can add or remove techs at any time using the **Manage Techs** button (purple, with a people icon). This replaces the old separate "Reassign" and "Add Tech" buttons — everything is in one place now.
@@ -1171,17 +1212,30 @@ Once an item is In Progress, you can add or remove techs at any time using the *
 
 All changes show up in the Repair History timeline — added techs show "[Name] added" and removed techs show "[Name] removed." If you remove the lead tech, the first remaining tech is automatically promoted.
 
-Manage Techs is available on Tech Station and Admin devices, on any In Progress item.
+Manage Techs is available on Tech Station and Admin devices, on any Disassembly or In Progress item.
 
 ### Repair Checklist
 
 When you open an In Progress item, you'll see a **Repair Checklist** section with green pill-shaped buttons for each type of repair work: Wiper, Seal, Buffer Seal, Wear Bands, U Seal, Epoxy, Welding, Rod Damage, Oil Sample, Dented, and Other.
 
+#### Materials Photo Required
+
+**Before you can check anything on the repair checklist, you need to take a photo of the materials you're using for the repair.** This is so there's always a visual record of what parts and materials went into the job.
+
+If the item doesn't have a materials photo yet, you'll see an orange **"Photo Required"** card above the Repair Checklist header with a blue **"Take Materials Photo"** button. Tapping any checklist pill will do nothing until you take the photo.
+
+1. Tap the **Take Materials Photo** button — the camera opens
+2. Take a photo of the parts, seals, fittings, or whatever materials you're about to use
+3. The photo uploads and the orange card disappears
+4. The checklist pills are now tappable
+
+The materials photo shows up in the item's photo strip like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the checklist works normally from the start (no prompt).
+
 **Tap each pill to check off what you actually did.** Selected pills turn green; unselected ones stay outlined. You can tap a green pill again to uncheck it if you made a mistake.
 
 If you select **Other**, a text field appears where you can describe the work that doesn't fit the standard categories.
 
-**You must check at least one item on the repair checklist before you can tap Done.** If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
+**You must check at least one item on the repair checklist AND have a materials photo before you can tap Done.** If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
 
 Your selections save to the server immediately as you tap them — no need to hit a save button.
 
@@ -1194,7 +1248,7 @@ If an item fails a test and comes back for another round, the checklist resets t
 Once you've finished repairing an item and checked off what you did on the repair checklist:
 
 1. Open the item from the queue
-2. Make sure you've checked at least one item on the **Repair Checklist** (see above)
+2. Make sure you've taken a **Materials Photo** and checked at least one item on the **Repair Checklist** (see above)
 3. Tap the **Done** button (green)
 4. You'll see a **"Marked Done!"** confirmation, then the app takes you back to the queue
 5. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
@@ -1225,17 +1279,17 @@ If a different tech needs to take over after a failed test, use the **Manage Tec
 
 ### Oil Sample
 
-You can record an oil sample on any item that's at the **Ready for Test** or **Tested** stage. This is optional — not every item needs one.
+You can record an oil sample on any item that's at the **Ready for Test** or **Tested** stage. This is optional — not every item needs one. But when you do record one, at least one photo is required.
 
 1. Open the item
 2. Tap the **Oil Sample** button (blue)
 3. Pick the condition: **Clean** or **Dirty**
 4. Add any notes in the text field (optional)
-5. **Take photos (optional)** — below the notes field you'll see **Camera** and **Library** buttons, same as the photo buttons used during intake. Tap Camera to snap a picture of the oil sample, or Library to pick one from the device. You can add multiple photos — each one appears as a thumbnail with an **X** to remove it if you change your mind.
+5. **Take at least one photo** — below the notes field you'll see **Camera** and **Library** buttons, same as the photo buttons used during intake. Tap Camera to snap a picture of the oil sample, or Library to pick one from the device. You can add multiple photos — each one appears as a thumbnail with an **X** to remove it if you change your mind. The Submit button stays disabled until you add a photo.
 6. Select who performed the sample
 7. Tap **Submit**
 
-Photos upload automatically when you submit. Oil samples (with any attached photos) show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
+Photos upload automatically when you submit. Oil samples (with photos) show up in the Test & Sample History card on the item detail (see below). You can record multiple oil samples on the same item if needed.
 
 ### Repair History
 
@@ -1331,7 +1385,16 @@ Employee management is where you add, edit, and deactivate the people who use Sh
 
 #### Viewing Employees
 
-You'll see a list of all active employees, each showing their name, role badge (Tech, Admin, or Tester), and an "Authorized Tester" badge if they're allowed to test items. Admin employees also show a PIN status badge — green **"PIN Set"** if they have a PIN configured, or gray **"No PIN"** if they still need to set one up. Inactive employees appear in a separate section at the bottom.
+You'll see a list of all active employees, each showing their name and colored capability badges for what they can do:
+
+- **Admin** (purple) — full access to settings and admin features
+- **Grab** (blue) — can be the lead tech on a job
+- **Assist** (cyan) — can be added as an additional tech on a job
+- **Test** (orange) — can appear in the tester picker
+- **Oil Sample** (green) — can appear in the oil sample "Performed By" picker
+- **FC** (indigo) — Front Counter staff
+
+Admin employees also show a PIN status badge — green **"PIN Set"** if they have a PIN configured, or gray **"No PIN"** if they still need to set one up. Inactive employees appear in a separate section at the bottom with dimmed badges.
 
 Pull down to refresh the list.
 
@@ -1339,18 +1402,20 @@ Pull down to refresh the list.
 
 1. Tap the **+** button in the top right corner
 2. Enter the employee's **name**
-3. Pick their **role** using the segmented control:
-   - **Tech** — can grab items, do repairs, and mark done
-   - **Admin** — full access to all views and settings (will need a PIN)
-   - **Tester** — dedicated tester role
-4. Toggle **Authorized Tester** on if this person should be able to test items, regardless of their role (e.g., a tech who also tests)
+3. Turn on the **capabilities** this person needs:
+   - **Can Grab Jobs** — they'll show up in the Grab picker as a lead tech
+   - **Can Assist on Jobs** — they'll show up in the "Manage Techs" picker as an additional tech (lead techs can also assist, so you don't need both)
+   - **Can Test** — they'll show up in the tester picker when marking items as tested
+   - **Can Do Oil Samples** — they'll show up in the "Performed By" picker on oil samples
+   - **Front Counter** — marks them as Front Counter staff
+4. If this person needs admin access, turn on **Admin Access** in the Admin section below. They'll need a PIN.
 5. Tap **Add**
 
-The new employee will immediately appear in all relevant pickers across the app (tech assignment, tester selection, etc.).
+The new employee will immediately appear in the pickers that match their capabilities. For example, if you only turn on "Can Assist" and "Can Do Oil Samples," they'll show up in the Manage Techs and oil sample pickers but never in the Grab or Testing pickers.
 
 #### Editing an Employee
 
-Tap any active employee in the list to open their edit form. You can change their name, role, or tester authorization. Tap **Save** when done.
+Tap any active employee in the list to open their edit form. You can change their name or toggle any of their capabilities on or off. Tap **Save** when done. Changes take effect immediately — if you turn off "Can Grab Jobs," that person disappears from the Grab picker right away.
 
 #### Setting Up an Admin's PIN
 
@@ -1448,6 +1513,15 @@ The **Front Counter: No Warranty** toggle controls who can mark items as No Warr
 Flip this on if Maria is the one having the warranty conversation with the customer at check-in or pickup and needs to flag the item without waiting on a tech. Flip it back off if the shop wants to keep the decision tech-side.
 
 This toggle only affects who can *set* the flag. The brown **COMPLETE • NO WARRANTY** badge on completed job tiles is visible to everyone no matter how this setting is configured.
+
+#### Disassembly Step
+
+These toggles control what techs must complete in the Disassembly Sheet before they can start repairs on a grabbed item.
+
+- **Require Oil Sample** — Off by default. When on, techs must complete the oil sample section (select an employee, take at least one photo) before submitting. When off, a **Skip** button appears that lets them bypass the section.
+- **Require Disassembly Photos** — Off by default. When on, techs must take at least one disassembly photo before submitting. When off, a **Skip** button appears.
+
+Start with both off and flip them on once techs are comfortable with the disassembly flow. The sections are always *available* — these toggles just control whether they're *required* or *skippable*.
 
 #### Required Fields
 
