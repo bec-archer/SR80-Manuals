@@ -1,9 +1,8 @@
 # ShopTracker User Manual
 
 **App:** ShopTracker (SR80)
-**Version:** 1.0 (in development)
-**Last Updated:** 2026-04-21 (Per-item "Waiting" flag — indigo badge, reason picker, sort-to-bottom, filter)
-
+**Version:** 1.1 (in development)
+**Last Updated:** 2026-04-22
 ---
 
 ## Table of Contents
