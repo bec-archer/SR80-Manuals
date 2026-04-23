@@ -175,10 +175,8 @@ The app has a sidebar menu that lets you switch between different views. The sid
 
 **To open the sidebar:**
 
-- **Swipe from the left edge** of the screen, or
-- **Tap the back arrow button** in the top-left corner of the toolbar
-
-The sidebar slides over the current view. Tap any item to switch to that view. The sidebar closes automatically when you make a selection, or you can swipe it away.
+- **On iPad:** Swipe from the left edge of the screen, or tap the back arrow button in the top-left corner of the toolbar. The sidebar slides over the current view. Tap any item to switch to that view. The sidebar closes automatically when you make a selection. You can also close it by swiping it away.
+- **On iPhone:** Tap the **Back** button (< SR80) in the top-left corner to go back to the sidebar. The sidebar is the home screen — pick a destination and it pushes you into that view. Standard iOS back-and-forth navigation.
 
 **What you see in the sidebar depends on your device role:**
 
@@ -202,7 +200,7 @@ New devices start at **Extra Large** text with **Bold Text** turned on — these
 
 **To change the display size:**
 
-1. Open the sidebar (swipe from the left, or tap the back arrow in the top-left)
+1. Open the sidebar (on iPad: swipe from the left or tap the back arrow; on iPhone: tap the Back button)
 2. At the bottom of the sidebar, under **This Device**, tap **Display Size**
 3. A settings panel slides up from the bottom
 
@@ -231,7 +229,7 @@ Use this when you're stuck on a specific screen and just want to know "what does
 
 **2. The Help entry in the sidebar**
 
-If you don't know *which* screen you need — you just know you're trying to do something and can't remember where it lives — open the sidebar (swipe from the left or tap the back arrow in the top-left toolbar), scroll down to **This Device**, and tap **Help**.
+If you don't know *which* screen you need — you just know you're trying to do something and can't remember where it lives — open the sidebar (on iPad: swipe from the left or tap the back arrow; on iPhone: tap the Back button), scroll down to **This Device**, and tap **Help**.
 
 This opens a full list of every help topic in the app: Jobs Gallery, New Work Order, Job Detail, Tech Station, Close Out, Closed Job, Admin Settings, and any others that get added over time. Tap a topic to open the same walkthrough you'd get from that screen's `(?)` button.
 
@@ -250,6 +248,7 @@ The help content is bundled into the app, so it works even when the shop's inter
 When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
 - **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile — slightly tilted, same as V1.
+- **Assigned tech** — if a tech has been assigned to any item on the job, a small dark chip appears in the bottom-left of the photo area showing who's working on it (e.g., "Rudy" or "Rudy, Tony" if multiple techs are on different items). This lets the Front Counter see at a glance which tech has each job without opening the detail view.
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
 - **Customer phone number** (tappable — tap to call or text), **name**, and **company name** (if the job is linked to a company — shown in smaller text below the customer name)
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
@@ -403,7 +402,7 @@ You have two options:
 - **Camera** — tap the camera button to open the camera. The camera stays open between shots — tap the shutter button as many times as you need, and each photo appears in a strip at the bottom of the screen. If you snap a bad photo, tap the **X** on its thumbnail in the strip to remove it. When you're done, tap **Done** in the top-right corner to close the camera and return to the form. You can also tap **Cancel** to close the camera at any time — photos you already took are kept.
 - **Library** — tap the library button to pick a photo already on the device (useful if someone snapped a picture before opening the app)
 
-Photos appear as small thumbnails next to the buttons. To remove a photo before saving, tap the **X** on the thumbnail. Photos aren't uploaded until you tap "Create Work Order" or "Save as Draft" — you'll see a brief "Uploading..." indicator while they're sent to the server.
+Photos appear as small thumbnails in a grid below the buttons. To remove a photo before saving, tap the **X** on the thumbnail. Photos aren't uploaded until you tap "Create Work Order" or "Save as Draft" — you'll see a brief "Uploading..." indicator while they're sent to the server.
 
 There's no limit on photos per item. Take as many as you need.
 
@@ -459,9 +458,9 @@ This is handy when you're done reviewing one item and want to get to the next wi
 
 Collapse state resets every time you open a job, so you always start fresh.
 
-If photos have been taken for an item, the first photo is shown as a **square hero photo** — a large cropped preview sized to fill the available width so details are easy to see at a glance. On iPad this fills the left column; on iPhone it appears at the top of the card. Below the hero is a row of smaller thumbnails for any additional photos, followed by **Camera** and **Library** buttons to add more. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
+If photos have been taken for an item, the first photo is shown as a **square hero photo** — a large cropped preview sized to fill the available width so details are easy to see at a glance. On iPad this fills the left column; on iPhone it appears at the top of the card. Below the hero is a grid of smaller thumbnails for any additional photos, with **Camera** and **Library** buttons at the end. Thumbnails wrap into rows to fit the available space — the buttons are always visible, even with many photos. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
 
-You can add more photos to any item at any time, regardless of its status. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom. If you snap a bad one, tap the **X** on its thumbnail to remove it — the photo is deleted immediately. Tap **Done** when you're finished. New photos upload immediately and appear in the strip.
+You can add more photos to any item at any time, regardless of its status. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom. If you snap a bad one, tap the **X** on its thumbnail to remove it — the photo is deleted immediately. Tap **Done** when you're finished. New photos upload immediately and appear in the grid.
 
 #### Deleting Photos
 
@@ -476,13 +475,21 @@ The photo, its markup, and all associated files are permanently removed. This ca
 
 The first photo on an item is the **hero image** — the large square photo that appears at the top of the item card and on the job board. If you want a different photo to be the hero, you can promote it with a long-press.
 
-**Press and hold** on any thumbnail in the strip below the hero photo. A menu appears with **Make Hero Image** (and Delete Photo below it). Tap **Make Hero Image** and the selected photo immediately becomes the new hero — the big square at the top. The previous hero moves down into the thumbnail strip.
+**Press and hold** on any thumbnail in the grid below the hero photo. A menu appears with **Make Hero Image** (and Delete Photo below it). Tap **Make Hero Image** and the selected photo immediately becomes the new hero — the big square at the top. The previous hero moves down into the thumbnail grid.
 
-This works on both Front Counter and Tech Station, on any item with two or more photos. There's no confirmation dialog — it happens instantly and you can always switch it back by long-pressing the old hero in the thumbnail strip.
+This works on both Front Counter and Tech Station, on any item with two or more photos. There's no confirmation dialog — it happens instantly and you can always switch it back by long-pressing the old hero in the thumbnail grid.
+
+#### Viewing Photos Full-Screen
+
+Tap any photo — the hero image or any thumbnail — to open it full-screen. If the item has multiple photos, **swipe left and right** to flip through all of them without closing and reopening. A small counter at the bottom (e.g., "3 / 7") shows which photo you're on. Items with only one photo won't show the counter or respond to horizontal swipes.
+
+To close, **tap anywhere** on the photo, tap the **X** button in the top-left corner, or **drag down** on the photo. The drag-to-close gesture only responds to mostly-vertical drags — horizontal swipes go to the next/previous photo instead.
 
 #### Marking Up Photos
 
 This is the feature that replaces Apple Notes markup. Tap any photo thumbnail to open it full-screen, then tap the **Markup** button (pencil icon) in the top-right corner. This opens the Apple PencilKit editor with the full native toolbar — pens, markers, pencils, erasers, ruler, and the complete color palette.
+
+If you've swiped to a specific photo, Markup opens on **that** photo — not the first one. Save applies to whichever photo you're looking at.
 
 Draw directly on the photo to circle damage, write prices, add arrows, or annotate anything worth calling out. When you're done, tap **Save**. The marked-up version becomes what everyone sees on the job — on cards, in the detail view, everywhere.
 
@@ -509,6 +516,8 @@ Each event in the timeline shows a timestamp and looks like this:
 - **Round N: [repairs]** — the issue checklist items the tech checked off (e.g., "Seal, O-ring"). If the item went through multiple repair rounds after a failed test, each round appears separately in order.
 - **Passed / Failed — [tester name]** — every test attempt is shown, not just the most recent. So if an item failed its first test and passed its second, you'll see both entries with their times.
 - **Oil: Clean / Dirty — [performer]** — if an oil sample was taken
+- **Marked Waiting — [reason]** — when a tech marked the item as waiting, with the reason (e.g., "Waiting on Parts" or "Other: waiting on custom seals from Parker") and any notes. The tech's name appears below.
+- **Resumed Work** — when the waiting flag was cleared and work resumed. Shows the tech's name.
 - **Customer Contacted — [outcome]** — on Totaled items that were closed via the "Customer Contacted" flow, shows the contact outcome (e.g., "Left voicemail", "Customer coming in") and when it happened. Only appears on items that went through the Totaled path.
 
 If a cost has been recorded, a **cost summary** appears below the timeline showing the total. If parts and labor were entered separately, it shows a breakdown (Parts / Labor / Tax / Total). A green **"Approved"** badge or orange **"Pending Approval"** badge shows the manager approval status.
@@ -573,9 +582,18 @@ You can also **tap any item card** to edit it. This opens an edit sheet where yo
 
 If an item is still missing required fields (like Equipment Type, Reason for Service, Photos, or any other field your admin has set to required), the item card will have a **light orange background** with a **"Complete Item Info" button** at the bottom. Tap the item header row or the orange button to open the edit sheet and fill in what's missing. Items that are already complete show a normal white background.
 
-#### Adding More Items to a Draft
+#### Adding More Items
 
-Below the item cards on a draft, you'll see an **"+ Add Item"** button. Tap it to add another item to the work order — same form as when you created the original items (equipment type, service reasons, description, photos). The new item appears in the list immediately after you tap **Add**.
+Below the item cards, you'll see an **"+ Add Item"** button. Tap it to add another item to the work order — same form as when you created the original items (equipment type, service reasons, description, photos). The new item appears in the list immediately after you tap **Add**. New items always start at **Checked In** status with a blank form, regardless of where the other items are in the workflow.
+
+On **drafts**, the Add Item button appears below the item list (same as always).
+
+On **finalized work orders** (non-drafts), you'll also see a **+** button in the top-right toolbar in addition to the inline button below the items. Who can see the Add Item button depends on where things are in the workflow:
+
+- **Still in check-in** (all items at Checked In): Front Counter and Admin can add items.
+- **Any item past check-in** (In Progress, Tested, Complete, etc.): Only Admin or an elevated Front Counter (admin PIN unlocked) can add items. This prevents the front counter from injecting items into an active repair without admin oversight.
+- **Tech Station**: Never — techs don't check stuff in.
+- **Fully closed job** (all items Closed or Totaled): Nobody can add items.
 
 #### Removing an Item from a Draft
 
@@ -671,6 +689,7 @@ Sometimes work on an item has to stop — you're waiting on parts, seals, custom
 **What it looks like on the Front Counter:**
 - The item's photo tile on the Job Board gets an **indigo border** and an **⏳ badge in the bottom-left corner** — similar to the On Fire treatment but in indigo instead of red.
 - An **indigo WAITING banner** appears on the item detail card inside the job, showing the reason (e.g., "Waiting on Parts") and any notes the tech added (e.g., "ETA Friday, ordered from Parker").
+- If the item's repair is already done, you'll see **both** an orange **READY FOR TESTING** badge and an indigo **WAITING** badge stacked on the photo tile — "repair done, but blocked."
 - Waiting items sort to the **bottom** of the Tech Station queue — the opposite of On Fire, which sorts to the top.
 
 **Front Counter cannot set or clear the Waiting flag.** This is a repair-workflow action — only techs and admins can mark an item as waiting or resume work. If you see a waiting item and think the hold should be cleared, tell the tech.
@@ -1045,9 +1064,9 @@ Tap the **scan icon** in the toolbar, point the camera at the sticker on your be
 
 ### Adding Photos from the Tech Station
 
-When you open an item detail, you'll see a row of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting. Tapping **Camera** opens the continuous camera: tap the shutter as many times as you need, watch the thumbnails appear at the bottom of the screen, then tap **Done** when you're finished. No need to reopen the camera between shots.
+When you open an item detail, you'll see a grid of photo thumbnails at the top of the info card (if any photos exist) along with **Camera** and **Library** buttons. Techs can add photos at any point during the repair — before starting, during disassembly, after the fix, or whenever something is worth documenting. Tapping **Camera** opens the continuous camera: tap the shutter as many times as you need, watch the thumbnails appear at the bottom of the screen, then tap **Done** when you're finished. No need to reopen the camera between shots.
 
-Tap any thumbnail to view the photo full-screen. Tap the photo or swipe down to close. Photos with markup show a small blue pencil badge on their thumbnail.
+Tap any thumbnail to view the photo full-screen. If the item has multiple photos, **swipe left and right** to flip through all of them — a counter at the bottom shows your position (e.g., "2 / 5"). Tap the photo, tap the X, or drag down to close. Photos with markup show a small blue pencil badge on their thumbnail.
 
 If you snap a bad photo while the camera is open, tap the **X** on its thumbnail in the camera strip to remove it right away. Once a photo is uploaded, only an admin can delete it (see "Deleting Photos" in the Front Counter section above).
 
@@ -1129,7 +1148,7 @@ When work on an item is blocked — you're waiting on parts, seals, customer app
 
 1. Open the item detail view from the queue.
 2. Tap the **Waiting** button (indigo, hourglass icon) in the action buttons area. It appears on any Disassembly or In Progress item that isn't already waiting.
-3. A sheet pops up asking for a **reason** (dropdown — Waiting on Parts, Waiting on Seals, Waiting on Customer Approval, Waiting on Outside Service) and optional **notes** (free text, e.g., "ETA Friday, ordered from Parker").
+3. A sheet pops up asking for a **reason** (dropdown — Waiting on Parts, Waiting on Seals, Waiting on Customer Approval, Waiting on Outside Service, or **Other**) and optional **notes** (free text, e.g., "ETA Friday, ordered from Parker"). If you pick **Other**, a required text field appears — describe what you're waiting on before you can confirm.
 4. Pick a reason, optionally add notes, and tap **Confirm**.
 
 The item immediately gets:
@@ -1137,8 +1156,9 @@ The item immediately gets:
 - An **⏳ WAITING** capsule in the card header row
 - An **indigo info card** at the top of the item detail showing the reason and notes
 - The **Done button is disabled** — you can't mark repair as done while the item is waiting
+- If the item was already **Ready for Testing** (repair done, waiting on a tester), you'll see **both** an orange **READY FOR TESTING** badge and an indigo **WAITING** badge stacked on the photo tile. This tells everyone "repair is done but we can't test yet."
 
-**Where it sorts:** Waiting items drop to the **bottom** of the queue, below intake items and tested items. If an item is both On Fire and Waiting (rare, but possible), On Fire wins — it stays at the top.
+**Where it sorts:** Waiting items drop to the **bottom** of the queue, below intake items and tested items — even if repair is done. A "Ready for Testing + Waiting" item stays at the bottom because there's no point putting it at the top of the test queue when you can't actually test it. If an item is both On Fire and Waiting (rare, but possible), On Fire wins — it stays at the top.
 
 **Resuming work (clearing the flag):**
 
@@ -1154,6 +1174,7 @@ When the parts arrive or the hold is resolved:
 **Who can set and clear:** Tech Station and Admin only. Front Counter sees the flag and its reason but can't change it.
 
 **Important:**
+- Both "Marked Waiting" and "Resumed Work" events appear in the item's **Repair History** timeline, so the front counter can see exactly when work was paused and why.
 - The waiting flag works offline — set it even if the Wi-Fi is down and it'll sync when you're back.
 - Admin can also manage the list of waiting reasons via **Admin Settings → Manage Lists → Waiting**.
 
@@ -1201,13 +1222,10 @@ Tap the button to open the **Disassembly Sheet**. It has two sections:
 
 **Skipping sections:** If the admin hasn't required a section (see Admin Settings → Shop Settings → Disassembly Step), you'll see a **Skip** button in the section header. Tap it to collapse the section to a "Skipped" row with an **Undo** button in case you change your mind.
 
-**Submitting:** Once all required sections are filled in, the **Submit** button in the top-right enables. Tap it to:
-1. Save the oil sample (if not skipped)
-2. Upload the disassembly photos (if not skipped)
-3. Move the item to **In Progress**
-4. Pop you back to the Tech Station queue
+**Two ways to finish:**
 
-The item is now In Progress and the normal repair checklist is visible. You can start checking off work.
+- **Save** (top-right nav bar) — Uploads your photos and oil sample, then closes the sheet. The item **stays in Disassembly** so you can come back and add more photos or start the repair later. When you reopen the sheet, you don't need to re-enter anything — previously uploaded photos and oil samples are already counted as complete.
+- **Save & Start Repair** (green button at the bottom of the form) — Uploads everything AND moves the item to **In Progress**. The normal repair checklist becomes visible and you can start checking off work. Use this when you're done with disassembly and ready to repair.
 
 **Canceling:** Tap **Cancel** at any time to close the sheet without saving. The item stays in Disassembly — nothing is lost.
 
@@ -1231,22 +1249,21 @@ When you open an In Progress item, you'll see a **Repair Checklist** section wit
 
 #### Materials Photo Required
 
-**Before you can check anything on the repair checklist, you need to take a photo of the materials you're using for the repair.** This is so there's always a visual record of what parts and materials went into the job.
+**You need to take a photo of the materials used for the repair before you can mark the item Done.** This is so there's always a visual record of what parts and materials went into the job.
 
-If the item doesn't have a materials photo yet, you'll see an orange **"Photo Required"** card above the Repair Checklist header with a blue **"Take Materials Photo"** button. Tapping any checklist pill will do nothing until you take the photo.
+If the item doesn't have a materials photo yet, you'll see an orange **"Photo Required"** card above the Repair Checklist header with a blue **"Take Materials Photo"** button. You can still tap checklist pills — the photo and the checklist can be done in any order.
 
 1. Tap the **Take Materials Photo** button — the camera opens
-2. Take a photo of the parts, seals, fittings, or whatever materials you're about to use
+2. Take a photo of the parts, seals, fittings, or whatever materials you're using
 3. The photo uploads and the orange card disappears
-4. The checklist pills are now tappable
 
-The materials photo shows up in the item's photo strip like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the checklist works normally from the start (no prompt).
+The materials photo shows up in the item's photo grid like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the prompt won't appear.
 
 **Tap each pill to check off what you actually did.** Selected pills turn green; unselected ones stay outlined. You can tap a green pill again to uncheck it if you made a mistake.
 
 If you select **Other**, a text field appears where you can describe the work that doesn't fit the standard categories.
 
-**You must check at least one item on the repair checklist AND have a materials photo before you can tap Done.** If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
+**You must check at least one item on the repair checklist AND have a materials photo before you can tap Done.** You can do these in either order — check off work first and photograph materials later, or vice versa. If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
 
 Your selections save to the server immediately as you tap them — no need to hit a save button.
 
@@ -1312,6 +1329,7 @@ The timeline includes:
 - **Repair rounds** — each round's completed checklist items (Wiper, Seal, etc.). If the item failed a test and went back for another round, you'll see "Round 1: ..." and "Round 2: ..." entries separately, so the history of what was done in each round is always clear
 - **Test results** — PASSED or FAILED with who tested it and when
 - **Oil samples** — Clean or Dirty, who performed it, when, and any notes
+- **Marked Waiting / Resumed Work** — if the item was flagged as waiting, the timeline shows when it was set (with the reason and notes) and when work resumed. Only the most recent waiting cycle is shown.
 - **Customer Contacted** — on Totaled items, shows the contact outcome and timestamp after the "Customer Contacted" action was submitted
 - **Cost** — total price with parts/labor/tax breakdown if applicable, plus manager approval status
 
@@ -1748,7 +1766,7 @@ When you flip **Training Mode** on:
 - Test jobs show up on **every device's** Job Board and Work Queue, just like real ones
 - Job numbers get a `TEST-` prefix (e.g., `TEST-20260409-1`) so they're obvious at a glance
 - Every item tile gets a purple **TRAINING** badge in the top-left corner
-- A small purple **Training Mode** capsule floats at the top of every screen so nobody forgets they're in training
+- A small purple circle with a **graduation cap icon** floats at the top of every screen so nobody forgets they're in training
 
 When you turn it back off, the test jobs **instantly disappear from every device** — they're not deleted, just hidden. If you turn Training Mode back on later, they reappear.
 
@@ -1763,8 +1781,8 @@ When you flip **Local Test Mode** on:
 - Every new work order created on **this iPad** is marked as a test job AND scoped to this device only
 - Other iPads (Front Counter, Tech Station, other admin iPads) **never see** these test jobs — not on the board, not in the queue, not anywhere
 - Job numbers get the same `TEST-` prefix
-- Tiles get the same purple **TRAINING** badge
-- The same purple capsule appears at the top — but it says **Local Test Mode** so you know it's just you
+- Tiles get a pink **TEST** badge instead of the purple TRAINING badge — so you can tell at a glance whether a test job came from Training Mode or Local Test Mode
+- A small **pink circle** with a **test tube icon** floats at the top — visually distinct from Training Mode's purple graduation cap, so you always know which mode you're in
 - **Existing training jobs stay visible** on this iPad — so if you were just demoing in Training Mode and now want to keep poking solo, you can pick up right where you left off without recreating anything. Only your own brand-new jobs (the ones you create after switching) are scoped to this device.
 
 The setting is per-device, so it sticks across app restarts but doesn't follow you to a different iPad.
@@ -2099,7 +2117,7 @@ As long as you've opened the app at least once with a connection (so it can down
 - View photos that have been loaded before (they're saved on the iPad)
 - **Create a brand new work order** — the job will save as a draft automatically and finalize when you're back online
 - **Add a new customer** as part of a walk-in (even if you've never seen them before)
-- **Add items and service reasons** to a new or existing draft job
+- **Add items and service reasons** to a new or existing work order (draft or finalized)
 - **Capture photos** — they save to the iPad and upload when the connection returns
 - Grab items, mark repairs done, move items through the status flow
 - Add notes and check issue checklists
