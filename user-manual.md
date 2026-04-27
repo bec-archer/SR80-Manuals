@@ -1885,9 +1885,13 @@ Training Mode and Local Test Mode are mutually exclusive — you can have one on
 If a test job turns out to be something you actually want to keep — say you were demoing intake to Maria and she happened to be entering a real customer at the same time — you can promote it without recreating it from scratch.
 
 1. Open the test job (any device, but you have to be in Admin or admin-elevated)
-2. Tap the **Convert to Real Job** button (curved arrow icon) in the top-right toolbar
+2. Either:
+   - Tap the **Convert to Real Job** button (curved arrow icon) in the top-right toolbar, **or**
+   - Long-press the **TEST-** work order number near the top of the screen and choose **Convert to Real Job** from the menu
 3. Confirm the dialog
 4. The job gets a fresh real job number, drops the `TEST-` prefix, loses its TRAINING badge, and appears on every device's board as a normal live job
+
+> The long-press on the work order number is the same action as the toolbar button — pick whichever feels more natural. The confirmation dialog pops out from wherever you triggered it, so the test-mode badge at the top of the screen never blocks your view.
 
 The original test job number is replaced — there's no way to undo the conversion, but the job's items, photos, notes, and customer all carry over untouched.
 
@@ -1993,6 +1997,8 @@ If you don't like the codes that were generated, tap **Regenerate Codes** below 
 **If you're offline:** The app will still generate stickers and export the PDF. You'll see a small banner saying "Generated offline — collision check skipped." This just means the app couldn't verify the codes are unique against the database — with 729 million possible codes, duplicates are extremely unlikely.
 
 **Managing layouts:** Go to **Admin Settings** → **QR Stickers** → **Sticker Layouts** to create, edit, or set a default layout. The default layout is pre-selected when you open the generator.
+
+**Starting from an Avery template:** When creating a new layout (or editing an existing one), the form has a **"Start from Avery Template"** picker at the top. Pick a common Avery sheet — 5160 address labels, 5163 shipping labels, 5167 return address labels, 5164 full-sheet shipping, 5195 square labels, or 5408 round/square — and every dimension auto-fills (cell size, page margins, spacing, and a fitted QR size). The layout name pre-fills as "Avery [model]" so you can rename it. Every field stays editable, so the preset is just a starting point — tweak whatever needs adjusting for your label sheet. Choose **Custom** to skip the preset and enter dimensions by hand.
 
 **Tip on placement:** Stick the tag somewhere that won't be removed or covered during repair. The barrel of a cylinder works well. Avoid end caps, fittings, or anywhere that gets disassembled. The tag needs to survive the job and still be readable when the customer brings the equipment back years later.
 
