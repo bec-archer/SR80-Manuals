@@ -42,6 +42,7 @@
   - [Flagging a Company](#flagging-a-company)
 - [Tech Station](#tech-station)
   - [Repair Queue](#repair-queue)
+  - [Recently Completed Items](#recently-completed-items)
   - [Searching and Filtering the Queue](#searching-and-filtering-the-queue)
   - [Scanning a QR Tag (Tech Station)](#scanning-a-qr-tag-tech-station)
   - [Adding Photos from the Tech Station](#adding-photos-from-the-tech-station)
@@ -754,6 +755,25 @@ This card shows up as soon as the job has any costed content — you don't have 
 
 When every item on the job is Complete (green), a green **"Close Job"** button (or **"Close All N Items"** if there are multiple items) appears inside that same card, right below the Grand Total. Tap it, confirm, and you're done — all items close at once and the app takes you back to the Job Board. The job moves to the Closed section at the bottom of the board.
 
+#### Fixing a Wrong Cost (Long-Press the Grand Total)
+
+Tony fat-fingered a cost during testing? The customer negotiated a different price? You can correct any costed item's price right from the cost summary card — no admin unlock required.
+
+1. **Long-press** (press and hold for about half a second) the **Grand Total** row at the bottom of the cost summary card
+2. A menu appears:
+   - If the job has only one costed item, you'll see a single **"Edit Cost"** option
+   - If multiple items have costs, you'll see one option per item — **"Edit Item 1 — $350.00"**, **"Edit Item 2 — $125.00"**, etc., so you can pick exactly the one you need to fix
+3. Tap the option — the **Edit Cost** sheet opens pre-filled with the current values
+4. Adjust the total (or parts/labor breakdown if split is on), toggle taxable if needed, tap **Save**
+
+The cost updates immediately and the Grand Total recalculates. The item's status doesn't change — if it was Complete it stays Complete.
+
+**Every cost change is logged.** A timestamped note is automatically added to the item's notes timeline showing the old amount, the new amount, the iPad it was changed on, and (if someone is signed in) the employee's name. So if Maria fixes a cost on the Front Counter iPad while Justin is logged in, the note reads:
+
+> **System** — Cost updated from $350.00 to $325.00 by Front Counter iPad (Justin)
+
+This is the universal "we caught a mistake" path — anyone on any device can use it. The orange **Edit Cost** button on the item card (admin-only, requires admin unlock) is still there for in-flow corrections before close, but for the common shop-floor "wrong number, fix it now" case, the long-press is the right tool.
+
 #### Partial Pickup (Customer Takes Some Items, Not All)
 
 Sometimes a customer picks up one or two items but leaves others in the shop. When this happens:
@@ -1038,6 +1058,18 @@ Tap any card to open the item detail view with actions for whatever the item nee
 
 Pull down to refresh the queue. The grid adapts automatically when you rotate the iPad between landscape and portrait.
 
+### Recently Completed Items
+
+Below the active queue, you'll see a **"Completed · N"** row with a small chevron — that's where items go after they hit Complete or Closed. The number is how many items are in there. The section is **collapsed by default** so it stays out of the way of your active work.
+
+Tap the row to expand it. The chevron rotates and a grid of completed item cards appears below. Cards in the Completed section are shown at a slightly lower opacity than active items so it's easy to see at a glance that they're done. They're sorted with the **most recently finished item at the top**.
+
+You can still tap any completed card to open the item detail — useful when a customer comes back asking about a recent repair, or when you want to double-check what was done on something Maria already closed out.
+
+The search bar searches across both the active queue and the Completed section, so typing a customer name or job number will pull matches from both. Status, tech, and reason filters only apply to the active queue — the Completed section ignores those.
+
+Tap the row again to collapse it back down when you're done.
+
 ### Searching and Filtering the Queue
 
 The Tech Station has the same **search bar** and **filter button** as the Front Counter. On iPad, they're in the toolbar. On iPhone, they appear just below the navigation bar.
@@ -1251,11 +1283,12 @@ When you open an In Progress item, you'll see a **Repair Checklist** section wit
 
 **You need to take a photo of the materials used for the repair before you can mark the item Done.** This is so there's always a visual record of what parts and materials went into the job.
 
-If the item doesn't have a materials photo yet, you'll see an orange **"Photo Required"** card above the Repair Checklist header with a blue **"Take Materials Photo"** button. You can still tap checklist pills — the photo and the checklist can be done in any order.
+If the item doesn't have a materials photo yet, you'll see an orange **"Photo Required"** card above the Repair Checklist header with two buttons: a blue **"Camera"** button and a gray **"Library"** button. You can still tap checklist pills — the photo and the checklist can be done in any order.
 
-1. Tap the **Take Materials Photo** button — the camera opens
-2. Take a photo of the parts, seals, fittings, or whatever materials you're using
-3. The photo uploads and the orange card disappears
+- **Camera** — opens the camera so you can take a photo right now
+- **Library** — opens your photo library so you can pick a photo you already took (e.g., from your camera roll)
+
+Either way, the photo uploads and the orange card disappears.
 
 The materials photo shows up in the item's photo grid like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the prompt won't appear.
 
@@ -1744,8 +1777,9 @@ The file is named descriptively (e.g., `revenue-summary-2026-03-06-to-2026-04-06
 If a device needs to be reassigned (different role, different name, or just starting fresh):
 
 1. Open the Admin view on an admin-role device (or elevate admin access on the target device)
-2. Tap **Reset Device**
-3. The device will forget its identity and show the setup screen again on next launch
+2. Tap **Reset Device** at the bottom of the Admin settings list
+3. Confirm by tapping **Reset Device** again in the confirmation prompt
+4. The device will forget its identity and show the setup screen again
 4. Go through the setup process to assign a new name and role
 
 ---
