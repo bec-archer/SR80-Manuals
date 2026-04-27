@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.1 (in development)
-**Last Updated:** 2026-04-22
+**Last Updated:** 2026-04-27
 ---
 
 ## Table of Contents
