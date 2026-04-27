@@ -344,7 +344,16 @@ If the customer isn't in the system yet, tap **+ Add New Customer** to create on
 
 #### Company (Optional)
 
-Below the Customer field, in the same card, is the **Company** field. Start typing a company name and matching companies will appear as suggestions. Tap a suggestion to select that company, or type a brand new name — a new company record will be created automatically when you save the work order.
+Below the Customer field, in the same card, is the **Company** field. Start typing a company name and matching companies will appear as suggestions. Tap a suggestion to select that company.
+
+**Adding a new company:** If the company isn't in the system yet, tap **+ Add New Company** at the bottom of the suggestion list. A form opens pre-filled with the name you typed, where you can enter:
+
+- **Phone** (required) — main phone number for the company. Formats automatically as you type.
+- **Email** (optional)
+- **Tax Exempt** toggle — turn on if the company has a resale or tax-exempt certificate on file.
+- **Notes** (optional) — anything worth remembering about this account.
+
+Tap **Save** to create the company and lock it into the field. If the name already matches an existing company, you'll get that one back instead of a duplicate — so it's safe to tap the button if you're not sure whether the company is already on file.
 
 **What happens when you select a company:**
 - A row of customer name chips appears between the Customer and Company fields (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
