@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.1 (in development)
-**Last Updated:** 2026-04-27
+**Last Updated:** 2026-04-28
 ---
 
 ## Table of Contents
@@ -494,7 +494,9 @@ This works on both Front Counter and Tech Station, on any item with two or more 
 
 Tap any photo — the hero image or any thumbnail — to open it full-screen. If the item has multiple photos, **swipe left and right** to flip through all of them without closing and reopening. A small counter at the bottom (e.g., "3 / 7") shows which photo you're on. Items with only one photo won't show the counter or respond to horizontal swipes.
 
-To close, **tap anywhere** on the photo, tap the **X** button in the top-left corner, or **drag down** on the photo. The drag-to-close gesture only responds to mostly-vertical drags — horizontal swipes go to the next/previous photo instead.
+**Pinch to zoom in** on any photo to get a closer look at fine details — serial numbers, hairline cracks, fitting sizes, scribbled notes on a tag. You can zoom up to 5× the original size. While zoomed in, **drag with one finger** to pan around the photo. **Double-tap** to instantly zoom in (or zoom back out if you're already zoomed). Zoom resets automatically when you swipe to the next photo, so each photo starts fresh at full-fit.
+
+To close, **tap anywhere** on the photo (when zoomed out), tap the **X** button in the top-left corner, or **drag down** on the photo. The drag-to-close gesture only responds to mostly-vertical drags — horizontal swipes go to the next/previous photo instead. If you're zoomed in, a single tap resets the zoom rather than closing — tap the **X** or swipe to a different photo to dismiss.
 
 #### Marking Up Photos
 
