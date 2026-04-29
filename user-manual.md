@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.1 (in development)
-**Last Updated:** 2026-04-28
+**Last Updated:** 2026-04-29
 ---
 
 ## Table of Contents
@@ -49,7 +49,6 @@
   - [Adding Notes from the Tech Station](#adding-notes-from-the-tech-station)
   - [Working on Warranty Items](#working-on-warranty-items)
   - [No Warranty Flag (Tech Station)](#no-warranty-flag-tech-station)
-  - [Mark Complete (No Warranty)](#mark-complete-no-warranty)
   - ["Waiting" Flag (⏳) — Tech Station](#waiting-flag--tech-station)
   - [Editing Item Info from the Tech Station](#editing-item-info-from-the-tech-station)
   - [Grabbing an Item](#grabbing-an-item)
@@ -423,10 +422,17 @@ If the equipment has a sticker tag, tap **Scan Tag** in the item form and point 
 
 #### Saving
 
-The button in the top right changes based on what you've filled in:
+There are **two save buttons** on the New Work Order form, and they always do the same thing — pick whichever is closer:
+
+- **Top right of the toolbar** — small button next to the help (?) icon
+- **Bottom of the form** — large yellow button below the last item
+
+Both buttons show the same label, which changes based on what you've filled in:
 
 - **"Create Work Order"** — appears when all required fields are filled in. Which fields are required depends on your admin settings (see [Required Fields](#required-fields)), but by default it's customer and equipment type. If photos, description, or other fields are set to required, those must be filled in too. This creates the work order with a job number and makes it visible to the back shop.
 - **"Save as Draft"** — appears when required fields are still missing. This saves your progress so you can come back to it later. Drafts appear at the top of your Job Board with an orange badge but are NOT visible to the Tech Station.
+
+The bottom button exists so you don't have to scroll back up after filling in a multi-item job, and as a backup in the rare case the top toolbar button doesn't render on iOS 17.7. If you ever notice the top button missing, just use the one at the bottom — same result.
 
 **Tapping Back mid-form:** If you tap the **Back** button before finishing the form, ShopTracker saves your progress as a draft — including any photos you've already taken — and returns you to the Job Board. If you opened the form and didn't fill in anything at all, it just closes without creating a draft.
 
@@ -443,6 +449,21 @@ At the top you'll see a **header card** with:
 - **Item count** and **creation date/time**
 
 Draft jobs have a warm amber-tinted header, just like on the Job Board.
+
+#### Warning Banners (When Something Didn't Save Right)
+
+If you ever open a finalized work order and see a **red warning banner** at the top of the screen, that means something didn't make it to the server when the job was created — usually because the WiFi or cell signal blipped during save. This is rare, but it's important to fix when it happens so the job stays searchable and the right tag goes on the right job.
+
+Two banners can show up:
+
+- **"No customer linked to this job — Tap to link a customer"** — the job exists but has no customer attached. Tap the banner to open the customer picker and select the right customer; the banner disappears once the link is saved. Until you fix this, the job won't appear when you search by customer name.
+- **"Items failed to load — Pull down to refresh"** — the items are on the server, but the app couldn't load them this time. Pull down on the screen to refresh; the items should appear. If they don't, your connection is probably still spotty — wait a moment and try again, or move closer to the access point.
+
+Drafts never show these banners — incomplete data is expected while a draft is being filled in. The banners only appear on finalized work orders, where every job is supposed to have a customer and items.
+
+If you see one of these banners on a job, **don't create a duplicate work order to "redo" it.** The job is already saved. Just fix the missing piece using the banner's tap action, and you're done.
+
+You may also see a similar warning when you tap **Create Work Order**: an alert titled **"Work order saved with issues"** means the job did make it to the server, but a piece of the data (usually the customer link) didn't arrive. Tap OK, head to the Job Board, find the new work order, and use the red banner inside to fix it. This is different from the **"Couldn't save work order"** alert — that one means the save failed completely and you'll need to try again.
 
 Below the header, each **item** gets its own card. On jobs with multiple items, **items that are ready for action float to the top automatically** — Complete items appear first (ready for customer pickup and payment), then Totaled items (awaiting customer contact), then everything else in their normal order. This means you always see what needs your attention first, without scrolling past items that are still being worked on.
 
@@ -472,6 +493,8 @@ Collapse state resets every time you open a job, so you always start fresh.
 If photos have been taken for an item, the first photo is shown as a **square hero photo** — a large cropped preview sized to fill the available width so details are easy to see at a glance. On iPad this fills the left column; on iPhone it appears at the top of the card. Below the hero is a grid of smaller thumbnails for any additional photos, with **Camera** and **Library** buttons at the end. Thumbnails wrap into rows to fit the available space — the buttons are always visible, even with many photos. Tap the hero or any thumbnail to view it full-screen. Photos that have been marked up show a small pencil badge so you can tell at a glance which ones have annotations.
 
 You can add more photos to any item at any time, regardless of its status. Tapping **Camera** opens the continuous camera: the shutter stays open so you can take multiple shots in one go, with a thumbnail strip at the bottom. If you snap a bad one, tap the **X** on its thumbnail to remove it — the photo is deleted immediately. Tap **Done** when you're finished. New photos upload immediately and appear in the grid.
+
+If the network was flaky when you opened the item and a photo couldn't load, the hero spot shows a small **photo + refresh icon** instead of the loading spinner. **Tap it** to retry — usually the photo loads on the second attempt once the network has caught up. (You'll only see this in unusual cases; the app retries on its own three times before giving up.)
 
 #### Deleting Photos
 
@@ -644,24 +667,24 @@ Once a tech grabs the item (moves it to In Progress), the intake fields lock. Th
 
 Some repairs don't come with a warranty — a cylinder the customer drilled into, equipment that's beyond normal wear limits, or any job where you and the customer have agreed that the work is best-effort only. The No Warranty flag lets you document that so there's no confusion later.
 
+**No Warranty is just a tag.** It doesn't change the workflow. The item still goes through the normal repair → test → cost → checkout flow exactly like any other item — testing happens, the cost sheet appears after a passed test, the manager approval popup fires for non-zero costs. The No Warranty flag is purely a record of what was agreed with the customer, used at pickup to set expectations about warranty obligation.
+
 By default, the No Warranty control lives on the Tech Station side, after an item has been checked in. See "No Warranty Flag (Tech Station)" in the Tech Station section of this manual for how techs set and clear it. Admins can opt the Front Counter in via a Shop Settings toggle — see "Front Counter: No Warranty" under Admin → Shop Settings for details.
 
 **What Front Counter sees (default — toggle off):**
-- You don't see the No Warranty pill at all during check-in or on existing items — not even on items the tech has already flagged. The whole control is hidden on Front Counter devices so there's no risk of Maria toggling something she shouldn't.
-- Items that were completed via the **Mark Complete (No Warranty)** action (see below) still show a brown **COMPLETE • NO WARRANTY** badge on the job board tile instead of the usual green **COMPLETE** badge, so the whole team can tell at a glance which items are going out the door without warranty.
+- You don't see the No Warranty toggle at all on Front Counter devices. Tech Station is the only place to flip the flag.
+- Items that have been flagged No Warranty still show a small dark **NO WARRANTY** pill next to the item reference in the header, so you can tell at a glance which items are flagged.
+- Items that reach Complete with the flag set show a brown **COMPLETE • NO WARRANTY** badge on the job board tile instead of the usual green **COMPLETE** badge.
 
 **What Front Counter sees when the admin has enabled it:**
-- An amber-orange **No Warranty on This Item** pill appears on the item card in the job detail view for items that are In Progress, Tested, or Complete.
-- The pill is tappable — Front Counter can set it with the exact same rules as Tech Station. Tapping opens a cost sheet, confirming moves the item to Complete with the No Warranty flag on, and non-zero costs route through the same **"Was that cost approved by a manager?"** popup as the normal flow. Long-press on an already-set pill lets you edit the cost later.
-- This is useful in shops where Maria is the one having the conversation with the customer about warranty terms at drop-off or pickup. If it's not useful for your shop, leave the setting off and the pill stays out of the way.
-
-**Mark Complete (No Warranty):**
-This is the other way in — available to any role on an item that's In Progress, Tested, or already Complete (as long as it isn't already flagged No Warranty). It lives in the item action area as a brown button labeled **Mark Complete (No Warranty)**. Tapping it opens the same **Mark as No Warranty** cost sheet the pill does. Optionally enter a cost, tap **Confirm**, and if the cost is non-zero you'll get the manager approval popup. On confirm the item jumps to Complete, the No Warranty flag turns on, any cost you entered is recorded, and the board tile gets the brown **COMPLETE • NO WARRANTY** banner as the audit trail. Use whichever entry point — the pill or the button — is closer to your thumb.
+- A brown **Mark No Warranty** button appears in the item action area on items that are In Progress, Tested, or Complete. Tapping it pops up a confirmation alert ("Mark No Warranty? — This item will be flagged No Warranty. Repair, testing, and cost continue normally."), and on confirm the flag is set.
+- Once an item is flagged, the same button changes to **Remove No Warranty**. Tapping it pops up a Remove confirmation; on confirm the flag clears. Cost and status are not affected.
+- This is useful in shops where Maria is the one having the conversation with the customer about warranty terms at drop-off or pickup. If it's not useful for your shop, leave the setting off and the toggle stays hidden.
 
 **Where the flag shows up:**
-- Amber-orange **No Warranty on This Item** pill on the item detail card (both Front Counter and Tech Station)
+- Small dark **NO WARRANTY** pill next to the item reference in the header (anywhere the item appears)
 - Brown **COMPLETE • NO WARRANTY** badge on the job board / tech queue photo tile once the item reaches Complete
-- Small dark **NO WARRANTY** pill next to the item reference in the header (unchanged from before)
+- Brown **Mark No Warranty** / **Remove No Warranty** button in the item action area (Tech Station + Admin always; Front Counter when the admin toggle is on)
 
 ### "On Fire" Priority Flag (🔥)
 
@@ -705,7 +728,7 @@ Sometimes work on an item has to stop — you're waiting on parts, seals, custom
 - If the item's repair is already done, you'll see **both** an orange **READY FOR TESTING** badge and an indigo **WAITING** badge stacked on the photo tile — "repair done, but blocked."
 - Waiting items sort to the **bottom** of the Tech Station queue — the opposite of On Fire, which sorts to the top.
 
-**Front Counter cannot set or clear the Waiting flag.** This is a repair-workflow action — only techs and admins can mark an item as waiting or resume work. If you see a waiting item and think the hold should be cleared, tell the tech.
+**Any role can set or clear the Waiting flag** (Front Counter, Tech Station, Admin) on any item past Checked In — through Disassembly, In Progress, Tested, Complete, and even Closed. Two real-world cases this covers: techs flagging mid-repair holds (waiting on parts, seals, customer approval), and Front Counter flagging post-checkout holds (waiting on customer payment, customer to come pick up, etc.). The button lives in the item action area on the same item detail card both roles already use; the same **Waiting** indigo button sets the flag and the green **Resume Work** button clears it. Reasons live in an admin-managed dropdown — admins can add a "Waiting on Payment" entry under **Admin → Manage Lists → Waiting Reasons** if it's not already there.
 
 **Filtering:** Tap the filter button on either the Job Board or Tech Station. There's a **"Show Waiting Items Only"** toggle in the Waiting section — flip it on to see only blocked items. A "Waiting Only" chip appears below the toolbar; tap X to remove it.
 
@@ -981,7 +1004,7 @@ If a customer has been causing problems — warranty fraud, bringing in differen
 
 Any device role can set a flag — Front Counter, Tech Station, or Admin. If a tech in the back notices something sketchy, they can flag the customer right from their station.
 
-**What it looks like:** Once flagged, an amber warning banner appears at the top of the customer's detail screen showing the reason, who flagged them, and when. This same banner also shows up on every job detail view for that customer, on the Tech Station item detail, and during new job creation if someone selects that customer. On the Job Board, flagged customers' job cards show a small flag icon so Maria can spot them at a glance without opening the job.
+**What it looks like:** Once flagged, an amber warning banner appears at the top of the customer's detail screen showing the reason, who flagged them, and when. The same banner appears on the Job Detail view **directly below the customer card** so anyone opening the job sees it immediately — no scrolling. It also shows up on the Tech Station item detail and during new job creation if someone selects that customer. On the Job Board, flagged customers' job cards show a small flag icon so Maria can spot them at a glance without opening the job.
 
 The flag is informational — it doesn't block anything. You can still create jobs, check in warranty work, and process pickups for a flagged customer. It just makes sure everyone knows the deal.
 
@@ -1047,7 +1070,17 @@ The Tech Station iPad is the back shop's primary tool. It shows a queue of all i
 
 ### Repair Queue
 
-When you open the app on a Tech Station device, you see the **item queue** — a grid of cards showing all items that need work. The cards are sorted by priority: Disassembly items first (they need attention next), then In Progress items, then items waiting for a tech to grab, then tested items that need a cost entered.
+When you open the app on a Tech Station device, you see the **item queue** — a grid of cards showing all items that need work. Cards are sorted by priority so the most urgent stuff is always at the top:
+
+1. **🔥 On Fire** — customer crisis, do this next.
+2. **Assign Zone** (blue→purple "Assign Zone" capsule) — items that finished checkout but never got placed in Zone 1 or Zone 2. Pickup is blocked until they're zoned, so they sit just below On Fire.
+3. **Needs Price** (green→teal "Needs Price" capsule) — items that passed testing but no price has been entered yet. The card also gets a subtle green tint. When a customer calls back with a quote, you don't have to scroll to find their item.
+4. **Ready for Testing** — repair done, waiting on a tester (orange tint).
+5. **Disassembly** — items getting taken apart for inspection. *(Only present when the **Disassembly Step** admin toggle is ON. With the toggle OFF — the default — items skip this step entirely and go straight to In Progress when grabbed.)*
+6. **In Progress** — active repairs that aren't yet done.
+7. **Checked In** — items that haven't been grabbed by a tech yet.
+
+Below all of those, **Waiting** items (indigo border + ⏳ badge) sink to the bottom regardless of their status — see ["Waiting" Flag (⏳) — Tech Station](#waiting-flag--tech-station) below.
 
 Each card shows:
 
@@ -1062,7 +1095,9 @@ Photos load in the background, so cards appear instantly and photos fill in a mo
 
 Items with the READY badge also have a warm orange tint on the card so they stand out.
 
-**On Fire items** — if the front counter has marked an item urgent, you'll see a **red border** around its photo tile and a **🔥 badge in the bottom-left corner**. On-fire items jump to the absolute top of the queue, above Ready for Test. Techs can't set or clear this flag — if you think something's urgent and it's not marked, or if something's marked on fire that shouldn't be anymore, tell the front counter.
+**On Fire items** — if the front counter has marked an item urgent, you'll see a **red border** around its photo tile and a **🔥 badge in the bottom-left corner**. On-fire items jump to the absolute top of the queue. Techs can't set or clear this flag — if you think something's urgent and it's not marked, or if something's marked on fire that shouldn't be anymore, tell the front counter.
+
+**Needs Price items** — when a tester passes an item but no cost has been entered yet, the queue card shows a green **"Needs Price"** capsule (with a $ icon) instead of the plain "Tested" status text, and the card itself gets a soft green tint. These float just below Zone Assignment so when the customer calls back with a quote you can find the item fast. To enter the price, tap into the item detail and use the normal **Cost** button — once a price is recorded, the badge goes away and the item moves on through the workflow.
 
 **Waiting items** — items blocked on parts, seals, or approval have an **indigo border** and **⏳ badge**. They sink to the **bottom** of the queue so active work stays front and center. See ["Waiting" Flag (⏳) — Tech Station](#waiting-flag--tech-station) below for how to set and clear them.
 
@@ -1096,7 +1131,7 @@ The Tech Station has the same **search bar** and **filter button** as the Front 
 - Machine type or item description
 - Service reason (e.g., "Seal")
 
-**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, Disassembly, In Progress, Tested), Assigned Tech, Machine Type (if enabled), and Reason for Service (multi-select).
+**Filtering:** Tap the filter button to open a filter sheet with pickers for Equipment Type, Status (Checked In, In Progress, Tested — plus Disassembly when the Disassembly Step admin toggle is ON), Assigned Tech, Machine Type (if enabled), and Reason for Service (multi-select).
 
 The **Assigned Tech** picker shows every tech who currently has items in the queue, sorted alphabetically, plus an "Unassigned" option that filters to items no one has grabbed yet. This is handy when a supervisor wants to check a specific tech's workload, or when someone is covering for a colleague and wants to see just that person's items. The Assigned Tech filter is only available on the Tech Station — it does not appear on the Front Counter's filter sheet.
 
@@ -1155,36 +1190,30 @@ If the warranty item *fails* the test, it goes back to In Progress for another r
 
 ### No Warranty Flag (Tech Station)
 
-If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag it right from the tech detail view. Tapping the flag also moves the item to **Complete** in one shot, so you don't have to click through the tester / cost / approval steps separately. It's the fast lane for "this is done, no warranty on it, ship it to the front counter."
+If a repair doesn't carry a warranty — say, the customer's cylinder was drilled into, or the equipment came in already damaged beyond normal wear — you can flag the item from the tech detail view. **No Warranty is just a tag.** It doesn't change the workflow at all: the item still goes through the normal repair → test → cost → checkout flow exactly like any other item. Testing happens, the cost sheet appears after a passed test, the manager approval popup fires for non-zero costs. The flag is purely a record of what was agreed with the customer, used at pickup to set expectations about warranty obligation.
 
-Look for the amber-orange **No Warranty on This Item** pill on the item detail card. The pill only appears on items that have been checked in — it's hidden during the intake stage, so you'll see it from **In Progress** onwards through **Tested** and **Complete**.
+Look for the brown **Mark No Warranty** button in the item action area on items that are In Progress, Tested, or Complete. (It's hidden at intake, since the call about warranty hasn't usually been made yet.)
 
-**Setting the flag (first time):**
+**Setting the flag:**
 
-1. Tap the amber-orange **No Warranty on This Item** pill.
-2. A **Mark as No Warranty** sheet slides up with a cost field (or Parts + Labor fields if parts/labor split is enabled in admin settings). Underneath the title you'll see "Optionally enter a cost before sending to Front Counter." — the cost field is optional, you can leave it blank if you don't know the price yet.
-3. Tap **Confirm**. If you entered a cost, you'll see the same **"Was that cost approved by a manager?"** popup that shows up on normal priced jobs. Tap **Yes** to finish, or **No — I'll confirm first** to back out without saving anything. If you left the cost blank (or entered $0), the popup is skipped entirely.
-4. The item moves to **Complete** with the No Warranty flag on, and you'll see the amber pill fill in solid with white text.
+1. Tap **Mark No Warranty**.
+2. A confirmation alert appears: "Mark No Warranty? — This item will be flagged No Warranty. Repair, testing, and cost continue normally." Tap **Mark No Warranty** to confirm or **Cancel** to back out.
+3. The flag is now on. You'll see a small dark **NO WARRANTY** pill next to the item reference in the header, and the brown button now reads **Remove No Warranty**.
+4. Continue working the item exactly like normal: Mark Done → Test → Pass/Fail → cost sheet → manager approval → Checkout.
 
-**Editing the cost later (long-press):**
+**Removing the flag:**
 
-Change your mind on the price? Long-press (press and hold for about half a second) the amber pill on an item that's already flagged No Warranty. The **Edit No Warranty Cost** sheet opens with the current values pre-filled. Update them, tap **Save**, and you'll get the manager approval popup again if the new cost is non-zero. The item's status is **not** changed by this flow — it stays wherever it was, so this is safe to use even after an item has been closed.
+1. Tap the brown **Remove No Warranty** button.
+2. A confirmation alert appears: "Remove No Warranty? — This will remove the No Warranty flag. Cost and status are unaffected." Tap **Remove** to confirm.
+3. The flag clears. The item's status, cost, and everything else stay exactly where they were.
+
+**What if the item should be totaled instead?** Use the black **Totaled** button. No Warranty is for items that are getting repaired but won't carry a warranty obligation; Totaled is for items that can't be repaired at all.
 
 **What the team sees:**
 
-When the flag is on, you'll also see a dark **NO WARRANTY** pill next to the item reference in the header, and the front counter will see the same amber pill read-only on their side (unless an admin has turned on the Front Counter No Warranty setting — see the Admin section). The board tile shows a brown **COMPLETE • NO WARRANTY** badge instead of the usual green **COMPLETE** badge so everyone on the team can tell at a glance which items are going out without warranty.
+When the flag is on, you'll see a small dark **NO WARRANTY** pill next to the item reference in the header anywhere the item appears. Front Counter sees the pill read-only by default; the brown toggle button is only visible to FC if an admin has turned on the Front Counter No Warranty setting (see the Admin section). Once the item reaches Complete with the flag set, the board tile shows a brown **COMPLETE • NO WARRANTY** badge instead of the usual green **COMPLETE** badge so everyone on the team can tell at a glance which items are going out without warranty.
 
-If a tech on another station flagged the item first, you'll see the pill already on when you open the item. Long-press will still let you edit the cost.
-
-### Mark Complete (No Warranty)
-
-This is the other way to mark an item as No Warranty — same end result as tapping the pill, just in a different spot so you can find it from the main action button row.
-
-Look for the brown button labelled **Mark Complete (No Warranty)** in the item action area — it appears on items that are **In Progress**, **Tested**, or already at **Complete** (as long as they aren't already flagged no-warranty). Tapping it opens the same **Mark as No Warranty** cost sheet the pill does. Optionally enter a cost, tap **Confirm**, and if the cost is non-zero you'll see the **"Was that cost approved by a manager?"** popup.
-
-The net effect is identical to tapping the pill: the item flips to **Complete**, the No Warranty flag turns on, the cost (if any) is recorded, and the board tile gets the brown **COMPLETE • NO WARRANTY** badge. Use whichever entry point is closer to your thumb.
-
-Any role can use this — it's a workflow shortcut, not a permission check.
+If a tech on another station flagged the item first, you'll see the pill already on when you open the item, and the brown button will read **Remove No Warranty**. Whichever device you're on, the toggle works the same way.
 
 ### "Waiting" Flag (⏳) — Tech Station
 
@@ -1193,8 +1222,8 @@ When work on an item is blocked — you're waiting on parts, seals, customer app
 **Marking an item as Waiting:**
 
 1. Open the item detail view from the queue.
-2. Tap the **Waiting** button (indigo, hourglass icon) in the action buttons area. It appears on any Disassembly or In Progress item that isn't already waiting.
-3. A sheet pops up asking for a **reason** (dropdown — Waiting on Parts, Waiting on Seals, Waiting on Customer Approval, Waiting on Outside Service, or **Other**) and optional **notes** (free text, e.g., "ETA Friday, ordered from Parker"). If you pick **Other**, a required text field appears — describe what you're waiting on before you can confirm.
+2. Tap the **Waiting** button (indigo, hourglass icon) in the action buttons area. It appears on any item past Checked In (Disassembly, In Progress, Tested, Complete, or Closed) that isn't already waiting.
+3. A sheet pops up asking for a **reason** (dropdown — Waiting on Parts, Waiting on Seals, Waiting on Customer Approval, Waiting on Outside Service, Waiting on Payment if your admin has added it, or **Other**) and optional **notes** (free text, e.g., "ETA Friday, ordered from Parker"). If you pick **Other**, a required text field appears — describe what you're waiting on before you can confirm.
 4. Pick a reason, optionally add notes, and tap **Confirm**.
 
 The item immediately gets:
@@ -1248,29 +1277,36 @@ When multiple techs grab an item together, the item detail shows "Assigned to Ca
 
 Whoever grabs it first gets it. If techs need to change later, see "Managing Techs" below.
 
-**After grabbing, the item enters Disassembly status** — not In Progress. You need to complete the disassembly checklist before you can start the actual repair. See "Disassembly" below.
+**Where the item lands after Grab depends on the Disassembly Step admin setting** (Admin Settings → Shop Settings → Disassembly):
+
+- **Disassembly Step OFF (default):** Grab takes the item straight to **In Progress** with the materials photo prompt + repair checklist visible right away. There's no Disassembly button and no Disassembly sheet. Skip ahead to "Repair Checklist" below.
+- **Disassembly Step ON:** Grab takes the item to **Disassembly** status. You need to complete the disassembly checklist (or skip the optional parts) before the repair checklist becomes available. See "Disassembly" below.
 
 ### Disassembly
 
-After you grab an item, it goes into **Disassembly** status. The card tile shows an orange/yellow gradient **DISASSEMBLY** badge. When you open the item, instead of the normal repair checklist, you'll see a large orange **Disassembly** button.
+> **Note:** This entire section only applies when the **Disassembly Step** admin toggle is ON. By default it's OFF and items skip straight to In Progress when grabbed. If you don't see a Disassembly button anywhere, that's why.
 
-Tap the button to open the **Disassembly Sheet**. It has two sections:
+After you grab an item with Disassembly Step ON, it goes into **Disassembly** status. The card tile shows an orange/yellow gradient **DISASSEMBLY** badge. When you open the item, instead of the normal repair checklist, you'll see a large orange **Disassembly** button.
 
-**Oil Sample:**
+Tap the button to open the **Disassembly Sheet**. Which sections appear depends on the admin toggles for **Capture Disassembly Photos** and **Capture Oil Sample**:
+
+**Oil Sample** (only shown when Capture Oil Sample is ON):
 - Pick the oil condition: **Clean** or **Dirty** (segmented control)
 - Optional notes (e.g., "metallic particles visible")
 - Take photos of the oil sample — at least one photo is required when the section is not skipped
-- Select who performed the sample from the employee list
+- Select who performed the sample from the employee list (only shown if Track Oil Sample Performer is ON)
 
-**Disassembly Photos:**
+**Disassembly Photos** (only shown when Capture Disassembly Photos is ON):
 - Take photos of the disassembled equipment before you start repairs
 - Use the camera or pick from the photo library
 
-**Skipping sections:** If the admin hasn't required a section (see Admin Settings → Shop Settings → Disassembly Step), you'll see a **Skip** button in the section header. Tap it to collapse the section to a "Skipped" row with an **Undo** button in case you change your mind.
+**If both Capture toggles are OFF (parent ON, no children):** the sheet shows just a single green **Start Repair** button — no sections to fill in, just a confirmation gate before the item moves to In Progress.
+
+**Skipping sections:** If the admin hasn't required a section (see Admin Settings → Shop Settings → Disassembly), you'll see a **Skip** button in the section header. Tap it to collapse the section to a "Skipped" row with an **Undo** button in case you change your mind.
 
 When a section is **optional**, you don't actually have to tap Skip — **Save** and **Save & Start Repair** will be enabled either way. Skip is only there if you want to visually collapse the section. If you do fill in an optional oil sample (photo, notes, or performer), it'll still be recorded; if you leave it empty, nothing is written.
 
-**Two ways to finish:**
+**Two ways to finish (when at least one Capture section is ON):**
 
 - **Save** (top-right nav bar) — Uploads your photos and oil sample, then closes the sheet. The item **stays in Disassembly** so you can come back and add more photos or start the repair later. When you reopen the sheet, you don't need to re-enter anything — previously uploaded photos and oil samples are already counted as complete.
 - **Save & Start Repair** (green button at the bottom of the form) — Uploads everything AND moves the item to **In Progress**. The normal repair checklist becomes visible and you can start checking off work. Use this when you're done with disassembly and ready to repair.
@@ -1356,10 +1392,14 @@ If a different tech needs to take over after a failed test, use the **Manage Tec
 
 ### Oil Sample
 
-You can record an oil sample on any item that's at the **Ready for Test** or **Tested** stage. This is optional — not every item needs one. But when you do record one, at least one photo is required.
+> **Note:** The Oil Sample button only appears when the **Capture Oil Sample** admin toggle is ON (Admin Settings → Shop Settings → Disassembly → Capture Oil Sample). By default it's OFF and the button doesn't show up anywhere.
+
+When the toggle is ON, you can record an oil sample on any item that's currently in **Disassembly**, **In Progress**, **Tested**, or at **Checkout** — basically any tech-relevant status. This is optional — not every item needs one. But when you do record one, at least one photo is required.
+
+The button lives at the **bottom** of the action stack on the item detail (in its own row, separate from the per-status workflow buttons) so you can always find it in the same spot regardless of where the item is in the workflow.
 
 1. Open the item
-2. Tap the **Oil Sample** button (blue)
+2. Tap the **Oil Sample** button (blue, drop icon, at the bottom of the action stack)
 3. Pick the condition: **Clean** or **Dirty**
 4. Add any notes in the text field (optional)
 5. **Take at least one photo** — below the notes field you'll see **Camera** and **Library** buttons, same as the photo buttons used during intake. Tap Camera to snap a picture of the oil sample, or Library to pick one from the device. You can add multiple photos — each one appears as a thumbnail with an **X** to remove it if you change your mind. The Submit button stays disabled until you add a photo.
@@ -1409,10 +1449,10 @@ After testing, the item needs a cost before it can go back to the front counter.
 4. If the shop has **Sales Tax** enabled, you'll see a **"Taxable"** (or **"Taxable Parts"** in Parts + Labor mode) toggle. Turn it on if this item's parts are subject to sales tax. The sheet updates to show Subtotal, Tax, and Total so you can confirm the amount before submitting.
 5. Tap **Submit**
 6. You'll see a prompt: "Was that cost approved by a manager?" — tap **Yes** if a manager signed off, or **No** to go back and confirm first
-7. A **Zone Assignment** modal appears — tap **Zone 1 (Front)** or **Zone 2 (Back)** to record where the physical item has been placed
+7. A **Zone Assignment** modal appears — tap **Zone 1 (Front)** or **Zone 2 (Back)** to record where the physical item has been placed. If you can't zone it right now (still on the cart, walking away, etc.), tap **Cancel** in the toolbar — the item stays at Complete with no zone, the queue card surfaces the **Assign Zone** badge so you can find it later, and the workflow isn't blocked. You can re-open the picker any time from the prominent **Assign Zone** button on the item detail.
 8. You'll see a quick confirmation and the app takes you back to the queue
 
-The zone tells the front counter exactly where to find the item when the customer comes to pick up. This step is required — you can't skip it.
+The zone tells the front counter exactly where to find the item when the customer comes to pick up. The picker can be cancelled, but the item won't be ready for pickup until someone assigns a zone — the queue keeps surfacing it until that's done.
 
 For items with $0 cost, the manager approval step is skipped automatically, but zone assignment still fires.
 
@@ -1598,33 +1638,53 @@ The **Charge Tax on Parts** toggle enables sales tax collection for the shop. Wh
 
 #### Front Counter: No Warranty
 
-The **Front Counter: No Warranty** toggle controls who can mark items as No Warranty.
+The **Front Counter: No Warranty** toggle controls who can flip the No Warranty flag on items.
 
-- **Off (default):** Only Tech Station and Admin devices can see and use the **No Warranty on This Item** pill. The pill is completely hidden on Front Counter devices — even on items a tech has already flagged. This is the safer default: the call about whether a repair carries a warranty usually happens during the actual repair work, not at drop-off, so Tech Station is the natural place for it.
-- **On:** Front Counter gets the same rules as Tech Station. Maria will see the amber-orange **No Warranty on This Item** pill on any item that's In Progress, Tested, or Complete, and she can tap it to set or clear the flag herself.
+- **Off (default):** Only Tech Station and Admin devices see the brown **Mark No Warranty** / **Remove No Warranty** button on items. Front Counter still sees the small dark **NO WARRANTY** pill in item headers (read-only) on items that are already flagged, so they always know which items carry the flag — they just can't change it. This is the safer default: the call about whether a repair carries a warranty usually happens during the actual repair work, not at drop-off, so Tech Station is the natural place for it.
+- **On:** Front Counter gets the same rules as Tech Station. Maria will see the brown **Mark No Warranty** / **Remove No Warranty** button on any item that's In Progress, Tested, or Complete, and she can flip the flag herself.
 
 Flip this on if Maria is the one having the warranty conversation with the customer at check-in or pickup and needs to flag the item without waiting on a tech. Flip it back off if the shop wants to keep the decision tech-side.
 
-This toggle only affects who can *set* the flag. The brown **COMPLETE • NO WARRANTY** badge on completed job tiles is visible to everyone no matter how this setting is configured.
+This toggle only affects who can *flip* the flag. The small dark **NO WARRANTY** pill in item headers and the brown **COMPLETE • NO WARRANTY** badge on completed job tiles are visible to everyone no matter how this setting is configured.
 
-#### Disassembly Step
+#### Disassembly
 
-These toggles control what techs must complete in the Disassembly Sheet before they can start repairs on a grabbed item.
+This section controls whether the Disassembly status step exists at all and whether the photo + oil sample features show up inside it. **All three of these "Capture" toggles default to OFF** — the shop's current workflow drops the Disassembly step entirely. Flip them on if you want the longer workflow back.
 
-- **Require Oil Sample** — Off by default. When on, techs must complete the oil sample section (select an employee, take at least one photo) before submitting. When off, the section is treated as fully optional — Save and Save & Start Repair are enabled without any interaction, and a **Skip** button is also available if a tech wants to visually collapse the section.
-- **Require Disassembly Photos** — Off by default. When on, techs must take at least one disassembly photo before submitting. When off, a **Skip** button appears.
+The toggles are nested. The parent (**Disassembly Step**) gates the two children. The children only appear in this admin section when the parent is ON, and turning the parent OFF automatically turns both children OFF.
 
-Start with both off and flip them on once techs are comfortable with the disassembly flow. The sections are always *available* — these toggles just control whether they're *required* or *skippable*.
+**Disassembly Step** (parent) — Off by default.
+
+- **OFF:** When a tech grabs an intake item, it goes straight to **In Progress** with the materials photo prompt and repair checklist visible right away. No Disassembly button, no Disassembly sheet, no `.disassembly` status anywhere in the workflow. The Status filter on the Tech Station queue won't even offer "Disassembly" as an option.
+- **ON:** Grab routes the item to **Disassembly** status. Techs see a large orange Disassembly button on the item detail and complete the Disassembly Sheet before the repair checklist becomes available. (Whether the sheet has photo + oil sample sections, or collapses to just a "Start Repair" button, depends on the two child toggles below.)
+
+When the parent is ON, two more toggles appear:
+
+**Capture Disassembly Photos** — Off by default. When on, the Disassembly Sheet shows a section for taking photos of the disassembled equipment before repair starts. A **Require Disassembly Photos** sub-toggle appears underneath when this is on — flip that on if you want techs to be required to take at least one disassembly photo before submitting (instead of being able to skip).
+
+**Capture Oil Sample** — Off by default. When on, the Disassembly Sheet shows a section for taking an oil sample (Clean/Dirty + photo + optional notes) **and** a separate Oil Sample button appears on the item detail across all tech-relevant statuses (Disassembly, In Progress, Tested, Checkout) so techs can record samples at any point. Two sub-toggles appear underneath when this is on:
+
+- **Require Oil Sample** — Off by default. When on, techs must complete the oil sample section in the Disassembly Sheet (select an employee if Track Performer is on, take at least one photo) before submitting. When off, the section is fully optional — Save and Save & Start Repair are enabled without any interaction, and a Skip button is available if a tech wants to visually collapse the section.
+- **Track Oil Sample Performer** — Off by default. When on, an employee picker appears in the oil sample step and (if Require Oil Sample is also on) a performer must be selected.
+
+**The "Required" toggles only appear when their matching "Capture" toggle is on** — you can't require something that doesn't exist.
+
+Recommended starting points:
+- **Skip Disassembly entirely:** Leave all three Capture toggles OFF (the default). Techs grab and immediately see the repair checklist.
+- **Disassembly status step but skip the photos/sample inside:** Parent ON, both children OFF. Techs see the Disassembly button → "Start Repair" gate → repair checklist.
+- **Full disassembly workflow:** Parent ON, both children ON. Optional Required sub-toggles depending on how strict you want the workflow.
 
 #### Photo Backup
 
 This is a **safety net**, not normal operation. Use it on devices where you've seen photos go missing or where you want a recoverable copy outside the app.
 
-- **Save Photos to Device Gallery** — Off by default. When on, every photo taken in the app is *also* saved to that device's photo library (the same Photos app you use outside ShopTracker). This is in addition to the normal upload — photos still go to the work order as usual; the gallery copy is just a backup. The setting applies to **all** in-app captures: Front Counter intake photos, Tech Station repair photos, disassembly photos, materials photos, and any continuous-camera shots.
+- **Save Photos to Device Gallery** — Off by default. When on, every photo taken on **this iPad** in the app is *also* saved to that device's photo library (the same Photos app you use outside ShopTracker). This is in addition to the normal upload — photos still go to the work order as usual; the gallery copy is just a backup. The setting applies to **all** in-app captures on this device: Front Counter intake photos, Tech Station repair photos, disassembly photos, materials photos, and any continuous-camera shots.
+
+**This is a per-device setting** — flipping it on the FC iPad does not turn it on for the tech station iPad, and vice versa. Each iPad has its own photo library, and each iPad gets its own answer. Walk to whichever iPad you want backups on and toggle it there.
 
 The first time the toggle is on and someone tries to take a photo, iOS will pop up a permission prompt asking to "Add to Photos." Tap **OK** so the backup can actually save. If someone taps **Don't Allow**, the toggle stays on but no backups will save on that device — the upload to the work order still works fine. To re-enable the permission later, go to iOS **Settings → SR80 Job Tracking → Photos** and switch it on.
 
-The toggle is per-shop, but the photo library is per-iPad — backups only land on the device that took the photo. If photos start coming back (i.e., uploads work fine again), turn this off so the techs' Camera Rolls don't fill up with shop equipment shots.
+If photos start coming back reliably (i.e., uploads work fine again), turn this off on each device so the iPads' Camera Rolls don't fill up with shop equipment shots.
 
 #### Required Fields
 
@@ -2008,6 +2068,8 @@ If you don't like the codes that were generated, tap **Regenerate Codes** below 
 **If you're offline:** The app will still generate stickers and export the PDF. You'll see a small banner saying "Generated offline — collision check skipped." This just means the app couldn't verify the codes are unique against the database — with 729 million possible codes, duplicates are extremely unlikely.
 
 **Managing layouts:** Go to **Admin Settings** → **QR Stickers** → **Sticker Layouts** to create, edit, or set a default layout. The default layout is pre-selected when you open the generator.
+
+**Show shop name on stickers (off by default):** In **Admin Settings** → **QR Stickers** there's a **"Show shop name on stickers"** toggle. When OFF (the default), each sticker prints just the short code (slightly larger so it stays legible). When ON, the original "HYDRAULICS SR-80" line prints above the short code, just like before. The toggle is global and live — flipping it on the admin iPad immediately changes what every device prints, including reprints of older batches from Sticker History.
 
 **Starting from an Avery template:** When creating a new layout (or editing an existing one), the form has a **"Start from Avery Template"** picker at the top. Pick a common Avery sheet — 5160 address labels, 5163 shipping labels, 5167 return address labels, 5164 full-sheet shipping, 5195 square labels, or 5408 round/square — and every dimension auto-fills (cell size, page margins, spacing, and a fitted QR size). The layout name pre-fills as "Avery [model]" so you can rename it. Every field stays editable, so the preset is just a starting point — tweak whatever needs adjusting for your label sheet. Choose **Custom** to skip the preset and enter dimensions by hand.
 
