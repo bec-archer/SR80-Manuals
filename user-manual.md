@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.1 (in development)
-**Last Updated:** 2026-04-29
+**Last Updated:** 2026-04-30
 ---
 
 ## Table of Contents
@@ -297,6 +297,7 @@ The search checks all items within each job, so searching "Pump" will show any j
 - **Status** — show only jobs with items at a specific stage (Checked In, In Progress, Tested, Complete)
 - **Machine Type** — if machine types are turned on in admin settings, you can filter by those too
 - **Reason for Service** — tap one or more service reasons to filter by why the equipment was brought in. If you select multiple reasons, the job must have an item with ALL of those reasons.
+- **QR Tags** — flip the **"Show Items Without QR Tag Only"** toggle to narrow the board to jobs that still have at least one item without a QR sticker. A "No QR Tag" chip appears below the toolbar; tap **X** to remove it. Use this to find items that need stickers without walking the shop floor checking item-by-item. (Heads up: when you're offline, the app can't verify which items already have stickers, so this filter shows everything in the cache instead of hiding items it can't check — flip it back off until you're back on Wi-Fi.)
 
 When filters are active, the filter button fills in blue and a row of **filter chips** appears below the toolbar. Each chip shows what's being filtered (e.g., "Type: Cylinder") with an **X** to remove that specific filter. Tap **Clear All** to remove all filters at once.
 
@@ -456,7 +457,7 @@ If you ever open a finalized work order and see a **red warning banner** at the 
 
 Two banners can show up:
 
-- **"No customer linked to this job — Tap to link a customer"** — the job exists but has no customer attached. Tap the banner to open the customer picker and select the right customer; the banner disappears once the link is saved. Until you fix this, the job won't appear when you search by customer name.
+- **"No customer linked to this job — Tap to link a customer"** — the job exists but has no customer **and** no company attached. Tap the banner to open the customer picker and select the right customer; the banner disappears once the link is saved. Until you fix this, the job won't appear when you search by customer name. (Company-only jobs — where you intentionally created the work order with just a company and no individual customer — won't show this banner.)
 - **"Items failed to load — Pull down to refresh"** — the items are on the server, but the app couldn't load them this time. Pull down on the screen to refresh; the items should appear. If they don't, your connection is probably still spotty — wait a moment and try again, or move closer to the access point.
 
 Drafts never show these banners — incomplete data is expected while a draft is being filled in. The banners only appear on finalized work orders, where every job is supposed to have a customer and items.
@@ -537,7 +538,9 @@ Markup is available on every photo at every status — Front Counter intake phot
 
 Each item card has a **Notes** section where you can add timestamped notes at any point in the workflow — before repair, during, after, whenever.
 
-On iPad the **"Add a note..."** field sits in the right column below the equipment details. Type your note and tap the yellow send arrow. The note is saved immediately with your name and the exact time, and it appears in the Repair History timeline below.
+On iPad the **"Add a note..."** field sits in the right column below the equipment details. Type your note and tap the yellow send arrow. The note is saved immediately with the **device name** ("Front Counter iPad", "Back Shop Tech Station", whatever each device was named in setup) and the exact time, and it appears in the Repair History timeline below.
+
+Why the device name and not your personal name? Multiple techs share the same iPad during the day, and whoever happens to be admin-unlocked isn't necessarily the person typing the note. Attributing the note to the device is the truth — it tells you exactly which iPad the note came from, which is what matters for the audit trail.
 
 Notes are visible to both the front counter and the tech station. Maria can jot down customer instructions ("needs by Friday"), and Tony can document what he found during repair. Everyone sees the same history.
 
@@ -547,8 +550,9 @@ On iPad, the right column of every item card shows a **Repair History** — a ch
 
 Each event in the timeline shows a timestamp and looks like this:
 
+- **Checked in by [device] ([role])** — the originating event, logged automatically when the item was first created. Shows which iPad checked the item into the system (e.g. "Checked in by Front Counter iPad (front_counter)"). This is the first entry on every item's timeline.
 - **Grabbed by [tech name]** — when a tech claimed the item and started work
-- **[Author name]: [note content]** — any notes added by front counter or tech staff
+- **[Device name]: [note content]** — any notes added by front counter or tech staff. Notes are attributed to the iPad the note was typed on, not to whichever employee is currently admin-unlocked, because shop iPads are shared across techs throughout the day.
 - **Round N: [repairs]** — the issue checklist items the tech checked off (e.g., "Seal, O-ring"). If the item went through multiple repair rounds after a failed test, each round appears separately in order.
 - **Passed / Failed — [tester name]** — every test attempt is shown, not just the most recent. So if an item failed its first test and passed its second, you'll see both entries with their times.
 - **Oil: Clean / Dirty — [performer]** — if an oil sample was taken
@@ -1135,6 +1139,8 @@ The Tech Station has the same **search bar** and **filter button** as the Front 
 
 The **Assigned Tech** picker shows every tech who currently has items in the queue, sorted alphabetically, plus an "Unassigned" option that filters to items no one has grabbed yet. This is handy when a supervisor wants to check a specific tech's workload, or when someone is covering for a colleague and wants to see just that person's items. The Assigned Tech filter is only available on the Tech Station — it does not appear on the Front Counter's filter sheet.
 
+The **QR Tags** section has a **"Show Items Without QR Tag Only"** toggle. Flip it on to see only items whose linked equipment has no sticker yet (or that have no equipment record at all). A "No QR Tag" chip appears below the toolbar — tap **X** to remove it. Useful for sweeping the bench to find what still needs to be stickered without checking each item one by one. Offline note: when you're disconnected the app can't tell which items have already been stickered, so the filter falls back to showing everything in the cache rather than hiding items it can't verify.
+
 Active filters show as removable chips below the toolbar, same as the Front Counter. Tap **X** on a chip to remove it, or **Clear All** to reset everything.
 
 If nothing matches, you'll see "No Matching Items" instead of the grid.
@@ -1161,7 +1167,9 @@ The full markup toolbar is available: pens, markers, pencils, erasers, ruler, an
 
 ### Adding Notes from the Tech Station
 
-When you open an item detail from the tech queue, you'll see a **Notes** card between the item info and the test history. This works the same as on the front counter — type a note, tap the send arrow, and it's saved with your name and timestamp.
+When you open an item detail from the tech queue, you'll see a **Notes** card between the item info and the test history. This works the same as on the front counter — type a note, tap the send arrow, and it's saved with the **device name** (e.g. "Back Shop Tech Station") and a timestamp.
+
+Notes attribute to the iPad, not to whoever is admin-unlocked. The shop iPads are shared between techs throughout the day, so showing the device is more truthful than showing the most recent admin login. Action events that *do* matter for accountability — Grabbed by, Pass/Fail by, Manage Techs, Cost edits — still show the assigned tech's name. Notes are the casual annotation channel, and the device is what's loadbearing for those.
 
 Use notes to document what you found during disassembly, anything unusual about the repair, or messages for the front counter ("customer needs to approve cost before we proceed"). Notes from both the front counter and the tech station show up in the same timeline, so everyone stays on the same page.
 
@@ -1342,6 +1350,8 @@ If the item doesn't have a materials photo yet, you'll see an orange **"Photo Re
 
 Either way, the photo uploads and the orange card disappears.
 
+> **Tip:** While the orange prompt is showing, the regular Camera/Library buttons under the hero photo (the smaller ones in the photo strip) **also count** — any photo you take while the prompt is on screen will satisfy the requirement automatically. So if you're already in a "take photos" rhythm and use the photo strip's Camera button by reflex, you don't need to start over with the orange prompt's button. Once the requirement is satisfied, additional photos go in as regular repair photos like normal.
+
 The materials photo shows up in the item's photo grid like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the prompt won't appear.
 
 **Tap each pill to check off what you actually did.** Selected pills turn green; unselected ones stay outlined. You can tap a green pill again to uncheck it if you made a mistake.
@@ -1475,8 +1485,13 @@ If an item is unfixable:
 1. Open the item
 2. Tap the **Totaled** button (black in light mode, white in dark mode)
 3. Confirm — the item is now marked Totaled and shows a black TOTALED banner on the job card
+4. The **Enter Diagnostic Cost** sheet pops up automatically — type the cost of the time and parts you spent diagnosing the item (even if it's $0) and tap **Submit**
 
-**Adding a diagnostic cost (optional):** After marking an item Totaled, you'll see an **"Add Cost"** button. Tap it to enter the diagnostic cost — the same cost entry form you use for normal items. If the cost is more than $0, you'll see the manager approval prompt. If there's no charge, you can skip this entirely — cost entry is not required.
+If the cost is more than $0, you'll see the manager approval prompt — confirm that the cost was approved and the entry is saved. If the cost is $0, the approval step is skipped automatically (nothing to approve). After submitting, you'll see a brief "Cost Submitted!" confirmation and the app returns you to the repair queue.
+
+**Why we ask for a cost on Totaled items:** Even if the equipment can't be saved, the time spent diagnosing it is real labor that has to be billed. Capturing it the moment you mark the item Totaled means the number gets entered while the work is fresh in your head, instead of getting lost when Front Counter calls the customer hours later.
+
+**If you need to skip the cost prompt for now:** Tap **Cancel** on the cost sheet (or **No — I'll confirm first** on the manager approval). The item still moves to Totaled status, just without a cost yet. Front Counter will see an **"Add Cost"** button on the item and can record the cost later, or you can come back and tap **"Add Cost"** yourself when you have the number.
 
 The item stays in Totaled status after cost entry (it does NOT move to Complete). The Front Counter handles closing Totaled items through the "Customer Contacted" flow.
 
@@ -2065,13 +2080,13 @@ Each sticker has a unique code on it (looks like **SR-A3KX7N**). The codes are m
 
 If you don't like the codes that were generated, tap **Regenerate Codes** below the Export button to get a fresh set. The old batch stays in the system's history for record-keeping.
 
-**If you're offline:** The app will still generate stickers and export the PDF. You'll see a small banner saying "Generated offline — collision check skipped." This just means the app couldn't verify the codes are unique against the database — with 729 million possible codes, duplicates are extremely unlikely.
+**If you're offline:** Sticker generation needs an internet connection. The screen will show **"Offline — connect to Wi-Fi to generate a batch"** and the yellow **Generate Batch** button will be disabled until you reconnect. (This is intentional — the app needs to check the database to make sure new codes don't overlap with existing ones. Connect to Wi-Fi, the button lights up, and you're back in business.) Re-printing an already-generated batch from **Sticker History** still works offline, since the codes are already saved on the device.
 
 **Managing layouts:** Go to **Admin Settings** → **QR Stickers** → **Sticker Layouts** to create, edit, or set a default layout. The default layout is pre-selected when you open the generator.
 
 **Show shop name on stickers (off by default):** In **Admin Settings** → **QR Stickers** there's a **"Show shop name on stickers"** toggle. When OFF (the default), each sticker prints just the short code (slightly larger so it stays legible). When ON, the original "HYDRAULICS SR-80" line prints above the short code, just like before. The toggle is global and live — flipping it on the admin iPad immediately changes what every device prints, including reprints of older batches from Sticker History.
 
-**Starting from an Avery template:** When creating a new layout (or editing an existing one), the form has a **"Start from Avery Template"** picker at the top. Pick a common Avery sheet — 5160 address labels, 5163 shipping labels, 5167 return address labels, 5164 full-sheet shipping, 5195 square labels, or 5408 round/square — and every dimension auto-fills (cell size, page margins, spacing, and a fitted QR size). The layout name pre-fills as "Avery [model]" so you can rename it. Every field stays editable, so the preset is just a starting point — tweak whatever needs adjusting for your label sheet. Choose **Custom** to skip the preset and enter dimensions by hand.
+**Starting from an Avery template:** When creating a new layout (or editing an existing one), the form has a **"Start from Avery Template"** picker at the top. Pick a common Avery sheet — 5160 address labels, 5163 shipping labels, 5167 return address labels, 5164 full-sheet shipping, 5195 square labels, **22805 square labels (1.5" × 1.5", 24/sheet)**, or 5408 round/square — and every dimension auto-fills (cell size, page margins, spacing, and a fitted QR size). The layout name pre-fills as "Avery [model]" so you can rename it. Every field stays editable, so the preset is just a starting point — tweak whatever needs adjusting for your label sheet. Choose **Custom** to skip the preset and enter dimensions by hand.
 
 **Tip on placement:** Stick the tag somewhere that won't be removed or covered during repair. The barrel of a cylinder works well. Avoid end caps, fittings, or anywhere that gets disassembled. The tag needs to survive the job and still be readable when the customer brings the equipment back years later.
 
@@ -2139,6 +2154,8 @@ No more hunting through the queue for the right item. Scan the cylinder, start w
 **If the scan doesn't find anything:** The sticker hasn't been assigned to any item yet. You can assign it right now from any item's detail view — see "Assigning a Tag After Check-In" below. If the tag was retired, the app will tell you — see "Scanning Old / Retired Tags" below. If the equipment has no active job (closed or totaled), you'll see "No active item found" — creating new jobs is a Front Counter task. If you accidentally scan a shipping label or other non-shop QR code, you'll see **"Not an SR-80 tag"** — the app knows it's not one of ours because shop tags always start with "SR-".
 
 **If the sticker is too damaged to scan:** Tap **"Enter code manually"** below the viewfinder frame to type the code directly. The code is printed on the sticker label below the QR pattern. If the device has no camera or camera access is denied, manual entry is offered as the primary option.
+
+**If you switch apps with the scanner open:** The scanner closes itself when you leave the app, so you'll come back to whatever screen you were on before scanning (Job Board or the Tech Station queue). Tap the scan icon again to start a fresh scan. This is intentional — leaving a half-suspended camera open across an app switch can cause the camera to misbehave on later scans.
 
 ---
 
