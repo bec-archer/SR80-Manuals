@@ -2052,8 +2052,8 @@ Tap any report to see the full detail, which includes:
 - **Navigation Trail** — A breadcrumb trail showing the last screens the user visited before the report. This helps Bec figure out what path led to the problem (e.g., "Job Board → Job Detail → Item Detail → Ladybug Report").
 - **Details** — Device info, trigger type, timestamps.
 - **Description** — What the user typed (if anything).
-- **Error Log** — Recent technical errors logged by the app.
-- **App State** — A snapshot of what the app was doing at the time (sync status, which screen was open, etc.).
+- **Error Log** — Recent technical errors logged by the app. If the log is long, only the first 20 KB is shown by default with a footer noting how much is hidden. Tap **Show All** to render the rest, or **Copy** to put the full log on your clipboard so you can paste it into Notes or an email. (The truncation is just for display speed — the full log is always saved.)
+- **App State** — A snapshot of what the app was doing at the time (sync status, which screen was open, etc.). Same Show All / Copy behavior as the Error Log if the snapshot is large.
 
 #### Auto-Reporting
 
