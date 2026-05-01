@@ -249,7 +249,7 @@ The help content is bundled into the app, so it works even when the shop's inter
 When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
 - **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile — slightly tilted, same as V1.
-- **Assigned tech** — if a tech has been assigned to any item on the job, a small dark chip appears in the bottom-left of the photo area showing who's working on it (e.g., "Rudy" or "Rudy, Tony" if multiple techs are on different items). This lets the Front Counter see at a glance which tech has each job without opening the detail view.
+- **Assigned tech** — if a tech has been assigned to any item on the job, a small dark chip appears in the bottom-left of the photo area showing who's working on it (e.g., "Joe" or "Joe, Tony" if multiple techs are on different items). This lets the Front Counter see at a glance which tech has each job without opening the detail view.
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
 - **Customer phone number** (tappable — tap to call or text), **name**, and **company name** (if the job is linked to a company — shown in smaller text below the customer name)
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
@@ -1339,21 +1339,19 @@ Manage Techs is available on Tech Station and Admin devices, on any Disassembly 
 
 When you open an In Progress item, you'll see a **Repair Checklist** section with green pill-shaped buttons for each type of repair work: Wiper, Seal, Buffer Seal, Wear Bands, U Seal, Epoxy, Welding, Rod Damage, Oil Sample, Dented, and Other.
 
-#### Materials Photo Required
+#### Photo Required
 
-**You need to take a photo of the materials used for the repair before you can mark the item Done.** This is so there's always a visual record of what parts and materials went into the job.
+**You need at least one photo on the item before you can mark it Done.** Any photo counts — a shot of the damage when you first opened it up, an in-progress photo, or a photo of the new materials laid out. The point is that there's always a visual record of the work for this item, not strictly a materials shot.
 
-If the item doesn't have a materials photo yet, you'll see an orange **"PHOTO REQUIRED"** card above the Repair Checklist header reminding you to take one. You can still tap checklist pills while it's showing — the photo and the checklist can be done in any order.
+You'll see an orange **"PHOTO REQUIRED"** card above the Repair Checklist header for the entire time the item is In Progress (until you mark it Ready for Testing). It stays up the whole time as a reminder — it doesn't disappear after your first photo, because most techs shoot a damage photo first and the materials shot (if it makes sense for the job) usually comes later. Take photos throughout the repair as it makes sense; the orange card just reminds you that the item won't be ready for Done until something is on the photo strip.
 
-To satisfy the requirement, just use the regular **Camera** or **Library** buttons in the photo strip on the left (under the hero photo). While the orange card is showing, the next photo you take from those buttons gets auto-tagged as the materials photo and the orange card disappears. After that, additional photos go in as regular repair photos like normal.
-
-The materials photo shows up in the item's photo grid like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the prompt won't appear.
+To take a photo, use the regular **Camera** or **Library** buttons in the photo strip on the left (under the hero photo). Photos appear in the photo grid as normal — there's no special tag or category for the "Done gate" photo, it's just any photo on the item.
 
 **Tap each pill to check off what you actually did.** Selected pills turn green; unselected ones stay outlined. You can tap a green pill again to uncheck it if you made a mistake.
 
 If you select **Other**, a text field appears where you can describe the work that doesn't fit the standard categories.
 
-**You must check at least one item on the repair checklist AND have a materials photo before you can tap Done.** You can do these in either order — check off work first and photograph materials later, or vice versa. If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
+**You must check at least one item on the repair checklist AND have at least one photo on the item before you can tap Done.** You can do these in either order — check off work first and shoot photos later, or vice versa. If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
 
 Your selections save to the server immediately as you tap them — no need to hit a save button.
 
@@ -1366,7 +1364,7 @@ If an item fails a test and comes back for another round, the checklist resets t
 Once you've finished repairing an item and checked off what you did on the repair checklist:
 
 1. Open the item from the queue
-2. Make sure you've taken a **Materials Photo** and checked at least one item on the **Repair Checklist** (see above)
+2. Make sure you've taken at least one **Photo** of the item and checked at least one item on the **Repair Checklist** (see above)
 3. Tap the **Done** button (green)
 4. You'll see a **"Marked Done!"** confirmation, then the app takes you back to the queue
 5. The item stays in the "In Progress" section but now shows an orange **READY** badge — this tells testers it's waiting on them
