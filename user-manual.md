@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.1 (in development)
-**Last Updated:** 2026-04-30
+**Last Updated:** 2026-05-01
 ---
 
 ## Table of Contents
@@ -1343,14 +1343,9 @@ When you open an In Progress item, you'll see a **Repair Checklist** section wit
 
 **You need to take a photo of the materials used for the repair before you can mark the item Done.** This is so there's always a visual record of what parts and materials went into the job.
 
-If the item doesn't have a materials photo yet, you'll see an orange **"Photo Required"** card above the Repair Checklist header with two buttons: a blue **"Camera"** button and a gray **"Library"** button. You can still tap checklist pills — the photo and the checklist can be done in any order.
+If the item doesn't have a materials photo yet, you'll see an orange **"PHOTO REQUIRED"** card above the Repair Checklist header reminding you to take one. You can still tap checklist pills while it's showing — the photo and the checklist can be done in any order.
 
-- **Camera** — opens the camera so you can take a photo right now
-- **Library** — opens your photo library so you can pick a photo you already took (e.g., from your camera roll)
-
-Either way, the photo uploads and the orange card disappears.
-
-> **Tip:** While the orange prompt is showing, the regular Camera/Library buttons under the hero photo (the smaller ones in the photo strip) **also count** — any photo you take while the prompt is on screen will satisfy the requirement automatically. So if you're already in a "take photos" rhythm and use the photo strip's Camera button by reflex, you don't need to start over with the orange prompt's button. Once the requirement is satisfied, additional photos go in as regular repair photos like normal.
+To satisfy the requirement, just use the regular **Camera** or **Library** buttons in the photo strip on the left (under the hero photo). While the orange card is showing, the next photo you take from those buttons gets auto-tagged as the materials photo and the orange card disappears. After that, additional photos go in as regular repair photos like normal.
 
 The materials photo shows up in the item's photo grid like any other photo — there's no special badge or indicator. If you come back to the item later and a materials photo already exists, the prompt won't appear.
 
