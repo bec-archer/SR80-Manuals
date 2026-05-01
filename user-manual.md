@@ -295,6 +295,7 @@ The search checks all items within each job, so searching "Pump" will show any j
 
 - **Equipment Type** — show only jobs with a specific type of equipment (Cylinder, Pump, etc.)
 - **Status** — show only jobs with items at a specific stage (Checked In, In Progress, Tested, Complete)
+- **Assigned Tech** — show only jobs with at least one item assigned to a specific tech. Pick **Unassigned** to see jobs that still need a tech grabbed onto them. The list is built from the techs currently assigned somewhere on the board, so it stays short and relevant.
 - **Machine Type** — if machine types are turned on in admin settings, you can filter by those too
 - **Reason for Service** — tap one or more service reasons to filter by why the equipment was brought in. If you select multiple reasons, the job must have an item with ALL of those reasons.
 - **QR Tags** — flip the **"Show Items Without QR Tag Only"** toggle to narrow the board to jobs that still have at least one item without a QR sticker. A "No QR Tag" chip appears below the toolbar; tap **X** to remove it. Use this to find items that need stickers without walking the shop floor checking item-by-item. (Heads up: when you're offline, the app can't verify which items already have stickers, so this filter shows everything in the cache instead of hiding items it can't check — flip it back off until you're back on Wi-Fi.)
@@ -356,7 +357,7 @@ Below the Customer field, in the same card, is the **Company** field. Start typi
 Tap **Save** to create the company and lock it into the field. If the name already matches an existing company, you'll get that one back instead of a duplicate — so it's safe to tap the button if you're not sure whether the company is already on file.
 
 **What happens when you select a company:**
-- A row of customer name chips appears between the Customer and Company fields (e.g., "Rick M. | Joe S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
+- A row of customer name chips appears between the Customer and Company fields (e.g., "Rick M. | Dave S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
 - If the company is **tax exempt**, you'll see a green indicator: "Tax exempt (via ABC Construction)" in the footer below the card. The tax status comes from the company automatically.
 
 **Customer fills in the company automatically:** If you select a customer who's already linked to a company (or create a new customer with a company name), the Company field will auto-fill. You don't need to type it twice — the app connects the dots for you.
