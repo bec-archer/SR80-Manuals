@@ -107,7 +107,7 @@ ShopTracker is the repair tracking app for Hydraulics SR-80. It runs on iPads in
 
 There are three types of devices in the shop:
 
-- **Front Counter** — where Maria (or whoever's working the counter) checks equipment in, creates jobs, and handles customer pickup
+- **Front Counter** — where the front counter staff checks equipment in, creates jobs, and handles customer pickup
 - **Tech Station** — the iPad in the back shop where techs see their repair queue, log what they've done, and mark items as ready for testing
 - **Admin** — Bec, Jamie, or Lee's device with full access to everything: both views, settings, reports, and employee management
 
@@ -543,7 +543,7 @@ On iPad the **"Add a note..."** field sits in the right column below the equipme
 
 Why the device name and not your personal name? Multiple techs share the same iPad during the day, and whoever happens to be admin-unlocked isn't necessarily the person typing the note. Attributing the note to the device is the truth — it tells you exactly which iPad the note came from, which is what matters for the audit trail.
 
-Notes are visible to both the front counter and the tech station. Maria can jot down customer instructions ("needs by Friday"), and Tony can document what he found during repair. Everyone sees the same history.
+Notes are visible to both the front counter and the tech station. Front counter staff can jot down customer instructions ("needs by Friday"), and Tony can document what he found during repair. Everyone sees the same history.
 
 #### Repair History
 
@@ -684,7 +684,7 @@ By default, the No Warranty control lives on the Tech Station side, after an ite
 **What Front Counter sees when the admin has enabled it:**
 - A brown **Mark No Warranty** button appears in the item action area on items that are In Progress, Tested, or Complete. Tapping it pops up a confirmation alert ("Mark No Warranty? — This item will be flagged No Warranty. Repair, testing, and cost continue normally."), and on confirm the flag is set.
 - Once an item is flagged, the same button changes to **Remove No Warranty**. Tapping it pops up a Remove confirmation; on confirm the flag clears. Cost and status are not affected.
-- This is useful in shops where Maria is the one having the conversation with the customer about warranty terms at drop-off or pickup. If it's not useful for your shop, leave the setting off and the toggle stays hidden.
+- This is useful in shops where the front counter staff is the one having the conversation with the customer about warranty terms at drop-off or pickup. If it's not useful for your shop, leave the setting off and the toggle stays hidden.
 
 **Where the flag shows up:**
 - Small dark **NO WARRANTY** pill next to the item reference in the header (anywhere the item appears)
@@ -782,7 +782,7 @@ When all items on a job have been priced and approved (all showing green/Complet
 
 #### Closing an Entire Job (Most Common)
 
-Open the job from the Job Board. Right below the customer info card, you'll see the **cost summary card** — this is the one place that shows everything Maria needs to type into Square:
+Open the job from the Job Board. Right below the customer info card, you'll see the **cost summary card** — this is the one place that shows everything the front counter staff needs to type into Square:
 
 - **Labor lines** — one row per item with a labor cost. If there's only one, it's just "Labor $X". If there's more than one, they're numbered (**Labor #1**, **Labor #2**, …) and a bold **Labor Subtotal** row appears underneath.
 - **Hose lines** — one row per hose-side entry (the item's hose-bucket cost when split is on, each hose assembly, each fitting/adapter/seal). Same rule: single entry just says "Hose $X"; multiple get numbered (**Hose #1**, **Hose #2**, …) with a bold **Hose Subtotal** row underneath.
@@ -1009,7 +1009,7 @@ If a customer has been causing problems — warranty fraud, bringing in differen
 
 Any device role can set a flag — Front Counter, Tech Station, or Admin. If a tech in the back notices something sketchy, they can flag the customer right from their station.
 
-**What it looks like:** Once flagged, an amber warning banner appears at the top of the customer's detail screen showing the reason, who flagged them, and when. The same banner appears on the Job Detail view **directly below the customer card** so anyone opening the job sees it immediately — no scrolling. It also shows up on the Tech Station item detail and during new job creation if someone selects that customer. On the Job Board, flagged customers' job cards show a small flag icon so Maria can spot them at a glance without opening the job.
+**What it looks like:** Once flagged, an amber warning banner appears at the top of the customer's detail screen showing the reason, who flagged them, and when. The same banner appears on the Job Detail view **directly below the customer card** so anyone opening the job sees it immediately — no scrolling. It also shows up on the Tech Station item detail and during new job creation if someone selects that customer. On the Job Board, flagged customers' job cards show a small flag icon so the front counter staff can spot them at a glance without opening the job.
 
 The flag is informational — it doesn't block anything. You can still create jobs, check in warranty work, and process pickups for a flagged customer. It just makes sure everyone knows the deal.
 
@@ -1061,7 +1061,7 @@ If a company has a pattern of issues — multiple customers from the same outfit
 
 **Setting a flag:** Open the company's detail screen and tap **Flag Company** (flag icon). Type a reason and confirm. Any device role can set a company flag.
 
-**How it propagates:** When a company is flagged, the amber warning banner shows up on the company detail screen AND on every job for every customer under that company. If "Shady LLC" is flagged and three different drivers from Shady LLC come in on different days, Maria will see the flag warning on each of their jobs. The customer doesn't need to be individually flagged — the company flag covers everyone under it.
+**How it propagates:** When a company is flagged, the amber warning banner shows up on the company detail screen AND on every job for every customer under that company. If "Shady LLC" is flagged and three different drivers from Shady LLC come in on different days, the front counter staff will see the flag warning on each of their jobs. The customer doesn't need to be individually flagged — the company flag covers everyone under it.
 
 A customer can be flagged independently of their company. If both the customer AND their company are flagged, you'll see both banners (with their separate reasons) so nothing gets lost.
 
@@ -1118,7 +1118,7 @@ Below the active queue, you'll see a **"Completed · N"** row with a small chevr
 
 Tap the row to expand it. The chevron rotates and a grid of completed item cards appears below. Cards in the Completed section are shown at a slightly lower opacity than active items so it's easy to see at a glance that they're done. They're sorted with the **most recently finished item at the top**.
 
-You can still tap any completed card to open the item detail — useful when a customer comes back asking about a recent repair, or when you want to double-check what was done on something Maria already closed out.
+You can still tap any completed card to open the item detail — useful when a customer comes back asking about a recent repair, or when you want to double-check what was done on something the front counter staff already closed out.
 
 The search bar searches across both the active queue and the Completed section, so typing a customer name or job number will pull matches from both. Status, tech, and reason filters only apply to the active queue — the Completed section ignores those.
 
@@ -1414,7 +1414,7 @@ Photos upload automatically when you submit. Oil samples (with photos) show up i
 
 ### Repair History
 
-Below the Notes card on the item detail, there's a **Repair History** card — a chronological timeline of everything that's happened to the item, in order. This is the same timeline Maria sees on the Front Counter, so both sides of the shop are always looking at the same story.
+Below the Notes card on the item detail, there's a **Repair History** card — a chronological timeline of everything that's happened to the item, in order. This is the same timeline the front counter staff sees on the Front Counter, so both sides of the shop are always looking at the same story.
 
 The timeline includes:
 
@@ -1619,8 +1619,8 @@ The **Show Machine Brand Field** toggle adds a "Machine Brand" field to the job 
 
 The **Show Color Field** toggle adds a color field to the job intake form for visual identification.
 
-- **Off by default.** Turn it on if Maria needs to describe the equipment's color at intake.
-- When Color is on, a second toggle — **Color Required** — appears. This controls whether techs and Maria *must* fill it in or whether it's just optional.
+- **Off by default.** Turn it on if the front counter staff needs to describe the equipment's color at intake.
+- When Color is on, a second toggle — **Color Required** — appears. This controls whether techs and the front counter staff *must* fill it in or whether it's just optional.
 - If you turn Color off, Color Required turns off automatically.
 
 #### Cost Entry — Parts + Labor Split
@@ -1650,9 +1650,9 @@ The **Charge Tax on Parts** toggle enables sales tax collection for the shop. Wh
 The **Front Counter: No Warranty** toggle controls who can flip the No Warranty flag on items.
 
 - **Off (default):** Only Tech Station and Admin devices see the brown **Mark No Warranty** / **Remove No Warranty** button on items. Front Counter still sees the small dark **NO WARRANTY** pill in item headers (read-only) on items that are already flagged, so they always know which items carry the flag — they just can't change it. This is the safer default: the call about whether a repair carries a warranty usually happens during the actual repair work, not at drop-off, so Tech Station is the natural place for it.
-- **On:** Front Counter gets the same rules as Tech Station. Maria will see the brown **Mark No Warranty** / **Remove No Warranty** button on any item that's In Progress, Tested, or Complete, and she can flip the flag herself.
+- **On:** Front Counter gets the same rules as Tech Station. the front counter staff will see the brown **Mark No Warranty** / **Remove No Warranty** button on any item that's In Progress, Tested, or Complete, and she can flip the flag herself.
 
-Flip this on if Maria is the one having the warranty conversation with the customer at check-in or pickup and needs to flag the item without waiting on a tech. Flip it back off if the shop wants to keep the decision tech-side.
+Flip this on if the front counter staff is the one having the warranty conversation with the customer at check-in or pickup and needs to flag the item without waiting on a tech. Flip it back off if the shop wants to keep the decision tech-side.
 
 This toggle only affects who can *flip* the flag. The small dark **NO WARRANTY** pill in item headers and the brown **COMPLETE • NO WARRANTY** badge on completed job tiles are visible to everyone no matter how this setting is configured.
 
@@ -1708,7 +1708,7 @@ Required fields block job creation until they're filled in. Toggle each field on
 - **Machine Brand** — only visible when the Machine Brand field is turned on
 - **Color** — only visible when the Color field is turned on
 
-If a required field is missing when Maria tries to create a job, the button stays on "Save as Draft" instead of "Create Work Order." The same enforcement applies when finalizing an existing draft — the Finalize button stays disabled until all required fields are filled in on every item. On drafts, items missing required fields are highlighted with an orange background and a "Complete Item Info" banner.
+If a required field is missing when the front counter staff tries to create a job, the button stays on "Save as Draft" instead of "Create Work Order." The same enforcement applies when finalizing an existing draft — the Finalize button stays disabled until all required fields are filled in on every item. On drafts, items missing required fields are highlighted with an orange background and a "Complete Item Info" banner.
 
 #### Category Labels
 
@@ -1779,7 +1779,7 @@ Pull down to refresh the list.
 
 Tap any device row to open its edit sheet.
 
-- **Name** — type whatever makes sense for your shop (e.g., "Maria's iPad", "Back Shop Tech", "Bec's iPhone")
+- **Name** — type whatever makes sense for your shop (e.g., "the front counter staff's iPad", "Back Shop Tech", "Bec's iPhone")
 - **Role** — use the segmented picker to change the role: Front Counter, Tech Station, or Admin
 
 Tap **Save** when done.
@@ -1927,7 +1927,7 @@ Two toggles let you create fake test work orders without messing up the real job
 
 #### Training Mode (shop-wide)
 
-**Use this when:** Teaching the shop how to use the app — running a demo for Maria, walking a new tech through the queue, showing Lee a feature on his iPad while you have it open on yours.
+**Use this when:** Teaching the shop how to use the app — running a demo for the front counter staff, walking a new tech through the queue, showing Lee a feature on his iPad while you have it open on yours.
 
 When you flip **Training Mode** on:
 
@@ -1939,7 +1939,7 @@ When you flip **Training Mode** on:
 
 When you turn it back off, the test jobs **instantly disappear from every device** — they're not deleted, just hidden. If you turn Training Mode back on later, they reappear.
 
-> Training Mode broadcasts across the whole shop. If you flip it on while Maria is using the Front Counter iPad, her board will start showing test jobs too. That's the point — but give her a heads-up first.
+> Training Mode broadcasts across the whole shop. If you flip it on while the front counter staff is using the Front Counter iPad, her board will start showing test jobs too. That's the point — but give her a heads-up first.
 
 #### Local Test Mode (just this iPad)
 
@@ -1962,7 +1962,7 @@ Training Mode and Local Test Mode are mutually exclusive — you can have one on
 
 #### Convert a Test Job to a Real Job
 
-If a test job turns out to be something you actually want to keep — say you were demoing intake to Maria and she happened to be entering a real customer at the same time — you can promote it without recreating it from scratch.
+If a test job turns out to be something you actually want to keep — say you were demoing intake to the front counter staff and she happened to be entering a real customer at the same time — you can promote it without recreating it from scratch.
 
 1. Open the test job (any device, but you have to be in Admin or admin-elevated)
 2. Either:
@@ -2321,7 +2321,7 @@ A few things happen automatically in the background on reconnect:
 - **New customers** created offline get merged with any existing record automatically if the phone number already exists — the app figures it out and rewires the new job to the real customer without you lifting a finger.
 - **Live updates** from other devices come back online — the job board, work queue, and any open detail view refetch fresh data a few seconds after reconnect to catch anything that happened during the outage. You don't need to pull to refresh.
 
-If someone else made changes to the same item on a different device while you were offline, the app figures it out automatically. It compares what you changed against what the other device changed — if you edited different fields (e.g., you marked it Done while Maria added a note), both changes go through. If you both changed the same thing, the most recent change wins. You don't need to do anything — it just works.
+If someone else made changes to the same item on a different device while you were offline, the app figures it out automatically. It compares what you changed against what the other device changed — if you edited different fields (e.g., you marked it Done while the front counter staff added a note), both changes go through. If you both changed the same thing, the most recent change wins. You don't need to do anything — it just works.
 
 If something goes wrong during sync (rare), Bec can see it in **Admin Settings → Sync Status**. The dashboard shows which changes are pending, which failed, and why. From there you can retry failed items, force a sync, or clear the queue entirely if needed.
 
@@ -2346,7 +2346,7 @@ When two people are looking at the same job at the same time on different iPads,
 
 This works from any view where it matters:
 
-- **Job Board (Front Counter)** — if Tony moves an item to Tested in the back, Maria's board updates automatically. The status dot changes color, and if all items are now Complete, the job card reflects that.
+- **Job Board (Front Counter)** — if Tony moves an item to Tested in the back, the front counter staff's board updates automatically. The status dot changes color, and if all items are now Complete, the job card reflects that.
 - **Job Detail** — if you have a job open and a tech updates an item's status or adds a note on their device, your view updates live. You don't need to close and reopen the job.
 - **Tech Station Queue** — when an item becomes Ready for Test (tech marks repair done on another iPad), it floats to the top of the queue immediately. When a tech grabs an item, it updates on every device — so two techs can't accidentally grab the same one.
 - **Item Detail (Tech Station)** — if you're looking at a specific item and it gets updated on another device, the status badge, repair history, notes, photos, and checklist all update in place.
@@ -2359,7 +2359,7 @@ This just means the item moved to a different status while you had it open. Tap 
 
 #### Editing the same item at the same time
 
-If two people are filling in the same item's details simultaneously (e.g., both editing equipment info), the last save wins on a field-by-field basis — not the whole record. So if Maria is typing in the Description field and Tony changes the Equipment Type on his device, Tony's Equipment Type change comes through without touching Maria's Description. Whatever Maria saves last is what sticks for the Description field.
+If two people are filling in the same item's details simultaneously (e.g., both editing equipment info), the last save wins on a field-by-field basis — not the whole record. So if the front counter staff is typing in the Description field and Tony changes the Equipment Type on his device, Tony's Equipment Type change comes through without touching the front counter staff's Description. Whatever the front counter staff saves last is what sticks for the Description field.
 
 ---
 
