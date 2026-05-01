@@ -289,7 +289,7 @@ On iPad, the **search bar** and **filter button** (circle with three lines) sit 
 
 The search checks all items within each job, so searching "Pump" will show any job that has at least one pump in it. Tap the **X** in the search bar to clear your search and see all jobs again.
 
-**Complete filter:** Next to the search bar you'll also see a small **COMPLETE** button. Tap it to instantly show only jobs where every item is ready for pickup — the same jobs that have a green "COMPLETE" badge on their card. Tap it again to show all jobs. This is the fastest way to see exactly what's waiting at the counter.
+**Complete filter:** Next to the search bar you'll also see a small, green **COMPLETE** button. Tap it to instantly show only jobs where every item is ready for pickup — the same jobs that have a green "COMPLETE" badge on their card. Tap it again to show all jobs. This is the fastest way to see exactly what's waiting at the counter.
 
 **Filtering:** Tap the filter button (circle with three lines) to open a filter sheet with dropdown pickers:
 
