@@ -465,7 +465,7 @@ Drafts never show these banners — incomplete data is expected while a draft is
 
 If you see one of these banners on a job, **don't create a duplicate work order to "redo" it.** The job is already saved. Just fix the missing piece using the banner's tap action, and you're done.
 
-You may also see a similar warning when you tap **Create Work Order**: an alert titled **"Work order saved with issues"** means the job did make it to the server, but a piece of the data (usually the customer link) didn't arrive. Tap OK, head to the Job Board, find the new work order, and use the red banner inside to fix it. This is different from the **"Couldn't save work order"** alert — that one means the save failed completely and you'll need to try again.
+You may also see a similar warning when you tap **Create Work Order**: an alert titled **"Work order saved with issues"** means the job did make it to the server, but a piece of the data (usually the customer link, sometimes the company link on a customer who was just created with a brand-new company) didn't arrive. Tap OK, head to the Job Board, find the new work order, and use the red banner inside to fix it. If the alert specifically mentions the company link, open the customer record from the Customers tab and re-select the company there — the broken link lives on the customer, not on the work order. This is different from the **"Couldn't save work order"** alert, which means the save failed completely and you'll need to try again.
 
 Below the header, each **item** gets its own card. On jobs with multiple items, **items that are ready for action float to the top automatically** — Complete items appear first (ready for customer pickup and payment), then Totaled items (awaiting customer contact), then everything else in their normal order. This means you always see what needs your attention first, without scrolling past items that are still being worked on.
 
@@ -660,9 +660,23 @@ Only drafts can be deleted this way. Finalized work orders cannot be deleted (us
 
 After a work order is finalized (no longer a draft), you can still edit an item's intake information — equipment type, machine type, service reasons, and description — **as long as the item hasn't been grabbed by a tech yet**.
 
-While the item is in **Checked In** status, you'll see a small **pencil icon** on the item card. Tap the card to open the edit sheet, make your changes, and tap **Save**.
+While the item is in **Checked In** status, you can edit it from the item card:
 
-Once a tech grabs the item (moves it to In Progress), the intake fields lock. The pencil icon disappears and tapping the card no longer opens the editor. This prevents accidental changes to information the tech is already working from.
+- **On iPad** — small yellow **pencil icon** in the top-right of the item header row (next to the QR code icon and the **Checked In** status pill). Tap it to open the edit sheet.
+- **On iPhone** — labeled **Edit** button (pencil glyph + "Edit" text) in a row directly below the hero photo, next to the equipment type label and the QR tag button. The header on iPhone keeps just the status pill and the collapse chevron so the buttons aren't crammed against the photo.
+
+Make your changes, then tap **Save**.
+
+Once a tech grabs the item (moves it to In Progress), the intake fields lock. The Edit button disappears and the editor no longer opens. This prevents accidental changes to information the tech is already working from.
+
+#### Adding or Replacing a QR Tag
+
+If a checked-in item came in without a QR sticker, you can add one from the same Job Detail screen — no need to go back to the new-item form:
+
+- **On iPad** — tap the small **QR code icon** in the top-right of the item header row. It lives next to the pencil icon.
+- **On iPhone** — tap the labeled **Add Tag** button (`qrcode.viewfinder` icon + "Add Tag" text) in the row below the hero photo. Once a tag is assigned, the same button shows a green **qrcode** glyph and reads **Tag** — tapping it shows the assigned code.
+
+Either path opens the QR scanner. Point at the sticker, the app links it to the item, and the next tech who scans the equipment lands on this exact item.
 
 **Photos and notes are never locked.** You can add photos and notes to any item at any status, even after the intake fields are locked.
 
@@ -997,9 +1011,15 @@ Tap **Save** to apply your changes. Tap **Cancel** to discard them.
 
 On Admin devices (or while admin-elevated), the **...** menu on a customer's detail screen includes **Delete Customer** in red.
 
-Tap it and you'll see a confirmation dialog warning that this is permanent. Any jobs that were linked to this customer will keep their data (items, photos, notes) but lose the customer association. Contacts under this customer are deleted automatically.
+Tap it and you'll see a confirmation dialog warning that this is permanent. Confirm, and a second sheet appears asking for the **admin PIN** before the deletion goes through. Enter the PIN and tap **Delete** — the customer is removed and the action is recorded in the security audit log.
+
+The PIN check happens every time you delete, even if you're already admin-unlocked. This is intentional — destructive actions on customer data ask for the PIN per-action so a left-unattended unlocked iPad can't be used to wipe records.
+
+Any jobs that were linked to this customer will keep their data (items, photos, notes) but lose the customer association. Contacts under this customer are deleted automatically.
 
 This cannot be undone.
+
+The same PIN-prompted flow applies when you delete a **contact** under a customer (from the Contacts section on the customer detail screen) or delete a **company** (from the company detail screen).
 
 ### Flagging a Customer
 
@@ -1718,6 +1738,27 @@ Whatever you type into these fields shows up everywhere on the operator side: jo
 
 To update a label, just type the new value and save (tap away from the field, or hit return). It takes effect immediately. No developers were harmed in the making of this feature (this time).
 
+#### Register Device Identity (Security)
+
+At the bottom of Shop Settings, while admin-unlocked, you'll see a **Security** section with a **Register Device Identity** row. This is how each iPad tells the database what role it's playing — Front Counter, Tech Station, or Admin — so the server can decide what data that device is allowed to read or change.
+
+**You only need to do this once per iPad, plus any time the role changes.** New iPads coming online for the first time get registered here. If you ever repurpose an iPad (e.g., move a Tech Station iPad to the front counter), re-register it under the new role.
+
+**How to register:**
+
+1. Open the app on the iPad you want to register
+2. Open Admin Settings → Shop Settings (admin-unlock if you haven't already)
+3. Scroll to the bottom and tap **Register Device Identity**
+4. Pick the role (Front Counter / Tech Station / Admin)
+5. Enter the admin PIN
+6. Tap **Register** and wait for the green checkmark
+
+The current role is shown on the row itself so you can tell at a glance what each iPad thinks it is.
+
+**Why this exists:** Without registration, the iPad can authenticate but the server doesn't know which physical role it represents. Customer search, deletions, and other protected operations check the server-side role on every request — an unregistered iPad will see empty searches or get rejected on writes. The "Register Device Identity" step is what bridges the local device setup to the server's permission system.
+
+**If an iPad stops loading customer data**, the most likely cause is that it hasn't been registered (or the registration was lost — usually because the device was reset). Walk over to the iPad, run through the registration flow, and it'll start working again.
+
 ### Manage Lists
 
 Manage Lists is where you control the dropdown options used throughout the app. Accessible from Admin Settings → **Manage Lists** under the "Shop" section.
@@ -1796,7 +1837,7 @@ Revoking removes a device's access until it goes through setup again. Use this i
 
 When a revoked device is opened again, it will show the Device Setup screen and need to be configured from scratch. The device keeps the same underlying identity (so it doesn't create a duplicate entry), but it'll need a new name, role, and admin PIN before it can be used.
 
-You **cannot revoke the device you're currently holding** — if you need to reassign your own device, do the reset from a different admin device, or use the **Reset Device** option in the Danger Zone at the bottom of Admin Settings.
+You **cannot revoke the device you're currently holding** — if you need to reassign your own device, do the reset from a different admin device, or use the long-press Reset Device gesture at the top of Admin Settings (see "Resetting a Device" below).
 
 #### Reactivating a Revoked Device
 
@@ -1912,10 +1953,13 @@ The file is named descriptively (e.g., `revenue-summary-2026-03-06-to-2026-04-06
 If a device needs to be reassigned (different role, different name, or just starting fresh):
 
 1. Open the Admin view on an admin-role device (or elevate admin access on the target device)
-2. Tap **Reset Device** at the bottom of the Admin settings list
-3. Confirm by tapping **Reset Device** again in the confirmation prompt
-4. The device will forget its identity and show the setup screen again
-4. Go through the setup process to assign a new name and role
+2. At the top of the Admin settings list, find the **Device** section showing the current device name
+3. **Long-press the device name row** (press and hold for about 1 second). A footer note under the section reads "Long press the device name to reset this device."
+4. When the PIN entry sheet appears, enter an admin PIN to confirm the reset
+5. The device will forget its identity and show the setup screen again
+6. Go through the setup process to assign a new name and role
+
+The long-press gesture is intentional — it's there to keep accidental taps from wiping a device. The admin PIN is the second layer of protection: anyone who long-presses still has to authenticate before the reset goes through.
 
 ---
 
