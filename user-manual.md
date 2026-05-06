@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.1 (in development)
-**Last Updated:** 2026-05-01
+**Last Updated:** 2026-05-06
 ---
 
 ## Table of Contents
@@ -894,24 +894,18 @@ The item gets a black TOTALED banner on the job card and enters the "Awaiting Cu
 
 #### Warranty Check-In
 
-If a customer comes back in because something failed that you repaired before, you can check it in as a **warranty job** directly from the Job Board — no need to create a brand new work order from scratch.
+If a customer comes back in because something failed that you repaired before, you can check it in as a **warranty job** without creating a brand new work order from scratch. Warranty is always handled at the **item** level — even if the original job had three cylinders, only the one that came back in gets flagged for warranty work.
 
 **How to start a warranty check-in:**
 
-You have two ways to kick one off — use whichever is faster:
+1. Find the original job in the **Closed section** at the bottom of the Job Board (tap the header to expand it).
+2. Tap the job card to open the job detail view.
+3. Scroll to the specific item that came back in. Below that item's card, you'll see a red **"Check In for Warranty"** button.
+4. Tap it and confirm in the sheet that appears.
 
-**Option 1 — from the job card (fastest):**
-1. Find the original job in the Closed section at the bottom of the Job Board (tap the header to expand it)
-2. **Long-press the job card** — hold for about a second
-3. A confirmation sheet appears: "Check in for warranty work?"
-4. Tap **Check In for Warranty**
+ShopTracker then creates a new work order for this customer, linked to the original job and pre-filled with the failed item, with the cost locked at $0. The new job opens just like a normal job — you can see it on the board, and it'll go through the full repair flow (Checked In → In Progress → Tested → Complete → Close).
 
-**Option 2 — from inside the job detail:**
-1. Open the original closed job by tapping its card
-2. Scroll to the item that came back in — you'll see a red **"Check In for Warranty"** button below that item's card
-3. Tap it, confirm in the sheet that appears
-
-Both options do the same thing: ShopTracker creates a new work order for this customer, linked to the original job, with the cost locked at $0. It opens just like a normal job — you can see it on the board, and it'll go through the full repair flow (Checked In → In Progress → Tested → Complete → Close).
+**Why item-level only?** Warranty is per-item by design. A multi-item job where only one cylinder came back in shouldn't drag the other (perfectly fine) items into a warranty flow. Pick the specific item that failed and start there.
 
 **What a warranty job looks like:**
 
@@ -919,7 +913,7 @@ Warranty jobs have a small **WARRANTY** badge on the gallery card so the whole t
 
 The $0 cost is locked in from the start. When the job reaches completion, the cost entry shows $0 and skips the manager approval step.
 
-[screenshot: long-press confirmation sheet on a closed job card]
+[screenshot: Check In for Warranty button on a closed item inside Job Detail]
 
 #### Warranty Flag — No Prior Job in the System
 
@@ -1004,6 +998,8 @@ Tap the **...** button in the top-right corner of any customer's detail screen a
 **Toggling off Tax Exempt** automatically removes the certificate link from the customer's record.
 
 Tap **Save** to apply your changes. Tap **Cancel** to discard them.
+
+**Editing a customer on a Tech Station iPad:** Tech Station iPads can normally only read customer info. If you need to fix a customer record on a Tech Station device — typo in a name, wrong phone number, etc. — tap **Save** and the iPad will ask for the **admin PIN** before applying the change. Same PIN flow as deleting a customer. The change goes through and is recorded in the security audit log. Front Counter and Admin iPads don't see this PIN prompt — they save directly because their device role already permits customer edits.
 
 **Quick edit from Job Detail:** You can also edit a customer directly from a job's detail view — tap the **pencil icon** next to the customer name in the header card. This opens the same edit form, including the contacts section. Handy when you need to add a contact without navigating to the Customers list.
 
@@ -1203,7 +1199,7 @@ When an item came back in because something failed from a previous repair, it sh
 When you open a warranty item, you'll see a red **"Previous Repair"** card near the top of the detail view, just below the header. This gives you context on what was done last time:
 
 - The **original job number** so you can look it up if needed
-- **Photos from the original repair** — the same photos the tech took when this item was first fixed. These load in a horizontal scroll strip so you can swipe through them.
+- **Photos from the original repair** — the same photos the tech took when this item was first fixed. These load in a horizontal scroll strip so you can swipe through them. **Tap any photo** to view it full-screen with pinch-to-zoom; swipe left/right inside the viewer to page through all the original-job photos. The fullscreen view is **read-only** — there's no Markup or Revert button on these, since they belong to the original (closed) job and shouldn't be edited from inside a warranty repair. Tap the X (or swipe down) to close.
 - **Issues found** — the repair checklist items the previous tech checked off (Seal, Wiper, etc.)
 - A **PASSED / FAILED** badge showing how the original test went
 
