@@ -1,8 +1,8 @@
 # ShopTracker User Manual
 
 **App:** ShopTracker (SR80)
-**Version:** 1.1 (in development)
-**Last Updated:** 2026-05-06
+**Version:** 1.3 (in development)
+**Last Updated:** 2026-05-08
 ---
 
 ## Table of Contents
@@ -347,14 +347,7 @@ If the customer isn't in the system yet, tap **+ Add New Customer** to create on
 
 Below the Customer field, in the same card, is the **Company** field. Start typing a company name and matching companies will appear as suggestions. Tap a suggestion to select that company.
 
-**Adding a new company:** If the company isn't in the system yet, tap **+ Add New Company** at the bottom of the suggestion list. A form opens pre-filled with the name you typed, where you can enter:
-
-- **Phone** (required) — main phone number for the company. Formats automatically as you type.
-- **Email** (optional)
-- **Tax Exempt** toggle — turn on if the company has a resale or tax-exempt certificate on file.
-- **Notes** (optional) — anything worth remembering about this account.
-
-Tap **Save** to create the company and lock it into the field. If the name already matches an existing company, you'll get that one back instead of a duplicate — so it's safe to tap the button if you're not sure whether the company is already on file.
+**Adding a new company:** If the company isn't in the system yet, just type the full name into the Company field and keep going — there's no separate "Add New Company" button anymore. When you save the work order, the app creates the company record automatically using whatever you typed. If the name happens to match an existing company (case-insensitive), you'll get linked to the existing record instead of a duplicate. You can fill in the company's phone, email, tax-exempt status, and notes later from the **Companies** sidebar entry.
 
 **What happens when you select a company:**
 - A row of customer name chips appears between the Customer and Company fields (e.g., "Rick M. | Dave S. | + New") — these are people who've checked in under that company before. Tap a name to auto-fill their info instantly. Tap "+ New" to enter a new person.
@@ -1055,6 +1048,8 @@ Tap any company to see its detail screen:
 - **Customers** — all people linked to this company, shown as tappable rows. Tap a customer to see their full detail screen.
 - **Job History** — all jobs across all customers under this company, sorted newest first. Each row shows job number, customer name, date, item count, and cost. Tap any job to see the full detail view.
 
+**Adding another contact:** Tap the **+ Add Contact** button on the right side of the **Customers** section header. The new customer form opens with the company already filled in — just enter the new person's name, phone, and any optional info, then tap **Save**. The new contact appears in the Customers list right away, linked to this company. Use this when you need to register a second (or third, or tenth) rep for an existing account without going through the new-work-order flow.
+
 **Editing a company:** Tap the **...** button in the top-right and choose **Edit** to update the company's name, phone, email, tax exempt status, or notes.
 
 **Deleting a company (Admin only):** The **...** menu also includes **Delete Company** in red on Admin devices (or while admin-elevated). A confirmation dialog warns that this is permanent — linked customers and jobs keep their data but lose the company association. This cannot be undone.
@@ -1358,9 +1353,11 @@ When you open an In Progress item, you'll see a **Repair Checklist** section wit
 
 #### Photo Required
 
-**You need at least one photo on the item before you can mark it Done.** Any photo counts — a shot of the damage when you first opened it up, an in-progress photo, or a photo of the new materials laid out. The point is that there's always a visual record of the work for this item, not strictly a materials shot.
+**You need at least one photo taken during the current repair round before you can mark it Done.** The photo must be taken **after the item entered In Progress** for this round — photos taken before the tech grabbed the item (damage shots from intake, customer-handoff shots, etc.) don't satisfy the requirement. The system tracks when In Progress started, and the gate looks for at least one photo created after that point. If a test fails and the item goes back to a fresh repair round, a new photo is required for that round too.
 
-You'll see an orange **"PHOTO REQUIRED"** card above the Repair Checklist header for the entire time the item is In Progress (until you mark it Ready for Testing). It stays up the whole time as a reminder — it doesn't disappear after your first photo, because most techs shoot a damage photo first and the materials shot (if it makes sense for the job) usually comes later. Take photos throughout the repair as it makes sense; the orange card just reminds you that the item won't be ready for Done until something is on the photo strip.
+Any qualifying photo counts — an in-progress shot, a photo of the disassembled parts, or a photo of the new materials laid out. The point is that there's always a visual record of the work for *this* round of the repair, not just a leftover from intake.
+
+You'll see an orange **"PHOTO REQUIRED"** card above the Repair Checklist header for the entire time the item is In Progress (until you mark it Ready for Testing). It stays up the whole time as a reminder — it doesn't disappear after your first photo, because most techs shoot a damage photo first and the materials shot (if it makes sense for the job) usually comes later. Take photos throughout the repair as it makes sense; the orange card just reminds you that the item won't be ready for Done until something has been shot during this round.
 
 To take a photo, use the regular **Camera** or **Library** buttons in the photo strip on the left (under the hero photo). Photos appear in the photo grid as normal — there's no special tag or category for the "Done gate" photo, it's just any photo on the item.
 
@@ -1368,7 +1365,7 @@ To take a photo, use the regular **Camera** or **Library** buttons in the photo 
 
 If you select **Other**, a text field appears where you can describe the work that doesn't fit the standard categories.
 
-**You must check at least one item on the repair checklist AND have at least one photo on the item before you can tap Done.** You can do these in either order — check off work first and shoot photos later, or vice versa. If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
+**You must check at least one item on the repair checklist AND have at least one photo taken during this repair round before you can tap Done.** You can do these in either order — check off work first and shoot photos later, or vice versa. If nothing is checked, the Done button is grayed out and you'll see an orange warning: "Check at least one before marking Done." This is so there's always a record of what was actually done to the item — same as the paper checklist Tony fills out today.
 
 Your selections save to the server immediately as you tap them — no need to hit a save button.
 
