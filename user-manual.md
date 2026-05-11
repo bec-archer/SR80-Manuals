@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.3 (in development)
-**Last Updated:** 2026-05-08
+**Last Updated:** 2026-05-11
 ---
 
 ## Table of Contents
@@ -249,7 +249,7 @@ The help content is bundled into the app, so it works even when the shop's inter
 When you open the app on a Front Counter device, you'll see the **Job Board** — a grid of cards showing all active work orders. Each card shows:
 
 - **Item photos** — the top half of every card is a square photo area showing the equipment. If a job has one item, you see one big photo. Two items show stacked photos. Three or four items show a 2×2 grid. If there are more than four items with photos, the last tile shows a "+N" badge so you know there's more. Each photo has a small colored **status dot** in the top-right corner and an **equipment type label** (e.g., "Cylinder") in the bottom-right corner. When an item reaches Complete status, the dot is replaced by a green **COMPLETE** badge in the top-left corner of that tile.
-- **Assigned tech** — if a tech has been assigned to any item on the job, a small dark chip appears in the bottom-left of the photo area showing who's working on it (e.g., "Joe" or "Joe, Tony" if multiple techs are on different items). This lets the Front Counter see at a glance which tech has each job without opening the detail view.
+- **Assigned tech** — if any tech has been assigned to any item on the job, a small dark chip appears in the bottom-left of the photo area listing every tech currently working on it (e.g., "Joe" or "Joe, Tony, Lee"). The chip rolls up the full active tech list across every item on the job — multiple techs grabbing one item together, or a tech added later via Manage Techs, all show up here. The list updates within a second or two when a tech is added or removed on another device.
 - **Job number** (e.g., 20260325-1) and **status dots** — one colored dot per item showing where it is in the repair process (blue = checked in, yellow = being worked on, orange = tested, green = ready for pickup)
 - **Customer phone number** (tappable — tap to call or text), **name**, and **company name** (if the job is linked to a company — shown in smaller text below the customer name)
 - **Equipment summary** (e.g., "Pump × 1 · Cylinder × 2") and the date/time the job was created
@@ -324,6 +324,8 @@ This is useful for looking up past work — warranty questions, repeat customers
 
 **Reopening an item:** If a closed item needs to come back through the shop (a customer returns, something wasn't right), an admin can tap **Reopen Item** on that item's card. After confirming, the item moves back to **Complete** status and becomes actionable again — the front counter will see it in the active board and can close it again once the customer's situation is resolved.
 
+**Legacy auto-closed Totaled items:** Older versions of the app auto-closed Totaled items the moment you tapped Customer Contacted. If you have older jobs in the Closed bucket that were really still awaiting customer settlement, an admin can tap **Reopen Item** on them — the system recognizes those came from the Totaled path and routes them back to **Totaled** (not Complete), preserving the original customer-contact log. The job pops back onto the active board with the gray **Close** button already visible so you can settle and close them when the customer comes in.
+
 **Reopening an entire work order:** If a whole job was closed by mistake, an admin can long-press the job card (from the Closed section on the Job Board, or from the customer's job history in the Customers view) and tap **Reopen Work Order**. An optional reason field appears — fill it in or leave it blank, then confirm. Every item on the job moves back to Complete status, the job reappears on the active board on all devices, and the reason (if entered) is logged in the audit trail. The original closure date and who closed it are preserved — reopening doesn't erase history, it just picks up where things left off.
 
 ### Creating a New Work Order
@@ -332,7 +334,7 @@ Tap the new job button from the Job Board to start a new work order (bottom-righ
 
 #### Finding or Adding a Customer
 
-At the top of the form, the **Customer** field comes first. Start typing a customer's name or phone number. Matching customers will appear below the search field as you type. Tap a result to select them.
+At the top of the form, the **Customer** field comes first. Start typing a customer's name, the company they work for, or their phone number — any one of those will pull up matching customers below the search field as you type. Tap a result to select them. Searching by company name is handy when you remember the business but not the contact (e.g. typing "Action Mobile RV" surfaces every customer linked to that company).
 
 If the customer isn't in the system yet, tap **+ Add New Customer** to create one. The new customer form includes:
 
@@ -842,16 +844,16 @@ When the customer comes back for the rest, the cost summary card at the top will
 
 Once the last item on a job is closed, the view automatically takes you back to the Job Board. The job moves from the active grid to the **Closed** section at the bottom (collapsed by default — tap the header to expand it).
 
-#### Totaled Items — "Customer Contacted"
+#### Totaled Items — "Customer Contacted" then Close
 
-Totaled items follow a different close path than normal items. They don't go through Complete — instead, they sit on the board with a **TOTALED** banner until you contact the customer.
+Totaled items now close the **same way as normal items** — they just have an extra step in front: you log that you contacted the customer, then close like anything else. They sit on the board with a **TOTALED** banner until both steps are done.
 
 When you open a job with a Totaled item, you'll see:
 
 - The item's cost (if the tech entered a diagnostic charge) displayed in the repair summary — reference this when speaking to the customer
 - A green **"Customer Contacted"** button below the item card
 
-**To close a Totaled item:**
+**Step 1 — Log the customer contact:**
 
 1. Call or contact the customer about the unfixable item
 2. Open the job and find the Totaled item
@@ -863,14 +865,23 @@ When you open a job with a Totaled item, you'll see:
    - "Scheduled pickup"
    - "No answer — will try again"
    - "Other"
-5. Optionally add a note with extra details
-6. Tap **Confirm**
+6. Optionally add a note with extra details
+7. Tap **Confirm**
 
-The item moves to Closed. A timestamp and your selected outcome are logged for the audit trail and appear in the item's **Repair History** timeline — so anyone reviewing the closed job later can see when the customer was contacted and what the outcome was.
+The contact gets logged — timestamp, outcome, and which contact you reached all appear in the item's **Repair History** timeline. The item stays in Totaled status. The green Customer Contacted button disappears and a gray **Close** button takes its place.
 
-**Important:** "Customer Contacted" requires an internet connection. If the app is offline, you'll see an error — try again once you're back online.
+**Step 2 — Close the item when the customer pays or picks up:**
 
-**Note:** The Close Job button inside the cost summary card only closes Complete items — Totaled items handle their own close through "Customer Contacted." A job is fully closed when ALL items are closed, whether they got there through the normal Complete → Close path or the Totaled → Customer Contacted → Close path.
+- Tap the gray **Close** button on the item, or
+- Use the green **Close Job** / **Close All N Items** button at the bottom of the job (closes every ready-to-close item at once, same as a normal pickup)
+
+The item moves to Closed and the job drops into the Closed section once every item is closed.
+
+**Why two steps?** Older versions auto-closed the item the moment you tapped Customer Contacted. That meant items with real diagnostic costs disappeared into the Closed bucket before the customer had actually paid — and items where you only left a voicemail got marked Closed prematurely. Now logging the contact and closing the item are separate actions, just like Complete → Close on a normal repair.
+
+**Important:** "Customer Contacted" requires an internet connection. If the app is offline, you'll see an error — try again once you're back online. The Close step works offline.
+
+**Filtering for Totaled items:** The FC Job Board's Status filter now includes **Totaled** alongside Checked In / In Progress / Tested / Complete, so you can quickly pull up everything that's awaiting customer contact or pickup.
 
 [screenshot: Customer Contacted sheet with outcome picker and note field]
 
@@ -981,8 +992,9 @@ This is especially useful for warranty lookups ("didn't we just fix this custome
 
 Tap the **...** button in the top-right corner of any customer's detail screen and choose **Edit** to open the edit form. You can update:
 
-- **Name** and **Company** — with the same smart swap button as the new customer form. At least one of Name or Company must be filled in — you can clear one as long as the other has a value.
-- **Phone** and **Email**
+- **Name** and **Company** — with the same smart swap button as the new customer form. At least one of Name or Company must be filled in — you can clear one as long as the other has a value. **Company is now a picker**, not a free-text field: start typing and matching companies from your Companies list appear as suggestions; tap one to link the customer to that company. If you type a name that doesn't match anything, a brand-new Company is created automatically when you tap Save (the typeahead UX is unchanged — same as creating a new customer). To detach a customer from their company, clear the field.
+- **Phone** is no longer required for editing — you can save name/company/email/tax-exempt changes even when the customer has no phone on file (handy for company-only records where the human phone lives on a child contact). If you do enter a phone, it still has to be a complete 10-digit number; partials are rejected.
+- **Email**
 - **Tax Exempt** toggle — turn on or off as needed
 - **Contacts** — the same contacts list appears here. Add, edit, or delete contacts without leaving the edit form.
 
@@ -1104,7 +1116,7 @@ Each card shows:
 - **Status label** — text below the photo showing the item's current stage (e.g., "Checked In", "In Progress", "Ready for Test")
 - **Equipment type** (e.g., Cylinder, Pump, Hose)
 - **Customer name**, **company name** (if applicable, shown below the customer name), **phone number** (tappable — tap to call or text), and **job number**
-- **Assigned tech's name** — if someone has grabbed it
+- **Assigned tech(s)** — if someone has grabbed it, you'll see their name in the footer; if more than one tech is on the item (multi-grab or added via Manage Techs), all the names are listed (e.g., "Carlos, Nate") with a two-person icon. Online, the list updates within a second or two when a tech is added or removed on another device. Offline (no Wi-Fi), the queue card may temporarily show only the lead tech's name until the next online refresh — the full list still lives on the item detail view, which always reads from the source of truth.
 - **READY badge** — orange badge on items where repair is done and it's waiting on testing
 
 Photos load in the background, so cards appear instantly and photos fill in a moment later.
@@ -1480,6 +1492,8 @@ For items with $0 cost, the manager approval step is skipped automatically, but 
 **Reassigning a zone (Admin only):** If an item gets moved after the fact, an admin can tap the zone badge on the item detail view to open the zone picker and reassign it.
 
 **If you missed the zone prompt:** sometimes the zone modal doesn't fire — usually because the item detail closed too quickly after Submit, or you tapped outside the modal before picking. When that happens, the item stays in your **active** Tech Station queue (it does **not** disappear into the Completed section) and floats to the very top with a blue→purple **📍 Assign Zone** badge on the card. Tap the card to open it; the zone modal pops up automatically once. If you dismiss it again, a big **Assign Zone** button stays at the top of the item detail view — tap it any time to pick Zone 1 or Zone 2. Any tech can do this — no admin PIN required. Once the zone is assigned, the item moves to the Completed section like normal.
+
+**If you bailed out of the cost sheet after a passed test:** sometimes you tap PASSED but cancel the cost sheet before submitting (interrupted by a phone call, paged off, mis-tap). When that happens, the item stays at **Tested** with no cost — the workflow is blocked until someone finishes pricing it. The next time anyone opens that item from the Tech Station queue, a green→teal **💲 Enter Cost** banner appears at the top of the detail view *and* the cost sheet auto-opens after a brief moment. Enter the cost like normal — the rest of the flow runs the same way (manager approval → zone assignment → "Complete!" → back to the queue). If you cancel the auto-opened sheet again, the banner stays visible so you can re-open it any time. Any tech can do this — it doesn't have to be the original tester.
 
 *(Parts + Labor mode and Sales Tax are turned on and off by an admin in Admin Settings → Shop Settings.)*
 
@@ -1990,6 +2004,8 @@ When you flip **Local Test Mode** on:
 - Tiles get a pink **TEST** badge instead of the purple TRAINING badge — so you can tell at a glance whether a test job came from Training Mode or Local Test Mode
 - A small **pink circle** with a **test tube icon** floats at the top — visually distinct from Training Mode's purple graduation cap, so you always know which mode you're in
 - **Existing training jobs stay visible** on this iPad — so if you were just demoing in Training Mode and now want to keep poking solo, you can pick up right where you left off without recreating anything. Only your own brand-new jobs (the ones you create after switching) are scoped to this device.
+
+When you turn Local Test Mode **back off**, your local test jobs **disappear from this iPad's board** — they're not deleted, just hidden. Flip Local Test Mode on again and they come right back. (Use **Clear All Test Jobs** if you actually want them gone for good.)
 
 The setting is per-device, so it sticks across app restarts but doesn't follow you to a different iPad.
 
