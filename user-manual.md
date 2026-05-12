@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.3 (in development)
-**Last Updated:** 2026-05-11
+**Last Updated:** 2026-05-12
 ---
 
 ## Table of Contents
@@ -72,6 +72,8 @@
   - [Managing Flags (Admin Only)](#managing-flags-admin-only)
   - [Rolling Back an Item's Status (Admin Only)](#rolling-back-an-items-status-admin-only)
   - [Editing Cost on a Complete Item](#editing-cost-on-a-complete-item)
+  - [Force-Completing an Item (Admin Only)](#force-completing-an-item-admin-only)
+  - [Retro-Closing Open Work Orders (Admin Only)](#retro-closing-open-work-orders-admin-only)
   - [Reports](#reports)
   - [Resetting a Device](#resetting-a-device)
   - [Training Mode & Local Test Mode](#training-mode--local-test-mode)
@@ -1914,6 +1916,65 @@ Once a tech submits a cost and the item reaches **Complete** status, the cost is
 This goes through the same manager approval prompt as the original cost entry. The updated cost appears immediately on the job detail and in the Close Job card total.
 
 **Don't have admin elevation handy?** Anyone on any device can correct a cost on a Complete or Closed item via the universal long-press path — long-press the **💲 $XX.XX** line in the item's Repair History timeline, tap **Edit Cost**, fill out the sheet, and confirm the manager-approval prompt. See **Fixing a Wrong Cost (Long-Press the Cost Line)** in the Front Counter section for the full walkthrough — this works on Tech Station too.
+
+### Force-Completing an Item (Admin Only)
+
+Sometimes a tech finishes the work and the customer's already been charged, but the item is still sitting in **Checked In**, **Disassembly**, **In Progress**, or **Tested** because the cost-entry step got skipped (tech bailed mid-flow, got pulled to a fire drill, whatever). Rather than walking the item back through every workflow step just to enter a number, an admin can force it straight to **Complete** with one form.
+
+**How to use it:**
+
+1. Open the job from the Job Board
+2. Find the item that's stuck pre-Complete
+3. Under the item's row you'll see a **Mark Complete (Admin)** button (only visible to admins — Front Counter and Tech Station devices without admin elevation don't see it)
+4. Tap it → an admin PIN prompt appears (always — even on a permanent admin iPad)
+5. Enter your PIN
+6. The form opens, **pre-filled with anything the item already has**:
+   - **Cost** — required. If the item already has a cost on file, it's seeded in; otherwise the field is blank
+   - **Tech** — optional. Pre-fills to whoever tested the item, falling back to whoever was assigned to repair it
+   - **Test Result** — optional (Pass / Fail / Warranty / Totaled / Unknown — or Skip)
+   - **Notes** — always blank (this is a per-action audit note, not item-level state)
+7. Edit any of the pre-filled fields, fill in cost if it's missing, then tap **Mark Complete**
+
+The item jumps to **Complete** status with the cost you entered. Front Counter still presses **Close Job** to finish the job normally — this just gets the item past the cost-entry gate.
+
+**What this records:**
+
+- Cost is written to the item
+- Tech (if you set one) is recorded as the tester
+- Test result (if you set one) is saved
+- Admin attribution is stamped (who PIN'd in + when)
+- Notes (if you typed any) land in the item's flag history
+
+This is distinct from **Retro-Close Work Orders** — that one's for entire jobs that never went through the app workflow at all. Force-Complete is per-item rescue for items already in flight.
+
+**When the button doesn't appear:**
+
+- Item is already at **Complete**, **Closed**, **Totaled**, or **Admin Retro-Closed** — use **Reopen Item** first if you need to make changes
+- You're not on an admin device and admin elevation isn't active
+- The device has no internet (admin overrides are always online — surface a "needs internet" message if offline)
+
+### Retro-Closing Open Work Orders (Admin Only)
+
+When the front counter gap means items get handed back to customers without anyone updating the app — the items pile up on the active board even though they're physically done. **Retro-Close Work Orders** is the admin-only sheet for cleaning that up in batches.
+
+**How to get there:**
+
+1. Open the sidebar and tap **Admin Settings**
+2. Tap **Retro-Close Open Work Orders**
+3. An admin PIN prompt appears (always — even on a permanent admin iPad). Enter your PIN
+
+**What you see:**
+
+A list of every job that still has at least one non-terminal item, grouped by job, oldest first. Each section shows the customer / company name, check-in date, item count, and the individual items. The deepest stragglers (oldest jobs) are at the top because those are the most likely to have actually been picked up months ago.
+
+**Two ways to close:**
+
+- **One item at a time** — tap the item row. A small form opens with optional cost, optional test result, optional notes. The form is pre-filled with whatever the item already has on file. Edit if needed, then tap **Close Item**
+- **All items in a job at once** — if the job has 2+ items, tap **Close all N items** in the section header. The bulk form pre-fills a field ONLY when every item in the job agrees on it (e.g. all items have the same cost → cost field pre-fills; items disagree → cost field is empty so you don't accidentally clobber differences)
+
+Each close attribution shows the admin who PIN'd in. Items land at **Admin Retro-Closed** — a distinct terminal state so reports can split natural completions from backfilled ones. **No customer notifications fire** — the customer already got the item.
+
+**Reminder:** Don't use retro-close for items that just got stuck on the cost-entry step. Those should use **Force-Complete** above — lands them at Complete (the normal flow's terminal-ready state) so the close looks identical to a natural completion.
 
 ### Reports
 
