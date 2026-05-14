@@ -40,6 +40,7 @@
   - [Company List](#company-list)
   - [Company Detail](#company-detail)
   - [How Companies Work](#how-companies-work)
+  - [Admin Fees](#admin-fees)
   - [Flagging a Company](#flagging-a-company)
 - [Tech Station](#tech-station)
   - [Repair Queue](#repair-queue)
@@ -79,6 +80,8 @@
   - [Reports](#reports)
   - [Resetting a Device](#resetting-a-device)
   - [Training Mode & Local Test Mode](#training-mode--local-test-mode)
+  - [Flag Suggestions (Admin)](#flag-suggestions-admin)
+  - [Force Refresh Session (Admin)](#force-refresh-session-admin)
   - [Bug Reports (Admin)](#bug-reports-admin)
 - [Reporting a Problem](#reporting-a-problem)
   - [The Ladybug Button](#the-ladybug-button)
@@ -206,15 +209,26 @@ The app has a sidebar menu that lets you switch between different views. The sid
 
 **What you see in the sidebar depends on your device role:**
 
-- **Front Counter** — "Jobs" and "Customers" are available. Jobs is selected by default. "Work Queue" and "Admin Settings" are visible but grayed out since those aren't part of the front counter workflow.
+- **Front Counter** — "Jobs," "Customers," and "Companies" are available. Jobs is selected by default. "Work Queue," "Reports," and "Admin Settings" are visible but grayed out since those aren't part of the front counter workflow.
 - **Tech Station** — "Work Queue" is available and selected by default. Everything else is grayed out.
-- **Admin** — all four options are available: Jobs, Customers, Work Queue, and Admin Settings. Jobs is selected by default.
+- **Admin** — all six options are available: Jobs, Customers, Companies, Work Queue, Reports, and Admin Settings. Jobs is selected by default.
 
 If an admin temporarily unlocks a non-admin device (see "Admin Access on Non-Admin Devices" above), all sidebar items become available until the admin session expires.
 
 The grayed-out items are there so everyone can see what the app can do — they just can't access views that aren't meant for their device's role.
 
-At the bottom of the sidebar, under **This Device**, there's a **Display Size** button — see below.
+Below the main destinations, the sidebar has two more sections:
+
+**Quick Start Guides** — Two built-in PDF guides that walk through the basics:
+- **Front Counter Guide** — covers check-in, job creation, and pickup workflows
+- **Tech Station Guide** — covers the repair queue, grabbing items, and testing
+
+These are bundled into the app and work offline. Tap one to open a full-screen PDF viewer.
+
+**This Device** — Settings and help for this specific iPad:
+- **Display Size** — adjust text size and bold settings (see below)
+- **Help** — opens the full help browser with all topics
+- **User Manual** — opens the online version of this manual in Safari
 
 ---
 
@@ -1105,6 +1119,21 @@ Multiple customers (people) can belong to the same company. When a company is se
 
 [screenshot: Company detail showing customers list and job history]
 
+### Admin Fees
+
+You can set a per-company admin fee that gets added to jobs for that company's customers. This is useful for companies that have a standing service charge or markup arrangement.
+
+**Setting an admin fee:** Open the company detail screen, tap the **...** menu, and choose **Admin Fee**. Enter the fee amount and choose the fee type:
+
+- **Per Job** — one flat fee added per work order, regardless of how many items are on it
+- **Per Item** — the fee is added for each item on the work order
+
+The admin fee shows up on the company detail screen below the company info. It's factored into cost calculations automatically when jobs are created for customers under that company.
+
+**Changing or removing the fee:** Same path — **...** → **Admin Fee**. Set the amount to zero to effectively remove it, or update the amount and type as needed.
+
+Admin fees are preserved during CSV imports — if a company already has an admin fee set and you re-import data, the existing fee won't be overwritten.
+
 ### Flagging a Company
 
 If a company has a pattern of issues — multiple customers from the same outfit pulling warranty stunts, slow-paying across the board, or anything else worth tracking — you can flag the whole company. This works exactly like customer flags but at the company level.
@@ -1755,7 +1784,7 @@ Required fields block job creation until they're filled in. Toggle each field on
 
 - **Customer** — on by default
 - **Equipment Type** — on by default
-- **Reason for Service** — off by default
+- **Reason for Service** — on by default
 - **Description** — off by default
 - **Photos** — off by default
 - **Machine Type** — only visible when the Machine Type field is turned on
@@ -1802,8 +1831,8 @@ There are six lists you can manage:
 - **Equipment** — what the item IS (Cylinder, Pump, Hose, Other...)
 - **Mach Type** — what it came off of (Forklift, Excavator, Skid Steer...) — only shows up in job intake if Machine Type is turned on in Shop Settings
 - **Brand** — who made the machine (Caterpillar, John Deere, Komatsu...) — only shows up in job intake if Machine Brand is turned on in Shop Settings
-- **Service** — the Reason for Service pills on the intake form
-- **Issues** — the repair checklist items techs check off when marking work done
+- **Issues** — the Reason for Service pills on the intake form
+- **Repairs** — the repair checklist items techs check off when marking work done
 - **Waiting** — the reasons shown in the Waiting flag picker on Tech Station (e.g., "Waiting on Parts", "Waiting on Seals"). Comes pre-seeded with 4 defaults
 
 Switch between lists using the tabs at the top of the screen.
@@ -2190,6 +2219,24 @@ The confirmation dialog tells you exactly how many will be deleted ("Delete 7 te
 [screenshot: Purple "Training Mode" capsule centered at the top of the screen]
 
 ---
+
+### Flag Suggestions (Admin)
+
+**Getting there:** Open Admin Settings — the **Flag Suggestions** section appears below Training Mode.
+
+The app can scan your job history for warranty patterns that might indicate a customer or company worth flagging. Tap **Run Flag Check** and the system looks for things like multiple warranty claims from the same customer, repeat failures on the same equipment, or other patterns that could signal a problem.
+
+If anything surfaces, the app creates a notification suggesting you flag the relevant customer, company, or equipment. These show up in the Flag Suggestions section with a link to the entity — tap it to jump straight to that customer or company detail and flag them if you agree.
+
+This is an on-demand check — it only runs when you tap the button, not automatically in the background.
+
+### Force Refresh Session (Admin)
+
+**Getting there:** Open Admin Settings — the **Force Refresh Session** row is in the "Diagnostics" section.
+
+This button forces the app to rotate its authentication session with the server. You'd use this when something auth-related seems stuck — for example, if searches return empty, writes get rejected, or the re-registration banner won't clear after a re-registration. Tapping it immediately requests a fresh token from Supabase.
+
+You shouldn't need this often, but it's a useful first step before escalating to a full device reset.
 
 ### Bug Reports (Admin)
 
