@@ -2,7 +2,7 @@
 
 **App:** ShopTracker (SR80)
 **Version:** 1.3 (in development)
-**Last Updated:** 2026-05-12
+**Last Updated:** 2026-05-14
 ---
 
 ## Table of Contents
@@ -10,6 +10,7 @@
 - [Getting Started](#getting-started)
   - [What is ShopTracker?](#what-is-shoptracker)
   - [Device Setup (First Time Only)](#device-setup-first-time-only)
+  - ["Device session needs re-registration" Banner](#device-session-needs-re-registration-banner)
   - [Admin Access on Non-Admin Devices](#admin-access-on-non-admin-devices)
   - [Sidebar Navigation](#sidebar-navigation)
   - [Display Size Settings](#display-size-settings)
@@ -68,6 +69,7 @@
   - [Shop Settings](#shop-settings)
     - [Category Labels](#category-labels)
   - [Manage Lists](#manage-lists)
+  - [Import Customers](#import-customers)
   - [Device Management](#device-management)
   - [Managing Flags (Admin Only)](#managing-flags-admin-only)
   - [Rolling Back an Item's Status (Admin Only)](#rolling-back-an-items-status-admin-only)
@@ -154,6 +156,27 @@ After your PIN is accepted, you'll see the device configuration screen.
 3. Tap **Set Up Device**
 
 That's it! The device is now set up and will go straight to the correct view every time you open the app. You won't see this setup screen again unless an admin resets the device.
+
+**What about app updates and reinstalls?** The device identity (name + role) is saved in iOS Keychain, which survives both app updates and uninstall/reinstall cycles. So if you update via TestFlight or the App Store — or if you delete and reinstall the app — you'll go straight to the main screen, not back to this setup wizard. The only way to land on this screen again is if an admin uses **Admin → Reset Device** to deliberately clear identity.
+
+---
+
+### "Device session needs re-registration" Banner
+
+Once in a blue moon, after a reinstall or a long stretch where the app's session has gotten out of sync, you might see a red banner at the top of the screen that says:
+
+> **Device session needs re-registration — Tap to enter admin PIN**
+
+This means the device's saved identity is fine, but the secure session it uses to talk to the server is missing a piece of information (the device's role assignment). When this happens, customer names and company names on the Job Board may show as "No Customer" because the app's session isn't permitted to read that data — the banner is the one-tap fix.
+
+To clear it:
+
+1. Tap the banner.
+2. A sheet opens with the device's current role pre-selected (Front Counter / Tech Station / Admin).
+3. Type an admin PIN and tap **Register**.
+4. The banner disappears and customer/company names load normally on the next refresh.
+
+You only need to do this once when the banner appears. If you ever see it persist after re-registering, contact Bec.
 
 ---
 
@@ -971,6 +994,8 @@ Each contact shows their name, role (if set), phone number (tappable — tap to 
 - **Role** — type freely or tap a quick-pick chip: Owner, Manager, Driver, Spouse, Accounts Payable, Other
 - **Notes** — optional context like "Call after 5pm"
 - **Primary Contact** toggle — marks this person as the main point of contact (star icon)
+
+**If the customer belongs to a Company:** Above the Name field you'll see a "Pick from N existing **[Company]** customers" row whenever there are other customers under the same company on file. Tap it to open a searchable list of those people. Tap any one of them and the contact form pre-fills with their name, phone, and email — no re-typing. You can still edit any field before saving, and you set Role / Notes / Primary yourself. If the company has no other customers (or this customer isn't linked to a company), the row simply doesn't appear. The picked customer is **copied** into the contact, not linked — updating that customer's record later won't change this contact entry, which keeps "who I called about this job" stable over time.
 
 If you toggle Primary on and there's already a primary contact, the app asks to confirm the switch.
 
@@ -1803,6 +1828,67 @@ Hidden options don't show up for new jobs, but they still appear on any existing
 #### Reordering
 
 Tap the **Edit** button in the top right corner to enter reorder mode, then drag options into the order you want. The order is saved automatically as you drag.
+
+### Import Customers
+
+Import Customers lets you bulk-load companies and their contacts from a CSV file. Useful for seeding tax-exempt customers, importing a list from a spreadsheet, or migrating data.
+
+**Getting there:** Open Admin Settings and tap **Import Customers** under the "Shop" section (between Manage Lists and Employees).
+
+**Requires internet.** Imports won't work offline — if you're disconnected, the import will refuse to run and show an error message.
+
+#### Preparing the CSV
+
+Your file should have these column headers in the first row (case doesn't matter, extra columns are ignored):
+
+- **Company Name** *(required)* — the company the contact works for. Every row needs this.
+- **Phone** — the company's phone number. Any format (dashes, parens, dots) — the app strips it to digits.
+- **Tax Exempt** — `Y`, `Yes`, `True`, or `1` marks the company tax-exempt. Anything else (or blank) leaves it not tax-exempt.
+- **Contact** — the person's name at that company. Optional. Leave blank for company-only rows.
+- **Contact Phone** — the person's direct line. Optional.
+
+**Example:**
+
+```csv
+Company Name,Phone,Tax Exempt,Contact,Contact Phone
+Centerline Hydraulics,(239) 555-0100,Y,Joe Smith,(239) 555-0101
+Centerline Hydraulics,,Y,Mary Jones,(239) 555-0102
+LMZ Equipment,(239) 555-0200,,,
+```
+
+Three things the app handles automatically:
+
+- **Phone routing:** if a row has both Phone and Contact Phone, the company gets the first and the contact gets the second. If a row has only ONE phone number with a contact name, that phone goes to the contact (because contacts can't exist without one). If there's no contact name on the row, the phone stays with the company.
+- **Tax exempt is set on the company, not the contact.** Every contact under a tax-exempt company is automatically tax-exempt at checkout.
+- **Duplicates are merged, not duplicated.** If a company name already exists in the app (case-insensitive match), the existing record is updated — only its phone (if your CSV has a non-blank one) and tax-exempt status are touched. Things like admin fees, notes, and email stay as they are. If a contact name already exists under the same company, the existing contact's phone is updated.
+
+#### Importing
+
+1. Tap **Select CSV File**
+2. Pick your `.csv` from Files, iCloud Drive, or wherever you saved it
+3. The app reads the file and shows you a **preview** of exactly what will happen:
+   - **Errors** (red) — rows that can't be imported, with the reason (e.g., "Contact 'John Smith' has no phone — skipped"). The contact part is skipped but the company part of that row still imports if it has a name.
+   - **New Companies** — companies that don't exist in the app yet
+   - **Updated Companies** — existing companies whose phone or tax-exempt is about to change
+   - **New Contacts** — contacts that will be created under their company
+   - **Updated Contacts** — existing contacts whose phone will change
+4. Review the preview. Each section has a count badge so you can see the totals at a glance.
+5. Tap **Import N Rows** at the bottom to commit. **Cancel** discards the preview without writing anything.
+6. A progress bar shows "Importing X of N…" as it runs.
+7. When it's done, you see a summary:
+   - ✅ Companies created / updated
+   - ✅ Contacts created / updated
+   - ❌ Rows skipped (with an expandable list of reasons)
+8. Tap **Done** to return to Admin Settings.
+
+#### Fixing problems
+
+If the preview shows errors:
+
+- Tap **Cancel**, fix the CSV in Excel/Numbers/Google Sheets, and start over.
+- Common fixes: a row has a Contact name but no phone (add the phone, or remove the Contact name to make it a company-only row); a row is missing Company Name (add it, or delete the row).
+
+If the import itself failed mid-run (rare), check the skipped-rows list on the summary screen — each failure shows the row number and reason so you can fix the CSV and re-import. Re-importing is safe: companies and contacts that already exist will just be matched and updated rather than duplicated.
 
 ### Device Management
 
