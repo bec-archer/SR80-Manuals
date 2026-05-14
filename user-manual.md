@@ -1,7 +1,7 @@
 # ShopTracker User Manual
 
 **App:** ShopTracker (SR80)
-**Version:** 1.3 (in development)
+**Version:** 1.4 (in development)
 **Last Updated:** 2026-05-14
 ---
 
